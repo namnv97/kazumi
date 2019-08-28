@@ -1,0 +1,89 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+
+Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.admin'],function(){
+	Route::get('/','AdminController@index')->name('admin.dashboard');
+	Route::group(['prefix' => 'collection'],function(){
+		Route::get('/','CollectionController@index')->name('admin.collection.index');
+		Route::post('/create','CollectionController@create')->name('admin.collection.create');
+		Route::get('/edit/{id?}','CollectionController@getEdit')->name('admin.collection.edit');
+		Route::post('/edit','CollectionController@edit')->name('admin.collection.edit');
+		Route::delete('/delete/{id}','CollectionController@delete')->name('admin.collection.delete');
+	});
+	Route::group(['prefix' => 'products'],function(){
+		Route::get('/','ProductController@index')->name('admin.products.index');
+		Route::get('/create','ProductController@create')->name('admin.products.create');
+		Route::post('/create','ProductController@postCreate')->name('admin.products.create');
+		Route::get('/edit/{id?}','ProductController@edit')->name('admin.products.edit');
+		Route::post('/edit/{id?}','ProductController@postEdit')->name('admin.products.edit');
+		Route::delete('/delete/{id?}','ProductController@delete')->name('admin.products.delete');
+	});
+
+	Route::group(['prefix' => 'color'],function(){
+		Route::get('/','ColorController@index')->name('admin.color.index');
+		Route::post('/create','ColorController@create')->name('admin.color.create');
+		Route::delete('/delete/{id}','ColorController@delete')->name('admin.color.delete');
+	});
+
+	Route::group(['prefix' => 'users'],function(){
+		Route::get('/','UserController@index')->name('admin.user.index');
+		Route::post('/create','UserController@postCreate')->name('admin.user.create');
+		Route::get('/get_user','UserController@getUser')->name('admin.user.get_user');
+		Route::post('/edit','UserController@postEdit')->name('admin.user.edit');
+		Route::delete('/delete/{id}','UserController@delete')->name('admin.user.delete');
+	});
+
+
+	Route::group(['prefix' => 'options'],function(){
+		Route::get('/','OptionController@index')->name('admin.options.index');
+		Route::post('/','OptionController@postIndex')->name('admin.options.index');
+		Route::get('/footer','OptionController@footer')->name('admin.options.footer');
+		Route::post('/footer','OptionController@postFooter')->name('admin.options.footer');
+		Route::get('/menu','OptionController@menu')->name('admin.options.menu');
+		Route::post('/menu','OptionController@postMenu')->name('admin.options.menu');
+	});
+
+	Route::group(['prefix' => 'pages'],function(){
+		Route::get('/','PageController@index')->name('admin.pages.index');
+		Route::get('/create','PageController@create')->name('admin.pages.create');
+		Route::get('/edit/{id?}','PageController@edit')->name('admin.pages.edit');
+		Route::delete('/delete/{id}','PageController@delete')->name('admin.pages.delete');
+
+		Route::get('check_slug','PageController@check_slug')->name('admin.pages.check_slug');
+
+		Route::get('get_teplate','PageController@get_template')->name('admin.pages.get_template');
+
+
+		Route::post('apply_care','PageController@apply_care')->name('admin.pages.apply_care');
+		Route::post('post_edit_apply_care','PageController@post_edit_apply_care')->name('admin.pages.post_edit_apply_care');
+	});
+
+	Route::group(['prefix' => 'articles'],function(){
+		Route::get('/','ArticleController@index')->name('admin.articles.index');
+		Route::get('/create','ArticleController@create')->name('admin.articles.create');
+		Route::post('/create','ArticleController@postCreate')->name('admin.articles.create');
+		Route::get('/edit/{id?}','ArticleController@edit')->name('admin.articles.edit');
+		Route::post('/edit/{id?}','ArticleController@postEdit')->name('admin.articles.edit');
+		Route::delete('/delete/{id}','ArticleController@delete')->name('admin.articles.delete');
+	});
+
+});
+
+
+
+
+Auth::routes();
+
+Route::get('/','HomeController@index')->name('home');
