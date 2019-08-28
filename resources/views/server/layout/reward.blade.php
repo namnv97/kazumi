@@ -144,5 +144,50 @@
 
 			}
 		})
+
+		jQuery('form').on('submit',function(){
+			var name = jQuery('input[name=name]').val();
+			if(name.length == 0)
+			{
+				alert("Tiêu đề trang không được để trống");
+				return false;
+			}
+
+			var slug = jQuery('input[name=slug]').val();
+			if(slug.length == 0)
+			{
+				alert("Đường dẫn trang không được để trống");
+				return false;
+			}
+
+			var banner = jQuery('input[name=banner]').val();
+			if(banner.length == 0)
+			{
+				alert('Banner không được để trống');
+				return false;
+			}
+
+			var banner_title = jQuery('input[name=banner_title]').val();
+			if(banner_title.lenth == 0)
+			{
+				alert("Banner tiêu đề không được để trống");
+				return false;
+			}
+
+			var earn_title = jQuery('input[name=earn_title]').val();
+			if(earn_title.length == 0)
+			{
+				alert("Tiêu đề tích điểm không được để trống");
+				return false;
+			}
+
+			var err = jQuery('form').find('.errors');
+			if(err.length > 0)
+			{
+				alert("Có thông tin chưa chính xác. Vui lòng kiểm tra lại các thông tin.");
+				return false;
+			}
+
+		})
 	})
 </script>

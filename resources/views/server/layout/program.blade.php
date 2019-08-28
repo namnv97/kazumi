@@ -83,7 +83,7 @@
 
 	#list_program .item .image
 	{
-		width: 30%;
+		width: 15%;
 	}
 
 	#list_program .item .txt

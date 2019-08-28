@@ -68,6 +68,12 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 		Route::post('apply_care','PageController@apply_care')->name('admin.pages.apply_care');
 		Route::post('post_edit_apply_care','PageController@post_edit_apply_care')->name('admin.pages.post_edit_apply_care');
+
+		Route::post('reward','PageController@reward')->name('admin.pages.reward');
+		Route::post('post_edit_reward','PageController@post_edit_reward')->name('admin.pages.post_edit_reward');
+
+		Route::post('program','PageController@program')->name('admin.pages.program');
+		Route::post('post_edit_reward','PageController@post_edit_program')->name('admin.pages.post_edit_program');
 	});
 
 	Route::group(['prefix' => 'articles'],function(){

@@ -32,7 +32,7 @@ class StoreAddReward extends FormRequest
             'name'=> 'required',
             'slug' => 'required|unique:pages,slug',
             'banner' => 'required',
-            'banner_title' =. 'required',
+            'banner_title' => 'required',
             'earn_title' => 'required',
             'earn_description' => 'required',
             'earn_img' => 'required'
@@ -59,12 +59,4 @@ class StoreAddReward extends FormRequest
             'earn_img' => 'Hình ảnh'
         ];
     }
-
-
-
-
-
-
-
-
 }

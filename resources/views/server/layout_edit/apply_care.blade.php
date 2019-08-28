@@ -327,7 +327,7 @@ Cập nhật trang
 			</div>
 			<hr>
 			<div class="form-group text-center">
-				<button class="btn btn-lg btn-primary" type="submit">Lưu</button>
+				<button class="btn btn-lg btn-primary" type="submit">Cập nhật</button>
 			</div>
 		</div>
 	</div>

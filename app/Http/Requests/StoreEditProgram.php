@@ -31,7 +31,7 @@ class StoreEditProgram extends FormRequest
         return [
             'name' => 'required',
             'slug' => 'required|unique:pages,slug,'.$this->id,
-            'banner' =. 'required',
+            'banner' => 'required',
             'page_title' => 'required',
             'pro_title' => 'required'
         ];

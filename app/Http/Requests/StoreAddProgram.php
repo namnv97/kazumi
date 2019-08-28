@@ -30,8 +30,8 @@ class StoreAddProgram extends FormRequest
     {
         return [
             'name' => 'required',
-            'slug' => 'required|unique:pages,slug,'.$this->id,
-            'banner' =. 'required',
+            'slug' => 'required|unique:pages,slug',
+            'banner' => 'required',
             'page_title' => 'required',
             'pro_title' => 'required'
         ];

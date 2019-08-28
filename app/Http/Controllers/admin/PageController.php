@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAddApplyCare;
 use App\Http\Requests\StoreEditApplyCare;
 use App\Http\Requests\StoreAddReward;
+use App\Http\Requests\StoreEditReward;
+use App\Http\Requests\StoreAddProgram;
+use App\Http\Requests\StoreEditProgram;
 
+use DB;
 
 use App\Model\Page;
 use App\Model\Layout;
@@ -18,7 +22,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        $pages = Page::leftJoin('layouts','layouts.template','pages.template')->select('pages.*','layouts.name as layout')->paginate(10);
+        $pages = Page::leftJoin('layouts','layouts.template','pages.template')->select('pages.*','layouts.name as layout')->orderBy('created_at','asc')->paginate(10);
         return view('server.page.index',compact('pages'));
 
     }
@@ -115,8 +119,6 @@ class PageController extends Controller
         endif;
 
         return redirect()->route('admin.pages.edit',['id' => $page->id]);
-
-
     }
 
     public function edit_apply_care($page_id)
@@ -178,6 +180,243 @@ class PageController extends Controller
             $op->save();
             unset($op);
         endforeach;
+
+        DB::table('page_custom_field')
+        ->where([
+            ['meta_field','apply'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        DB::table('page_custom_field')
+        ->where([
+            ['meta_field','remove'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        DB::table('page_custom_field')
+        ->where([
+            ['meta_field','care'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        if(!empty($request->apply_image)):
+            $image = $request->apply_image;
+            $content = $request->apply_content;
+            foreach($image as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'apply';
+                $op->meta_value = json_encode(['image' => $val,'content' => $content[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+            unset($image);
+            unset($content);
+        endif;
+
+         if(!empty($request->remove_image)):
+            $image = $request->remove_image;
+            $content = $request->remove_content;
+            foreach($image as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'remove';
+                $op->meta_value = json_encode(['image' => $val,'content' => $content[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+            unset($image);
+            unset($content);
+        endif;
+
+
+         if(!empty($request->care_image)):
+            $image = $request->care_image;
+            $content = $request->care_content;
+            foreach($image as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'care';
+                $op->meta_value = json_encode(['image' => $val,'content' => $content[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+            unset($image);
+            unset($content);
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
+
+    }
+
+    public function reward(StoreAddReward $request)
+    {
+        $page = new Page();
+        $page->template = $request->template;
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+
+        $req = $request->only(['banner','banner_title','earn_title','earn_description','earn_img']);
+        foreach($req as $field => $val):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $val;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+
+    }
+
+    public function edit_reward($page_id)
+    {
+        $page = Page::find($page_id);
+
+        $arr = ['banner','banner_title','earn_title','earn_description','earn_img'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        return view('server.layout_edit.reward',compact('page','banner','banner_title','earn_title','earn_description','earn_img'));
+    }
+
+    public function post_edit_reward(StoreEditReward $request)
+    {
+        $id = $request->id;
+
+        $page = Page::find($id);
+
+        if(empty($page)) return back();
+
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','banner_title','earn_title','earn_description','earn_img']);
+
+        foreach($req as $field => $val):
+            PageCustomField::where([
+                ['meta_field',$field],
+                ['page_id',$id]
+            ])
+            ->update(['meta_value' => $val]);
+        endforeach;
+
+        return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
+
+    }
+
+    public function program(StoreAddProgram $request)
+    {
+        $page = new Page();
+        $page->template = $request->template;
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','pro_title','pro_description']);
+        foreach($req as $field => $val):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $val;
+            $op->save();
+            unset($op);
+        endforeach;
+
+
+        if(!empty($request->program_img)):
+            $image = $request->program_img;
+            $text = $request->program_name;
+            foreach($image as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'program';
+                $op->meta_value = json_encode(['image' => $val,'name' => $text[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+    }
+
+    public function edit_program($page_id)
+    {
+        $page = Page::find($page_id);
+
+        $arr = ['banner','page_title','page_description','pro_title','pro_description'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        $programs = PageCustomField::where([
+            ['meta_field','program'],
+            ['page_id',$page_id]
+        ])
+        ->get();
+
+        return view('server.layout_edit.program',compact('page','banner','page_title','page_description','pro_title','pro_description','programs'));
+    }
+
+    public function post_edit_program(StoreEditProgram $request)
+    {
+        $id = $request->id;
+
+        $page = Page::find($id);
+
+        if(empty($page)) return back();
+
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','pro_title','pro_description']);
+        foreach($req as $field => $val):
+            PageCustomField::where([
+                ['meta_field',$field],
+                ['page_id',$id]
+            ])
+            ->update(['meta_value' => $val]);
+        endforeach;
+
+        PageCustomField::where([
+            ['meta_field','program'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        if(!empty($request->program_img)):
+            $image = $request->program_img;
+            $text = $request->program_name;
+            foreach($image as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'program';
+                $op->meta_value = json_encode(['image' => $val,'name' => $text[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id])->with('msg',"Cập nhật thành công");
     }
 
 
