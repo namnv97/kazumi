@@ -78,6 +78,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 		Route::post('press','PageController@press')->name('admin.pages.press');
 		Route::post('post_edit_press','PageController@post_edit_press')->name('admin.pages.post_edit_press');
+
+		Route::post('retailer','PageController@retailer')->name('admin.pages.retailer');
+		Route::post('post_edit_retailer','PageController@post_edit_retailer')->name('admin.pages.post_edit_retailer');
 	});
 
 	Route::group(['prefix' => 'articles'],function(){

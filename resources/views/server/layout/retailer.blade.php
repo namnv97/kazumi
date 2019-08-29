@@ -43,25 +43,32 @@
 		display: block;
 	}
 	
-	#earn_image
+	.content-retailer .item
 	{
-		display: none;
-		width: 300px;
+		display: inline-block;
+		width: 15%;
+		margin-right: 10px;
 		position: relative;
 	}
 
-	#earn_image.active
-	{
-		display: block;
-	}
-
-	#earn_image img
+	.content-retailer .item img
 	{
 		width: 100%;
 	}
 
-
-
+	.content-retailer .item i
+	{
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 5px;
+		display: inline-block;
+		border-radius: 100%;
+		background: #fff;
+		color: #000;
+		font-weight: bold;
+		cursor: pointer;
+	}
 
 
 </style>
@@ -69,7 +76,8 @@
 
 <ul class="nav nav-tabs">
 	<li class="active"><a data-toggle="tab" href="#tab_banner">Banner</a></li>
-	<li><a data-toggle="tab" href="#shop">Mua hàng - Tích điểm</a></li>
+	<li><a data-toggle="tab" href="#find">Tìm nhà bán lẻ</a></li>
+	<li><a data-toggle="tab" href="#become">Đăng ký nhà bán lẻ</a></li>
 </ul>
 
 <div class="tab-content">
@@ -84,32 +92,30 @@
 			<span class="btn btn-success btn-sm btn-add_banner">Chọn ảnh</span>
 		</div>
 		<div class="form-group">
-			<label>Banner tiêu đề</label>
-			<div id="banner_title">
-				<img>
-				<input type="hidden" name="banner_title">
-				<i class="fa fa-times remove"></i>
-			</div>
-			<span class="btn btn-success btn-sm btn-add_banner">Chọn ảnh</span>
-		</div>
-	</div>
-	<div id="shop" class="tab-pane fade in">
-		<div class="form-group">
 			<label>Tiêu đề</label>
-			<input type="text" name="earn_title" placeholder="Tiêu đề" class="form-control">
+			<input type="text" name="page_title" class="form-control" placeholder="Tiêu đề">
 		</div>
 		<div class="form-group">
 			<label>Mô tả</label>
-			<textarea name="earn_description" rows="5" placeholder="Mô tả" class="form-control" style="resize: none;"></textarea>
+			<textarea name="page_description" rows="5" class="form-control" placeholder="Mô tả" style="resize: none;"></textarea>
+		</div>
+	</div>
+	<div id="find" class="tab-pane fade in">
+		<div class="form-group">
+			<label>Nhà bán lẻ</label>
+			<div class="content-retailer">
+			</div>
+			<span class="btn btn-sm btn-info add-retailer">Thêm nhà bán lẻ</span>
+		</div>
+	</div>
+	<div id="become" class="tab-pane fade in">
+		<div class="form-group">
+			<label>Tiêu đề</label>
+			<input type="text" name="become_title" class="form-control" placeholder="Tiêu đề">
 		</div>
 		<div class="form-group">
-			<label>Hình ảnh</label>
-			<div id="earn_image">
-				<img src="" alt="">
-				<input type="hidden" name="earn_img">
-				<i class="fa fa-times remove"></i>
-			</div>
-			<span class="btn btn-sm btn-info btn-add_banner">Chọn ảnh</span>
+			<label>Mô tả</label>
+			<textarea name="become_description" rows="5" class="form-control" placeholder="Mô tả" style="resize: none;"></textarea>
 		</div>
 	</div>
 </div>
@@ -145,6 +151,34 @@
 			}
 		})
 
+		jQuery('.add-retailer').click(function(){
+			var cur = jQuery(this).prev();
+			CKFinder.popup( {
+				chooseFiles: true,
+				onInit: function( finder ) {
+					finder.on( 'files:choose', function( evt ) {
+						var file = evt.data.files;
+						file.forEach(function(e){
+							cur.append(`
+								<div class="item">
+									<img src="`+e.getUrl()+`">
+									<input type="hidden" name="retailer[]" value="`+e.getUrl()+`">
+									<i class="fa fa-times"></i>
+								</div>
+								`);
+						});
+					} );
+				}
+			} );
+		});
+
+		jQuery('.content-retailer').on('click','.item i',function(){
+			if(confirm("Bạn muốn xóa ảnh này ?"))
+			{
+				jQuery(this).parent().remove();
+			}
+		})
+
 		jQuery('form').on('submit',function(){
 			var name = jQuery('input[name=name]').val();
 			if(name.length == 0)
@@ -167,19 +201,34 @@
 				return false;
 			}
 
-			var banner_title = jQuery('input[name=banner_title]').val();
-			if(banner_title.length == 0)
+			var page_title = jQuery('input[name=page_title]').val();
+			if(page_title.lenth == 0)
 			{
 				alert("Banner tiêu đề không được để trống");
 				return false;
 			}
 
-			var earn_title = jQuery('input[name=earn_title]').val();
-			if(earn_title.length == 0)
+			var page_description = jQuery('input[name=page_description]').val();
+			if(page_description.length == 0)
 			{
-				alert("Tiêu đề tích điểm không được để trống");
+				alert("Mô tả không được để trống");
 				return false;
 			}
+
+			var become_title = jQuery('input[name=become_title]').val();
+			if(become_title.lenth == 0)
+			{
+				alert("Tiêu đề đăng ký không được để trống");
+				return false;
+			}
+
+			var become_description = jQuery('input[name=become_description]').val();
+			if(become_description.length == 0)
+			{
+				alert("Mô tả không được để trống");
+				return false;
+			}
+
 
 			var err = jQuery('form').find('.errors');
 			if(err.length > 0)

@@ -11,6 +11,10 @@ use App\Http\Requests\StoreAddReward;
 use App\Http\Requests\StoreEditReward;
 use App\Http\Requests\StoreAddProgram;
 use App\Http\Requests\StoreEditProgram;
+use App\Http\Requests\StoreAddPress;
+use App\Http\Requests\StoreEditPress;
+use App\Http\Requests\StoreAddRetailer;
+use App\Http\Requests\StoreEditRetailer;
 
 use DB;
 
@@ -49,6 +53,9 @@ class PageController extends Controller
                 break;
             case 'press':
                 return $this->edit_press($page->id);
+                break;
+            case 'retailer':
+                return $this->edit_retailer($page->id);
                 break;
         }
     }
@@ -422,17 +429,178 @@ class PageController extends Controller
 
     public function press(StoreAddPress $request)
     {
-        dd($request->all());
+        $page = new Page();
+        $page->template = $request->template;
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','as_title']);
+        foreach($req as $field => $val):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $val;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        if(!empty($request->partner)):
+            $partners = $request->partner;
+            foreach($partners as $partner):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'partner';
+                $op->meta_value = $partner;
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->as_image)):
+            $images = $request->as_image;
+            $text = $request->as_content;
+            foreach($images as $key => $img):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'as_user';
+                $op->meta_value = json_encode(['image'=>$img,'text'=>$text[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
     }
 
     public function edit_press($page_id)
     {
         $page = Page::find($page_id);
 
-        return view('server.layout_edit.press',compact('page'));
+        $arr = ['banner','page_title','page_description','as_title'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        $partners = PageCustomField::where([
+            ['meta_field','partner'],
+            ['page_id',$page_id]
+        ])
+        ->get();
+
+        $as_user = PageCustomField::where([
+            ['meta_field','as_user'],
+            ['page_id',$page_id]
+        ])
+        ->get();
+
+        return view('server.layout_edit.press',compact('page','banner','page_title','page_description','as_title','partners','as_user'));
     }
 
     public function post_edit_press(StoreEditPress $request)
+    {
+        $id = $request->id;
+
+        $page = Page::find($id);
+
+        if(empty($page)) return back();
+
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','as_title']);
+        foreach($req as $field => $val):
+            PageCustomField::where([
+                ['meta_field',$field],
+                ['page_id',$id]
+            ])
+            ->update(['meta_value' => $val]);
+        endforeach;
+
+        PageCustomField::where([
+            ['meta_field','partner'],
+            ['page_id',$id]
+        ])
+        ->delete();
+        PageCustomField::where([
+            ['meta_field','as_user'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        if(!empty($request->partner)):
+            $partners = $request->partner;
+            foreach($partners as $partner):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'partner';
+                $op->meta_value = $partner;
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->as_image)):
+            $images = $request->as_image;
+            $text = $request->as_content;
+            foreach($images as $key => $img):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'as_user';
+                $op->meta_value = json_encode(['image'=>$img,'text'=>$text[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
+    }
+
+    public function retailer(StoreAddRetailer $request)
+    {
+        $page = new Page();
+        $page->template = $request->template;
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','become_title','become_description']);
+        foreach($req as $field => $val):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $val;
+            $op->save();
+            unset($op);
+        endforeach;
+        if(!empty($request->retailer)):
+            foreach($request->retailer as $retailer):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'retailer';
+                $op->meta_value = $retailer;
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+    }
+
+    public function edit_retailer($page_id)
+    {
+        $page = Page::find($page_id);
+
+        return view('server.layout_edit.retailer',compact('page'));
+    }
+
+    public function post_edit_retailer(StoreEditRetailer $request)
     {
         dd($request->all());
     }

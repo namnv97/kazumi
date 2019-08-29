@@ -120,10 +120,10 @@
 			<label>Tiêu đề</label>
 			<input type="text" name="page_title" placeholder="Tiêu đề" class="form-control">
 		</div>
-		<diiv class="form-group">
+		<div class="form-group">
 			<label>Mô tả</label>
 			<textarea name="page_description" rows="5" class="form-control" style="resize: none;" placeholder="Mô tả"></textarea>
-		</diiv>
+		</div>
 	</div>
 	<div id="pro" class="tab-pane fade in">
 		<div class="form-group">
