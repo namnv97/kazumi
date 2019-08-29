@@ -73,7 +73,11 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('post_edit_reward','PageController@post_edit_reward')->name('admin.pages.post_edit_reward');
 
 		Route::post('program','PageController@program')->name('admin.pages.program');
-		Route::post('post_edit_reward','PageController@post_edit_program')->name('admin.pages.post_edit_program');
+		Route::post('post_edit_program','PageController@post_edit_program')->name('admin.pages.post_edit_program');
+
+
+		Route::post('press','PageController@press')->name('admin.pages.press');
+		Route::post('post_edit_press','PageController@post_edit_press')->name('admin.pages.post_edit_press');
 	});
 
 	Route::group(['prefix' => 'articles'],function(){

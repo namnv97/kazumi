@@ -420,6 +420,24 @@ class PageController extends Controller
     }
 
 
+    public function press(StoreAddPress $request)
+    {
+        dd($request->all());
+    }
+
+    public function edit_press($page_id)
+    {
+        $page = Page::find($page_id);
+
+        return view('server.layout_edit.press',compact('page'));
+    }
+
+    public function post_edit_press(StoreEditPress $request)
+    {
+        dd($request->all());
+    }
+
+
 
 
 
