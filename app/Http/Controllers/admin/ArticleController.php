@@ -5,35 +5,50 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreCreateArticle;
+use App\Http\Requests\StoreEditArticle;
+
+use App\Model\Article;
+
+
 class ArticleController extends Controller
 {
     public function index()
     {
-
+        $articles = Article::orderBy('created_at','desc')->paginate(10);
+        return view('server.article.index',compact('articles'));
     }
 
     public function create()
     {
-
+        return view('server.article.create');
     }
 
     public function postCreate(StoreCreateArticle $request)
     {
-
+        $req = $request->only(['title','slug','article_content','thumbnail']);
+        $article = new Article();
+        foreach($req as $field => $val):
+            $article->$field = $val;
+        endforeach;
+        $article->save();
+        return redirect()->route('admin.articles.edit',['id' => $article->id]);
     }
 
     public function edit($id = null)
     {
-
+        if($id == null) return back();
+        $article = Article::find($id);
+        return view('server.article.edit',compact('article'));
     }
 
     public function postEdit(StoreEditArticle $request,$id = null)
     {
-
+        dd($request->all());
     }
 
     public function delete($id)
     {
-    	
+    	return redirect()->route('admin.articles.index');
     }
 }

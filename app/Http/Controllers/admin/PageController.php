@@ -15,6 +15,8 @@ use App\Http\Requests\StoreAddPress;
 use App\Http\Requests\StoreEditPress;
 use App\Http\Requests\StoreAddRetailer;
 use App\Http\Requests\StoreEditRetailer;
+use App\Http\Requests\StoreAddFAQ;
+use App\Http\Requests\StoreEditFAQ;
 
 use DB;
 
@@ -56,6 +58,9 @@ class PageController extends Controller
                 break;
             case 'retailer':
                 return $this->edit_retailer($page->id);
+                break;
+            case 'faq':
+                return $this->edit_faq($page->id);
                 break;
         }
     }
@@ -597,14 +602,279 @@ class PageController extends Controller
     {
         $page = Page::find($page_id);
 
-        return view('server.layout_edit.retailer',compact('page'));
+        $arr = ['banner','page_title','page_description','become_title','become_description'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        $retailers = PageCustomField::where([
+            ['meta_field','retailer'],
+            ['page_id',$page_id]
+        ])
+        ->get();
+
+        return view('server.layout_edit.retailer',compact('page','banner','page_title','page_description','become_title','become_description','retailers'));
     }
 
     public function post_edit_retailer(StoreEditRetailer $request)
     {
-        dd($request->all());
+        $id = $request->id;
+
+        $page = Page::find($id);
+
+        if(empty($page)) return back();
+
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['banner','page_title','page_description','become_title','become_description']);
+        foreach($req as $field => $val):
+            PageCustomField::where([
+                ['meta_field',$field],
+                ['page_id',$id]
+            ])
+            ->update(['meta_value'=>$val]);
+        endforeach;
+
+        PageCustomField::where([
+            ['meta_field','retailer'],
+            ['page_id',$id]
+        ])
+        ->delete();
+
+        if(!empty($request->retailer)):
+            foreach($request->retailer as $retailer):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'retailer';
+                $op->meta_value = $retailer;
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
     }
 
+    public function faq(StoreAddFAQ $request)
+    {
+        $page = new Page();
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->template = $request->template;
+        $page->save();
+
+        $req = $request->only(['shipping_title','returnex_title','product_title','payment_title','contact_title']);
+
+        foreach($req as $field => $val):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $val;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        if(!empty($request->shipping_question)):
+            $question = $request->shipping_question;
+            $anw = $request->shipping_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'shipping';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->returnex_question)):
+            $question = $request->returnex_question;
+            $anw = $request->returnex_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'returnex';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->product_question)):
+            $question = $request->product_question;
+            $anw = $request->product_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'product';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->payment_question)):
+            $question = $request->payment_question;
+            $anw = $request->payment_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'payment';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->contact_question)):
+            $question = $request->contact_question;
+            $anw = $request->contact_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $page->id;
+                $op->meta_field = 'contact';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+
+    }
+
+    public function edit_faq($page_id)
+    {
+        $page = Page::find($page_id);
+
+        $arr = ['shipping_title','returnex_title','product_title','payment_title','contact_title'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        $arrs = ['shipping','returnex','product','payment','contact'];
+        foreach($arrs as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->get();
+        endforeach;
+
+        return view('server.layout_edit.faq',compact('page','shipping_title','returnex_title','product_title','payment_title','contact_title','shipping','returnex','product','payment','contact'));
+    }
+
+
+    public function post_edit_faq(StoreEditFAQ $request)
+    {
+        $id = $request->id;
+
+        $page = Page::find($id);
+
+        if(empty($page)) return back();
+
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['shipping_title','returnex_title','product_title','payment_title','contact_title']);
+
+        foreach($req as $field => $val):
+            PageCustomField::where([
+                ['meta_field',$field],
+                ['page_id',$id]
+            ])
+            ->update(['meta_value' => $val]);
+        endforeach;
+
+        $arrs = ['shipping','returnex','product','payment','contact'];
+        foreach($arrs as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$id]
+            ])
+            ->delete();
+        endforeach;
+
+        if(!empty($request->shipping_question)):
+            $question = $request->shipping_question;
+            $anw = $request->shipping_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'shipping';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->returnex_question)):
+            $question = $request->returnex_question;
+            $anw = $request->returnex_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'returnex';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->product_question)):
+            $question = $request->product_question;
+            $anw = $request->product_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'product';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->payment_question)):
+            $question = $request->payment_question;
+            $anw = $request->payment_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'payment';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        if(!empty($request->contact_question)):
+            $question = $request->contact_question;
+            $anw = $request->contact_anw;
+            foreach($question as $key => $val):
+                $op = new PageCustomField();
+                $op->page_id = $id;
+                $op->meta_field = 'contact';
+                $op->meta_value = json_encode(['question' => $val,'anws' => $anw[$key]]);
+                $op->save();
+                unset($op);
+            endforeach;
+        endif;
+
+        return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
+    }
 
 
 

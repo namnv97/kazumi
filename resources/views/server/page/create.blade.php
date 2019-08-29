@@ -61,6 +61,7 @@ Thêm mới
 @endsection
 @section('content')
 <div class="page-pages">
+	<h1>Thêm mới</h1>
 	@if(session('errors'))
 	<div class="alert alert-warning">
 		@foreach(session('errors')->all() as $msg)
