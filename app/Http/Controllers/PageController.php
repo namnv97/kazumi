@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Model\Page;
 use App\Model\PageCustomField;
+use App\Model\Regions;
 
 class PageController extends Controller
 {
@@ -31,6 +32,12 @@ class PageController extends Controller
     			break;
     		case 'program':
     			return $this->program($page->id);
+    			break;
+    		case 'retailer':
+    			return $this->retailer($page->id);
+    			break;
+    		case 'faq':
+    			return $this->faq($page->id);
     			break;
     	}
     }
@@ -123,6 +130,57 @@ class PageController extends Controller
     	->get();
 
     	return view('client.page.program',compact('page','banner','page_title','page_description','pro_title','pro_description','programs'));
+    }
+
+    public function retailer($page_id)
+    {
+    	$page = Page::find($page_id);
+
+    	$arr = ['banner','page_title','page_description','become_title','become_description'];
+
+    	foreach($arr as $ar):
+    		$$ar = PageCustomField::where([
+    			['meta_field',$ar],
+    			['page_id',$page_id]
+    		])
+    		->first();
+    	endforeach;
+    	$retailers = PageCustomField::where([
+    			['meta_field','retailer'],
+    			['page_id',$page_id]
+    		])
+    	->get();
+
+    	$regions = Regions::all();
+
+    	return view('client.page.retailer',compact('page','banner','page_title','page_description','become_title','become_description','retailers','regions'));
+    }
+
+    public function faq($page_id)
+    {
+    	$page = Page::find($page_id);
+
+    	$arr = ['shipping_title','returnex_title','product_title','payment_title','contact_title'];
+
+    	foreach($arr as $ar):
+    		$$ar = PageCustomField::where([
+    			['meta_field',$ar],
+    			['page_id',$page_id]
+    		])
+    		->first();
+    	endforeach;
+
+    	$arrs = ['shipping','returnex','product','payment','contact'];
+
+    	foreach($arrs as $ar):
+    		$$ar = PageCustomField::where([
+    			['meta_field',$ar],
+    			['page_id',$page_id]
+    		])
+    		->get();
+    	endforeach;
+
+    	return view('client.page.faq',compact('page','shipping_title','returnex_title','product_title','payment_title','contact_title','shipping','returnex','product','payment','contact'));
     }
 
 

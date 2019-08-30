@@ -22,7 +22,6 @@
 <body>
 	@include('layouts.client.header')
 	@yield('content')
-	@yield('script')
 	@include('layouts.client.footer')
 	<div id="sidebar-cart">
 		<div class="PageOverlay"></div>
@@ -237,5 +236,6 @@
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-scrolltofixed-min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery.fancybox.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/custom.js')}}"></script>
+	@yield('script')
 </body>
 </html>
