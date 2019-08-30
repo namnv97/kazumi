@@ -184,18 +184,18 @@ Cập nhật
 							
 					          	<div class="form-group">
 					          		<label>Tiêu đề 1</label>
-									<input type="text" name="title1[]" class="form-control" />
+									<input type="text" name="about_title1[]" class="form-control" />
 								
 								</div>
 								<div class="form-group">
 					          		
 					          		<label>Tiêu đề 2</label>
-									<input type="text" name="title2[]" class="form-control" />
+									<input type="text" name="about_title2[]" class="form-control" />
 								</div>
 								<div class="form-group">
 					          		
 					          		<label>Nội dung</label>
-									<textarea type="text" rows="7" name="content[]" class="form-control"></textarea>
+									<textarea type="text" rows="7" name="about_content[]" class="form-control"></textarea>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -226,16 +226,29 @@ Cập nhật
 				<div data-repeater-list="">
 					<div data-repeater-item style="margin-bottom: 20px;">
 						<div class="row">
-							
-							<label>Video</label>
-							<div class="gallery">
-				    			<div class="img" style="width: 400px; height: 250px;">
-					    			<img src="" style="width: 100%; height: 250px;" />
+							<div class="col-md-6 form-group">
+								<label>ảnh videp</label>
+								<div class="gallery">
+					    			<div class="img" style="width: 400px; height: 250px;">
+						    			<img src="" style="width: 100%; height: 250px;" />
+						    		</div>
 					    		</div>
-				    		</div>
-		         
+					    		<span style="height: 34px; line-height: 25px; font-size: 14px;" class="choose_gallery_about btn btn-sm btn-success">Chọn ảnh</span>
+		         			</div>
+		         			<div class="col-md-6 form-group">
+		         				<label>Link video</label>
+		         				<input type="text" name="video" class="form-control">
+		         			</div>
+		         			<div class="col-md-6 form-group">
+		         				<label>Tiêu đề 1</label>
+		         				<input type="text" name="video_title1" class="form-control">
+		         			</div>
+		         			<div class="col-md-6 form-group">
+		         				<label>Tiêu đề 2</label>
+		         				<input type="text" name="video_title2" class="form-control">
+		         			</div>
 		          
-		    				<span style="height: 34px; line-height: 25px; font-size: 14px;" class="choose_video btn btn-sm btn-success">Chọn video</span>
+		    				
 							
 							
 
@@ -560,18 +573,18 @@ Cập nhật
 							
 					          	<div class="form-group">
 					          		<label>Tiêu đề 1</label>
-									<input type="text" name="title1[]" class="form-control" />
+									<input type="text" name="about_title1[]" class="form-control" />
 								
 								</div>
 								<div class="form-group">
 					          		
 					          		<label>Tiêu đề 2</label>
-									<input type="text" name="title2[]" class="form-control" />
+									<input type="text" name="about_title2[]" class="form-control" />
 								</div>
 								<div class="form-group">
 					          		
 					          		<label>Nội dung</label>
-									<textarea type="text" rows="7" name="content[]" class="form-control"></textarea>
+									<textarea type="text" rows="7" name="about_content[]" class="form-control"></textarea>
 								</div>
 							</div>
 							<div class="col-md-6">

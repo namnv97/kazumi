@@ -93,10 +93,12 @@ class OptionController extends Controller
 
     public function postHome(Request $rq)
     {
-        echo "<pre>";
-        print_r($rq->all());
-        
+        // echo "<pre>";
+        // print_r($rq->all());
 
+
+        
+        $option_slide = Option::where('meta_key','slide')->delete();
         foreach ($rq->gallery as $key => $value) 
         {
             $option = new Option;
@@ -106,7 +108,7 @@ class OptionController extends Controller
             $option->save();
         }
 
-
+        $option_slide = Option::where('meta_key','product')->delete();
         foreach ($rq->product_id as $key => $value) 
         {
             $option = new Option;
@@ -116,39 +118,57 @@ class OptionController extends Controller
             $option->save();   
         }
 
-        $i = 0;
-        // foreach ($rq->gr_about as $key => $value) 
-        // {
-        //     $option = new Option;
-        //     $option->name = 'tiêu đề 1';
-        //     $option->meta_key = 'about_title1';
-        //     $option->meta_value = $value['title1'];
-        //     $option->save();
+        
+        foreach ($rq->about_title1 as $key => $value) 
+        {
+            $option = new Option;
+            $option->name = 'giơi thiệu tiêu đề 1';
+            $option->meta_key = 'about_title1';
+            $option->meta_value = $value['about_title1'];
+            $option->save();
 
-        //     $option = new Option;
-        //     $option->name = 'tiêu đề 2';
-        //     $option->meta_key = 'about_title2';
-        //     $option->meta_value = $value['title2'];  
-        //     $option->save();
+            $option = new Option;
+            $option->name = 'giơi thiệu tiêu đề 2';
+            $option->meta_key = 'about_title2';
+            $option->meta_value = $rq->about_title2[$key];
+            $option->save();
 
-        //     $option = new Option;
-        //     $option->name = 'nôi dung';
-        //     $option->meta_key = 'about_content';
-        //     $option->meta_value = $value['content'];  
-        //     $option->save();
+            $option = new Option;
+            $option->name = 'nội dung giới thiệu';
+            $option->meta_key = 'about_title2';
+            $option->meta_value = $rq->about_content[$key];
+            $option->save();
 
-        //     $option = new Option;
-        //     $option->name = 'ảnh giới thiệu';
-        //     $option->meta_key = 'about_gallery';
-        //      $option->meta_value
-        //     $option->save();
-        // }
+            $option = new Option;
+            $option->name = 'ảnh giới thiệu';
+            $option->meta_key = 'about_gallery';
+            $option->meta_value = $$rq->gallery_about[$key];
+            $option->save();
+        }
 
-        // $option = new Option;
-        // $option->name = 'video';
-        // $option->meta_key = 'video';    
-        // $option->meta_value = $rq->video; 
-        // $option->save();
+        $option = new Option;
+        $option->name = 'video';
+        $option->meta_key = 'video';    
+        $option->meta_value = $rq->video; 
+        $option->save();
+
+        $option = new Option;
+        $option->name = 'video';
+        $option->meta_key = 'video';    
+        $option->meta_value = $rq->video; 
+        $option->save();
+
+        $option = new Option;
+        $option->name = 'video';
+        $option->meta_key = 'video';    
+        $option->meta_value = $rq->video; 
+        $option->save();
+
+        $option = new Option;
+        $option->name = 'video';
+        $option->meta_key = 'video';    
+        $option->meta_value = $rq->video; 
+        $option->save();
         // //
         // foreach ($rq->product_id_look as $key => $value) 
         // {
