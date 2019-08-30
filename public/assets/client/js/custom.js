@@ -72,8 +72,9 @@ $(document).ready(function(){
         jQuery(this).parents(".faq-content .faq-box ul li").find(".Faq__Answer").slideUp();
         jQuery(this).removeClass("active");
     } else {
-        jQuery(this).parents(".faq-content .faq-box ul").find(".Faq__Answer").slideUp();
-        jQuery(this).parents(".faq-content .faq-box ul li").find(".Faq__Answer").slideDown();
+        jQuery(".faq-content .Faq__Question.active").next().slideUp();
+        jQuery(".faq-content .Faq__Question").removeClass('active');
+        jQuery(this).next().slideDown();
         jQuery(this).addClass("active");
     }
   });
