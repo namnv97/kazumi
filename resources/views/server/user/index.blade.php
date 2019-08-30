@@ -142,48 +142,69 @@ Người dùng
 				</tfoot>
 			</table>
 			<div id="usermodal" class="modal fade" role="dialog">
-				<div class="modal-dialog">
-
-					<!-- Modal content-->
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">Người dùng : <b></b></h4>
 						</div>
 						<div class="modal-body">
-							<div class="form-group">
-								<label>Họ tên</label>
-								<input type="text" name="name" placeholder="Họ tên" class="form-control">
-							</div>
-							<div class="form-group">
-								<label>Email</label>
-								<span class="form-control email"></span>
-							</div>
-							<div class="form-group">
-								<label>Birthday</label>
-								<input type="date" name="birthday" class="form-control">
-							</div>
-							<div class="form-group">
-								<label>Điểm thưởng</label>
-								<span class="form-control point_reward"></span>
-							</div>
-							<div class="form-group">
-								<label>Refferal Code</label>
-								<span class="form-control refferal_code"></span>
-							</div>
-							<div class="form-group">
-								<label>Kiểu người dùng</label>
-								<select name="role" class="form-control">
-									<option value="0">Chọn kiểu người dùng</option>
-									@if(!empty($roles))
-									@foreach($roles as $role)
-										<option value="{{$role->id}}">{{$role->name}}</option>
-									@endforeach
-									@endif
-								</select>
-							</div>
-							<div class="text-center">
-								<button class="btn btn-md btn-primary">Cập nhật</button>
+							<div class="row">
+								<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+									<div class="form-group">
+										<label>Họ tên</label>
+										<input type="text" name="name" placeholder="Họ tên" class="form-control">
+									</div>
+									<div class="form-group">
+										<label>Email</label>
+										<span class="form-control email"></span>
+									</div>
+									<div class="form-group">
+										<label>Birthday</label>
+										<input type="date" name="birthday" class="form-control">
+									</div>
+									<div class="form-group">
+										<label>Điểm thưởng</label>
+										<span class="form-control point_reward"></span>
+									</div>
+									<div class="form-group">
+										<label>Refferal Code</label>
+										<span class="form-control refferal_code"></span>
+									</div>
+									<div class="form-group">
+										<label>Kiểu người dùng</label>
+										<select name="role" class="form-control">
+											<option value="0">Chọn kiểu người dùng</option>
+											@if(!empty($roles))
+											@foreach($roles as $role)
+											<option value="{{$role->id}}">{{$role->name}}</option>
+											@endforeach
+											@endif
+										</select>
+									</div>
+									<div class="text-center">
+										<button class="btn btn-md btn-primary">Cập nhật</button>
+									</div>
+								</div>
+								<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+									<h3>Lịch sử tích điểm</h3>
+									<table class="table history">
+										<thead>
+											<tr>
+												<th>STT</th>
+												<th>Hành động</th>
+												<th>Điểm</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Đăng ký tài khoản</td>
+												<td>100</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -212,18 +233,24 @@ Người dùng
 
 				},
 				success: function(res){
-					jQuery('#usermodal h4.modal-title b').text(res.name);
-					jQuery('#usermodal input[name=name]').val(res.name);
-					jQuery('#usermodal input[name=birthday]').val(res.birthday);
-					jQuery('#usermodal .email').text(res.email);
-					jQuery('#usermodal .point_reward').text(res.point_reward);
-					jQuery('#usermodal .refferal_code').text(res.refferal_code);
-					jQuery('#usermodal select[name=role]').val(res.role_id);
-					jQuery('#usermodal .modal-body').append('<input type="hidden" name="id" value="'+res.id+'">');
+					jQuery('#usermodal h4.modal-title b').text(res.user.name);
+					jQuery('#usermodal input[name=name]').val(res.user.name);
+					jQuery('#usermodal input[name=birthday]').val(res.user.birthday);
+					jQuery('#usermodal .email').text(res.user.email);
+					jQuery('#usermodal .point_reward').text(res.user.point_reward);
+					jQuery('#usermodal .refferal_code').text(res.user.refferal_code);
+					jQuery('#usermodal select[name=role]').val(res.user.role_id);
+					jQuery('#usermodal .modal-body').append('<input type="hidden" name="id" value="'+res.user.id+'">');
+					jQuery('#usermodal .history tbody').html('');
+
+
+					res.history.forEach(function(e,v){
+						jQuery('#usermodal .history tbody').append('<tr><td>'+(v+1)+'</td><td>'+e.action+'</td><td>'+e.point+'</td></tr>');
+					});
 					jQuery('#usermodal').modal('show');
 				},
 				errors: function(errors){
-					console.log($errors);
+					console.log(errors);
 				}
 			});
 		});
