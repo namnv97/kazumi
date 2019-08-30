@@ -28,7 +28,7 @@ Tất cả trang
 				<td>{{$page->name}}</td>
 				<td>{{$page->layout}}</td>
 				<td>
-					<a href="#" class="btn btn-sm btn-info" title="Xem trang"><i class="fa fa-eye"></i> Xem</a>
+					<a href="{{route('client.page.index',['slug' => $page->slug])}}" class="btn btn-sm btn-info" title="Xem trang" target="_blank"><i class="fa fa-eye"></i> Xem</a>
 				</td>
 				<td>
 					<a href="{{route('admin.pages.edit',['id' => $page->id])}}" title="Sửa trang" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Sửa</a>

@@ -99,6 +99,8 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 });
 
+Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
+
 
 
 

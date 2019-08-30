@@ -681,6 +681,16 @@ footer{
 	background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(4,4,4,0.65)), to(rgba(54,54,54,0.2)));
     background-image: linear-gradient(to top, rgba(4,4,4,0.65), rgba(54,54,54,0.2));
 }
+
+.bn-shop .bn-shop-content .content
+{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    transform: translate(-50%,-50%);
+}
+
 .bn-shop .bn-shop-content .title-large{
 	margin-bottom: 20px;
 }
@@ -3735,6 +3745,10 @@ footer{
 }
 
 @media screen and (max-width: 991px) {
+	.bn-shop .bn-shop-content .content
+	{
+		width: 80% !important;
+	}
     .menu-box{
         position: fixed;
         left:0;
