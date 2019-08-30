@@ -54,8 +54,8 @@ Thiết lập Footer
 				@endforeach
 				@endif
 			</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				<button class="btn btn-primary btn-md">Lưu</button>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+				<button class="btn btn-primary btn-lg">Lưu</button>
 			</div>
 		</div>
 	</form>

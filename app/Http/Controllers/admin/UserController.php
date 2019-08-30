@@ -77,10 +77,11 @@ class UserController extends Controller
         ->leftJoin('roles','roles.id','role_user.role_id')
         ->where('users.id',$id)
         ->select('users.id','users.name','users.email','users.birthday','users.point_reward','users.refferal_code','roles.id as role_id')
-        ->first()
-        ->toArray();
+        ->first();
 
-    	return response()->json($user);
+        $history = Reward::where('user_id',$id)->select('action','point')->get();
+
+    	return response()->json(['user' => $user, 'history' => $history]);
 
 
     }
