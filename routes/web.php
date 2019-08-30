@@ -53,6 +53,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('/footer','OptionController@postFooter')->name('admin.options.footer');
 		Route::get('/menu','OptionController@menu')->name('admin.options.menu');
 		Route::post('/menu','OptionController@postMenu')->name('admin.options.menu');
+
+		Route::get('/home','OptionController@getHome')->name('admin.options.home');
+		Route::post('/home','OptionController@postHome')->name('admin.options.home');
 	});
 
 	Route::group(['prefix' => 'pages'],function(){
