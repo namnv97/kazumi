@@ -44,7 +44,10 @@ class HomeController extends Controller
 
         $collections = Collection::where('id','!=',0);
         foreach ($collection_id as $key => $value) {
-            $collections = $collections->orWhere('id',$value->meta_value);
+            if($key == 0)
+                $collections = $collections->where('id',$value->meta_value);
+            else
+                $collections = $collections->orWhere('id',$value->meta_value);
         }
 
         $collections = $collections->get();
@@ -80,6 +83,11 @@ class HomeController extends Controller
         $look_title1 = Option::where('meta_key','look_title1')->get()->first();
         $look_title2 = Option::where('meta_key','look_title2')->get()->first();
 
+
+        // echo "<pre>";
+        // print_r($product->toArray());
+
+        // die();
         return view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1'));
 
 

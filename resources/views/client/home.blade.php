@@ -14,38 +14,11 @@ Trang chủ
 			<div class="item">
 
 				<div class="slide-home-item" style="background-image: url({{$slide->meta_value}})">
-					<!-- <div class="slide-content">
-						<h3>The all new Gel Eyeliner</h3>
-						<h2>Highly pigmented. All day wear.</h2>
-						<div class="SectionHeader__ButtonWrapper">
-							<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">Shop Liner</a></div>
-						</div>
-					</div> -->
+					
 				</div>
 			</div>
 			@endforeach
-			<!-- <div class="item">
-				<div class="slide-home-item" style="background-image: url('https://cdn.shopify.com/s/files/1/0250/1519/files/esq-homepage-banner-cu-unisyn-lashes-hq_1400x.jpg?v=1551670423')">
-					<div class="slide-content">
-						<h3>The all new Gel Eyeliner</h3>
-						<h2>Highly pigmented. All day wear.</h2>
-						<div class="SectionHeader__ButtonWrapper">
-							<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">Shop Liner</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="slide-home-item" style="background-image: url('https://cdn.shopify.com/s/files/1/0250/1519/files/esq-homepage-banner-cu-mink-lashes-hq_1400x.jpg?v=1551670474')">
-					<div class="slide-content">
-						<h3>The all new Gel Eyeliner</h3>
-						<h2>Highly pigmented. All day wear.</h2>
-						<div class="SectionHeader__ButtonWrapper">
-							<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">Shop Liner</a></div>
-						</div>
-					</div>
-				</div>
-			</div> -->
+			
 		</div>
 	</div>
 	<div class="best-sellers p-35">
@@ -75,54 +48,7 @@ Trang chủ
 					</div>
 				</div>
 				@endforeach
-				<!-- <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
-					<div class="product-item wow fadeInUp" data-wow-delay="0.5s">
-						<div class="pro-img">
-							<a href="#">
-								<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-unisyn-lashes-peace_love_400x.jpg?v=1551684701" alt="">
-								<div class="img-hide">
-									<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esq-unisyn-false-eyelashes-peace-and-love_61716f75-d011-421a-94ff-fb9bab042d0f_300x.jpg?v=1551684702" alt="">
-								</div>
-							</a>
-						</div>
-						<div class="info-product">
-							<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-							<span class="price">FROM <span>$22.00 USD</span></span>
-						</div>
-					</div>
-				</div> -->
-				<!-- <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
-					<div class="product-item wow fadeInUp" data-wow-delay="1s">
-						<div class="pro-img">
-							<a href="#">
-								<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-mink-lashes-bff_ea5c519e-e47b-42bb-81b7-b86fa6c93eb1_400x.jpg?v=1552254969" alt="">
-								<div class="img-hide">
-									<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-mink-lashes-bff_e538bdd6-376b-439c-a40f-a90a6b0e9134_300x.jpg?v=1551684783" alt="">
-								</div>
-							</a>
-						</div>
-						<div class="info-product">
-							<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-							<span class="price">FROM <span>$22.00 USD</span></span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
-					<div class="product-item wow fadeInUp" data-wow-delay="1.5s">
-						<div class="pro-img">
-							<a href="#">
-								<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-eyeliner-black_36951340-4df7-4968-9fb0-941831b2e154_400x.jpg?v=1552317334" alt="">
-								<div class="img-hide">
-									<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esq-gel-liner-arm-example-black-notext_600x.jpg?v=1552317334" alt="">
-								</div>
-							</a>
-						</div>
-						<div class="info-product">
-							<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-							<span class="price">FROM <span>$22.00 USD</span></span>
-						</div>
-					</div>
-				</div> -->
+				
 			</div>
 			<div class="SectionHeader__ButtonWrapper">
 				<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">SHOP ALL BEST SELLERS</a></div>
