@@ -54,6 +54,7 @@ Trang chủ
 				<h3 class="title-small">FEATURING</h3>
 				<h2 class="title-large">OUR BEST SELLERS</h2>
 			</div>
+			@if(count($products) > 0)
 			<div class="row">
 				@foreach($products as $value)
 				<div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
@@ -124,6 +125,7 @@ Trang chủ
 					</div>
 				</div> -->
 			</div>
+			@endif
 			<div class="SectionHeader__ButtonWrapper">
 				<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">SHOP ALL BEST SELLERS</a></div>
 			</div>
@@ -206,6 +208,7 @@ Trang chủ
 				<h3 class="title-small">{{$look_title1->meta_value}}</h3>
 				<h2 class="title-large">{{$look_title2->meta_value}}</h2>
 			</div>
+			@if(count($products_look) > 0)
 			<div class="owl-carousel owl-theme slide-discover">
 				@foreach($products_look as $key => $value)
 				<div class="item">
@@ -246,8 +249,8 @@ Trang chủ
 					</div>
 				</div>
 				@endforeach
-				
 			</div>
+			@endif
 		</div>
 	</div>
 </div>

@@ -93,11 +93,6 @@ class OptionController extends Controller
 
     public function postHome(Request $rq)
     {
-        // echo "<pre>";
-        // print_r($rq->all());
-
-
-        
         $option_slide = Option::where('meta_key','slide')->delete();
         foreach ($rq->gallery as $key => $value) 
         {

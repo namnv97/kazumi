@@ -169,6 +169,9 @@
                     <li class="{{(request()->is('admin/options/footer'))?'active':FALSE}}">
                         <a href="{{route('admin.options.footer')}}"><i class="fa fa-circle-o"></i> Thiết lập Footer</a>
                     </li>
+                    <li class="{{(request()->is('admin/options/home'))?'active':FALSE}}">
+                        <a href="{{route('admin.options.home')}}"><i class="fa fa-circle-o"></i> Thiết lập trang chủ</a>
+                    </li>
                 </ul>
             </li>
         </ul>
