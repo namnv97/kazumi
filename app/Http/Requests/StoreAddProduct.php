@@ -36,7 +36,7 @@ class StoreAddProduct extends FormRequest
             'price_single' => 'required',
             'color_single' => 'required',
             'collection_id' => 'required',
-            'gallery' => 'required' 
+            'gallery' => 'required'
         ];
     }
 

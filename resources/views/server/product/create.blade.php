@@ -196,6 +196,16 @@ Thêm mới sản phẩm
 						<label>Thư viện video</label>
 						<p class="text-right"><span class="more_video btn btn-sm btn-success">Thêm</span></p>
 					</div>
+					<div class="form-group">
+						<label>Sản phẩm đi kèm</label>
+						<select name="essential[]" class="form-control ess" multiple="multiple">
+							@if(count($products) > 0)
+							@foreach($products as $product)
+							<option value="{{$product->id}}">{{$product->name}}</option>
+							@endforeach
+							@endif
+						</select>
+					</div>
 					<div class="form-group text-center"><button class="btn btn-md btn-primary" type="submit">Lueu</button></div>
 				</div>
 			</div>
@@ -276,7 +286,12 @@ Thêm mới sản phẩm
 			}
 		});
 
-		jQuery('.select2').select2();
+		jQuery('.select2').select2({
+			placeholder: "Chọn danh mục"
+		});
+		jQuery('.ess').select2({
+			placeholder: "Chọn sản phẩm đi kèm"
+		});
 	});
 </script>
 @endsection

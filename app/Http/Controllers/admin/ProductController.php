@@ -14,6 +14,7 @@ use App\Model\Color;
 use App\Model\PackColor;
 use App\Model\ProductCollection;
 use App\Model\Gallery;
+use App\Model\Essential;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,8 @@ class ProductController extends Controller
     {
         $collections = Collection::orderBy('created_at','desc')->get();
         $colors = Color::orderBy('created_at','desc')->get();
-    	return view('server.product.create',compact('collections','colors'));
+        $products = Product::all();
+    	return view('server.product.create',compact('collections','colors','products'));
     }
 
     public function postCreate(StoreAddProduct $request)
@@ -100,7 +102,7 @@ class ProductController extends Controller
             unset($gallery);
          }
 
-         if(!empty($request->gallery_video)):
+        if(!empty($request->gallery_video)):
             foreach($request->gallery_video as $video)
             {
                 if(!empty($video)):
@@ -112,7 +114,17 @@ class ProductController extends Controller
                     unset($gallery);
                 endif;
             }
-         endif;
+        endif;
+
+        if(!empty($request->essential)):
+            foreach($request->essential as $essential):
+                $ess = new Essential();
+                $ess->product_id = $product->id;
+                $ess->essential_product_id = $essential;
+                $ess->save();
+                unset($ess);
+            endforeach;
+        endif;
 
 
          return redirect()->route('admin.products.index')->with('msg_add','Thêm sản phẩm thành công');
@@ -170,8 +182,12 @@ class ProductController extends Controller
         ])
         ->get();
 
+        $products = Product::all();
 
-    	return view('server.product.edit',compact('collections','colors','product','pack_single','pack_multi','collection','gallery_image','gallery_video'));
+        $essentials = Essential::where('product_id',$id)->get();
+
+
+    	return view('server.product.edit',compact('collections','colors','product','pack_single','pack_multi','collection','gallery_image','gallery_video','products','essentials'));
     }
 
 
@@ -352,5 +368,13 @@ class ProductController extends Controller
      //    $product->delete();
 
         return redirect()->route('admin.products.index')->with('msg_del','Sản phẩm đã xóa ');
+    }
+
+    public function get_product(Request $request)
+    {
+        $key = $request->q;
+
+        $products = Product::where('name','like',"%$key%")->select('id','name as text')->get();
+        return response()->json($products);
     }
 }

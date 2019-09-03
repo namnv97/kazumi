@@ -29,6 +29,8 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/edit/{id?}','ProductController@edit')->name('admin.products.edit');
 		Route::post('/edit/{id?}','ProductController@postEdit')->name('admin.products.edit');
 		Route::delete('/delete/{id?}','ProductController@delete')->name('admin.products.delete');
+
+		Route::get('/get_product','ProductController@get_product')->name('admin.products.get_product');
 	});
 
 	Route::group(['prefix' => 'color'],function(){
@@ -53,6 +55,8 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('/footer','OptionController@postFooter')->name('admin.options.footer');
 		Route::get('/menu','OptionController@menu')->name('admin.options.menu');
 		Route::post('/menu','OptionController@postMenu')->name('admin.options.menu');
+		Route::get('/megamenu','OptionController@megamenu')->name('admin.options.megamenu');
+		Route::post('/megamenu','OptionController@postMegamenu')->name('admin.options.megamenu');
 
 		Route::get('/home','OptionController@getHome')->name('admin.options.home');
 		Route::post('/home','OptionController@postHome')->name('admin.options.home');
@@ -103,6 +107,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 });
 
 Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
+Route::get('/product/{slug?}','ProductController@index')->name('client.product.index');
 
 
 

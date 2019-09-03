@@ -8,9 +8,14 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\StoreOptionIndex;
 use App\Http\Requests\StoreOptionFooter;
+use App\Http\Requests\StoreOptionMegamenu;
 
 use App\Model\Option;
 use App\Model\Product;
+use App\Model\Page;
+use App\Model\Article;
+use App\Model\Collection;
+
 
 class OptionController extends Controller
 {
@@ -76,12 +81,56 @@ class OptionController extends Controller
 
     public function menu()
     {
-        return view('server.option.menu');
+        $collections = Collection::all();
+        $pages = Page::all();
+        $products = Product::all();
+        $articles = Article::all();
+        $menus = Option::where('meta_key','menus')->first();
+        return view('server.option.menu',compact('collections','pages','products','articles','menus'));
     }
 
     public function postMenu(Request $request)
     {
-        
+        Option::where('meta_key','menus')->delete();
+        $op = new Option;
+        $op->name = "Menu";
+        $op->meta_key = 'menus';
+        $op->meta_value = json_encode($request->data);
+        $op->save();
+        return response()->json(['status' => 'success', 'msg' => 'Lưu thành công']);
+    }
+
+    public function megamenu()
+    {
+        $arr = ['mega_menu','mega_product'];
+        foreach($arr as $ar):
+            $$ar = Option::where('meta_key',$ar)->get();
+        endforeach;
+        $products = Product::all();
+        return view('server.option.megamenu',compact('mega_menu','mega_product','products'));
+
+    }
+
+    public function postMegamenu(StoreOptionMegamenu $request)
+    {
+        Option::whereIn('meta_key',['mega_menu','mega_product','mega_product_content'])->delete();
+        foreach($request->mega_title as $key => $title):
+            $op = new Option();
+            $op->name = "Mega Menu";
+            $op->meta_key = "mega_menu";
+            $op->meta_value = json_encode(['title' => $title,'link'=>$request->mega_link[$key],'content' => $request->mega_content[$key]]);
+            $op->save();
+            unset($op);
+        endforeach;
+        foreach($request->mega_product as $key => $product):
+            $op = new Option();
+            $op->name = "Sản phẩm";
+            $op->meta_key = "mega_product";
+            $op->meta_value = json_encode(['id' => $product,'title' => $request->mega_product_title[$key],'note' => $request->mega_product_note[$key]]);
+            $op->save();
+            unset($op);
+        endforeach;
+        return redirect()->route('admin.options.megamenu')->with('msg',"Lưu thành công");
     }
 
 
@@ -183,5 +232,7 @@ class OptionController extends Controller
         //     $option->save();   
         // }     
     }
+
+
 
 }

@@ -259,6 +259,26 @@ Cập nhật {{$product->name}}
 						@endif
 						<p class="text-right"><span class="more_video btn btn-sm btn-success">Thêm</span></p>
 					</div>
+					<div class="form-group">
+						<label>Sản phẩm đi kèm</label>
+						<select name="essential[]" class="form-control select2" multiple="multiple">
+							@if(count($essentials) > 0)
+							@php
+							$art = [];
+							@endphp
+							@foreach($essentials as $ess)
+							@php
+							$art[] = $ess->id
+							@endphp
+							@endforeach
+							@endif
+							@if(count($products) > 0)
+							@foreach($products as product)
+							<option value="{{$product->id}}" {{(in_array($product->id,$art))?'selected':FALSE}}>{{$product->name}}</option>
+							@endforeach
+							@endif
+						</select>
+					</div>
 					<div class="form-group text-center">
 						<button class="btn btn-md btn-primary" type="submit">Lưu</button>
 					</div>

@@ -5,28 +5,33 @@
 					<div class="col-md-5 col-lg-5">
 						<div class="menu-left menu">
 							<ul>
-							    <li class="menu-item-has-mega"><a href="#">SHOP</a></li>
-							    <li class="menu-item-has-children"><a href="#">LEARN</a>
+								@if(!empty($menus))
+								@php
+								$menus = json_decode($menus->meta_value,true)
+								@endphp
+								@foreach($menus as $key => $menu)
+							    <li class="{{isset($menu['children'])?'menu-item-has-children':FALSE}} {{($key == 0)?'menu-item-has-mega':FALSE}}"><a href="{{$menu['url']}}">{{$menu['text']}}</a>
+							    	@if(isset($menu['children']))
 							    	<ul class="sub-menu">
-							    	    <li class="Linklist__Item"><a href="#">Lash Guide </a></li>
-							    	    <li class="Linklist__Item"><a href="#">Apply & Care </a></li>
+							    		@foreach($menu['children'] as $item)
+							    	    <li class="Linklist__Item"><a href="{{$item['url']}}">{{$item['text']}}</a></li>
+							    	    @endforeach
 							    	</ul>
+							    	@endif
 							    </li>
-							    <li><a href="#">REWARDS</a></li>
-							    <li><a href="#">PRESS</a></li>
-							    <li><a href="#">MORE</a></li>
+							    @endforeach
+							    @endif
 							</ul>
 						</div>
 					</div>
 					<div class="col-md-2 col-lg-2">
 						<div class="logo">
-							<a href="#"><img src="https://cdn.shopify.com/s/files/1/0250/1519/files/esqido-logo-black_3x_e6533adb-5a4f-4ed4-8e51-726a6ef7b7a2_140x.png?v=1551670519" alt=""></a>
+							<a href="{{route('home')}}"><img src="{{asset($logo)}}" alt="Kazumi"></a>
 						</div>
 					</div>
 					<div class="col-md-5 col-lg-5">
 						<div class="menu-right menu">
 							<ul>
-							    <li><a href="#">USA</a></li>
 							    <li><a href="#">ACCOUNT</a></li>
 							    <li class="search-btn-head"><a href="#">SEARCH</a></li>
 							    <li class="cart-btn"><a href="#">CART <span>(0)</span></a></li>
@@ -39,74 +44,37 @@
 	    		<div class="row">
 	    			<div class="col-md-6 col-sm-6 col-lg-6">
 	    				<div class="row">
+	    					@if(count($mega_menu) > 0)
+	    					@foreach($mega_menu as $menus)
+	    					@php
+							$menu = json_decode($menus->meta_value,true);
+	    					@endphp
 	    					<div class="col-md-4 col-lg-4">
 	    						<div class="MegaMenu__Item MegaMenu__Item--fit">
-		                            <a href="#" class="MegaMenu__Title Heading Text--subdued u-h7">Shop</a>
-		                            <ul class="Linklist">
-		                            	<li class="Linklist__Item">
-		                            		<a href="#" class="Link Link--secondary">Last Chance!</a>
-		                                </li>
-		                                <li class="Linklist__Item">
-		                                    <a href="#" class="Link Link--secondary">Best Sellers</a>
-		                                </li>
-		                            </ul>
+		                            <a href="{{$menu['link']}}" class="MegaMenu__Title Heading Text--subdued u-h7">{{$menu['title']}}</a>
+		                            {!! $menu['content'] !!}
 		                        </div>
 	    					</div>
-	    					<div class="col-md-4 col-lg-4">
-	    						<div class="MegaMenu__Item MegaMenu__Item--fit">
-                					<a href="#" class="MegaMenu__Title Heading Text--subdued u-h7">False Eyelashes</a>
-                					<ul class="Linklist">
-                						<li class="Linklist__Item">
-                        					<a href="#" class="Link Link--secondary">Unisyn Lashes</a>
-                      					</li>
-                      					<li class="Linklist__Item">
-                        					<a href="#" class="Link Link--secondary">Mink Lashes</a>
-                      					</li>
-                      					<li class="Linklist__Item">
-                        					<a href="/collections/lash-kits" class="Link Link--secondary">Lash Kits</a>
-                      					</li>
-                      				</ul>
-                      			</div>
-	    					</div>
-	    					<div class="col-md-4 col-lg-4">
-	    						<div class="MegaMenu__Item MegaMenu__Item--fit">
-                					<a href="#" class="MegaMenu__Title Heading Text--subdued u-h7">Accessories</a>
-                					<ul class="Linklist">
-                						<li class="Linklist__Item">
-                        					<a href="#" class="Link Link--secondary">Eyeliners</a>
-                      					</li>
-                      					<li class="Linklist__Item">
-                        					<a href="#" class="Link Link--secondary">Eyelash Glue</a>
-                      					</li>
-                      				</ul>
-                      			</div>
-	    					</div>
+	    					@endforeach
+	    					@endif
 	    				</div>
 	    			</div>
 	    			<div class="col-md-6 col-sm-6 col-lg-6">
 	    				<div class="row">
+	    					@if(count($mega_product) > 0)
+	    					@foreach($mega_product as $mage)
 	    					<div class="col-lg-6 col-md-6">
 	    						<div class="MegaMenu__Push MegaMenu__Push--shrink">
-	    							<a class="MegaMenu__PushLink" href="#">
+	    							<a class="MegaMenu__PushLink" href="{{$mage['slug']}}">
 	    								<div class="MegaMenu__PushImageWrapper AspectRatio">
-          									<img class="Image--fadeIn Image--lazyLoaded" data-src="//cdn.shopify.com/s/files/1/0250/1519/files/esqido-accessories-eyelash-companion-glue-open_370x230@2x.jpg?v=1551670666" alt="" src="//cdn.shopify.com/s/files/1/0250/1519/files/esqido-accessories-eyelash-companion-glue-open_370x230@2x.jpg?v=1551670666">
+          									<img class="Image--fadeIn Image--lazyLoaded" alt="" src="{{asset($mage['image'])}}">
         								</div>
-        								<p class="MegaMenu__PushHeading Heading u-h6">Companion Eyelash Glue</p><p class="MegaMenu__PushSubHeading Heading Text--subdued u-h7">The #1 selling lash glue.</p>
+        								<p class="MegaMenu__PushHeading Heading u-h6">{{$mage['title']}}</p><p class="MegaMenu__PushSubHeading Heading Text--subdued u-h7">{{$mage['note']}}</p>
         							</a>
         						</div>
 	    					</div>
-	    					<div class="col-lg-6 col-md-6">
-	    						<div class="MegaMenu__Push MegaMenu__Push--shrink">
-	    							<a class="MegaMenu__PushLink" href="/products/gel-liner-pencil">
-	    								<div class="MegaMenu__PushImageWrapper AspectRatio">
-          									<img class="Image--fadeIn Image--lazyLoaded" data-src="//cdn.shopify.com/s/files/1/0250/1519/files/esqido-eyeliner-black_370x230@2x.jpg?v=1551670683" alt="" src="//cdn.shopify.com/s/files/1/0250/1519/files/esqido-eyeliner-black_370x230@2x.jpg?v=1551670683">
-
-        								</div>
-        								<p class="MegaMenu__PushHeading Heading u-h6">The All-New Gel Eyeliners</p>
-        								<p class="MegaMenu__PushSubHeading Heading Text--subdued u-h7">Highly pigmented, all day wear.</p>
-        							</a>
-        						</div>
-	    					</div>
+	    					@endforeach
+	    					@endif
 	    				</div>
 	    			</div>
 	    		</div>
