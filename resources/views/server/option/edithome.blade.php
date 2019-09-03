@@ -347,7 +347,6 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery[]" value="`+url+`">
-									<i class="fa fa-times"></i>
 								</div>
 								`)
 							});
@@ -371,7 +370,6 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery_about[]" value="`+url+`">
-									<i class="fa fa-times"></i>
 								</div>
 								`)
 							});
@@ -395,7 +393,6 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery_look[]" value="`+url+`">
-									<i class="fa fa-times"></i>
 								</div>
 								`)
 							});
@@ -423,7 +420,6 @@ Cập nhật
 									  	Your browser does not support the video tag.
 									</video>
 									<input type="hidden" name="video" value="`+url+`">
-									<i class="fa fa-times"></i>
 								</div>
 								`)
 							});
