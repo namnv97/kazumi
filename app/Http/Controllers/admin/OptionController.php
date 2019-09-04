@@ -22,7 +22,8 @@ class OptionController extends Controller
     public function index()
     {
     	$logo = Option::where('meta_key','logo')->first();
-    	return view('server.option.index',compact('logo'));
+        $product_shipping = Option::where('meta_key','product_shipping')->first();
+    	return view('server.option.index',compact('logo','product_shipping'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -40,6 +41,20 @@ class OptionController extends Controller
 			$option->meta_value = $logo;
 			$option->save();
 		endif;
+
+        $shp = $request->product_shipping;
+
+        $product_shipping = Option::where('meta_key','product_shipping')->first();
+
+        if(!empty($product_shipping)):
+            $product_shipping->meta_value = $shp;
+            $product_shipping->save();
+        else:
+            $product_shipping = new Option();
+            $product_shipping->meta_key = 'product_shipping';
+            $product_shipping->meta_value = $shp;
+            $product_shipping->save();
+        endif;
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');
 

@@ -18,6 +18,7 @@
 	<script type="text/javascript">
         new WOW().init();
     </script>
+    @yield('css')
 </head>
 <body>
 	@include('layouts.client.header')

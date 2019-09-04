@@ -33,9 +33,9 @@ class StoreEditProduct extends FormRequest
             'name' => 'required',
             'slug' => 'required|unique:products,slug,'.$this->id,
             'description' => 'required',
+            'product_content' => 'required',
             'pack_single' => 'required',
             'price_single' => 'required',
-            'color_single' => 'required',
             'collection_id' => 'required',
             'gallery' => 'required'
         ];
@@ -55,9 +55,9 @@ class StoreEditProduct extends FormRequest
             'name' => 'Tên sản phẩm',
             'slug' => 'Đường dẫn sản phẩm',
             'description' => 'Mô tả sản phẩm',
+            'product_content' => 'Nội dung chi tiết',
             'pack_single' => 'Số lượng sản phẩm',
             'price_single' => 'Giá',
-            'color'  => 'Màu',
             'collection_id' => 'Danh mục',
             'gallery' => 'Thư viện'
         ];

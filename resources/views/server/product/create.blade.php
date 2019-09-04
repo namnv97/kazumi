@@ -108,8 +108,12 @@ Thêm mới sản phẩm
 						<input type="text" name="slug" class="form-control" placeholder="Đường dẫn sản phẩm" value="{{old('slug')}}">
 					</div>
 					<div class="form-group">
-						<label>Mô tả</label>
-						<textarea name="description" id="description" rows="5" style="resize: none;" class="form-control" placeholder="Mô tả cho danh mục">{{old('description')}}</textarea>
+						<label>Mô tả ngắn</label>
+						<textarea name="description" rows="5" class="form-control" style="resize: none;">{{old('description')}}</textarea>
+					</div>
+					<div class="form-group">
+						<label>Nội dung chi tiết</label>
+						<textarea name="product_content" id="product_content" rows="5" style="resize: vertical;" class="form-control" placeholder="Mô tả cho danh mục">{{old('product_content')}}</textarea>
 					</div>
 					<div class="form-group">
 						<h4>Sản phẩm đơn lẻ</h4>
@@ -206,7 +210,7 @@ Thêm mới sản phẩm
 							@endif
 						</select>
 					</div>
-					<div class="form-group text-center"><button class="btn btn-md btn-primary" type="submit">Lueu</button></div>
+					<div class="form-group text-center"><button class="btn btn-md btn-primary" type="submit">Lưu</button></div>
 				</div>
 			</div>
 			
@@ -273,7 +277,7 @@ Thêm mới sản phẩm
 		jQuery('input[name=quantity],input[name=price]').on('keypress',function(e){
 			if(e.keyCode < 48 || e.keyCode > 57) return false;
 		});
-		CKEDITOR.replace('description');
+		CKEDITOR.replace('product_content');
 	});
 	jQuery(document).ready(function(){
 		jQuery('input[name=name]').on('change',function(){

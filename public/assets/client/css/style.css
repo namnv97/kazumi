@@ -360,8 +360,8 @@ header:hover{
 	left: 0;
 	right: 0;
 	opacity: 0;
-	-webkit-transition: opacity 0.3s ease;
-    transition: opacity 0.3s ease;
+	-webkit-transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 .product-item .pro-img:hover .img-hide{
 	opacity: 1;
@@ -1328,6 +1328,7 @@ footer{
     line-height: 15px;
     border: 1px solid white;
 }
+
 .jdgm-rev__rating i{
 	color: #c2a284;
 }
@@ -1336,9 +1337,7 @@ footer{
 	display: inline-block;
 	opacity: 0.35;
 }
-.jdgm-rev__buyer-badge:before {
-    content: 'Verified';
-}
+
 .jdgm-rev__buyer-badge {
     display: inline-block;
     color: #ffffff;

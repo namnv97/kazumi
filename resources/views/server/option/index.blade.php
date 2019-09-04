@@ -57,15 +57,31 @@ Thiết lập chung
 		@csrf
 		<div class="row">
 			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-				<div class="form-group">
-					<label>Logo</label>
-					<div id="logo" class="{{(!empty($logo))?'active':FALSE}}">
-						<img src="{{(!empty($logo))?$logo->meta_value:FALSE}}">
-						<i class="fa fa-times"></i>
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#logo">Logo</a></li>
+					<li><a data-toggle="tab" href="#shipping">Giao hàng và Hoàn lại</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="logo" class="tab-pane fade in active">
+						<div class="form-group">
+							<label>Logo</label>
+							<div id="logo" class="{{(!empty($logo))?'active':FALSE}}">
+								<img src="{{(!empty($logo))?$logo->meta_value:FALSE}}">
+								<i class="fa fa-times"></i>
+							</div>
+							<span class="btn btn-success btn-sm btn-add_logo">Chọn ảnh</span>
+							<input type="hidden" name="logo" value="{{(!empty($logo))?$logo->meta_value:FALSE}}">
+						</div>
 					</div>
-					<span class="btn btn-success btn-sm btn-add_logo">Chọn ảnh</span>
-					<input type="hidden" name="logo" value="{{(!empty($logo))?$logo->meta_value:FALSE}}">
+					<div id="shipping" class="tab-pane fade">
+						<div class="form-group">
+							<label>Nội dung</label>
+							<textarea name="product_shipping" id="product_shipping" rows="10" class="form-control" style="resize: vertical;">{{old('product_shipping')?old('product_shipping'):(($product_shipping)?$product_shipping->meta_value:FALSE)}}</textarea>
+						</div>
+					</div>
 				</div>
+				
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<div class="form-group text-center">
@@ -103,6 +119,8 @@ Thiết lập chung
 
 			}
 		})
+
+		CKEDITOR.replace('product_shipping');
 	})
 </script>
 

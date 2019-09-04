@@ -114,48 +114,46 @@ Cập nhật {{$product->name}}
 					</div>
 					<div class="form-group">
 						<label>Mô tả</label>
-						<textarea name="description" id="description" rows="5" style="resize: none;" class="form-control" placeholder="Mô tả cho danh mục">{{old('description')?old('description'):$product->description}}</textarea>
+						<textarea name="description" rows="10" style="resize: none;" class="form-control">{{old('description')?old('description'):$product->description}}</textarea>
 					</div>
-					@php
-						$single = [];
-
-						if(!empty($pack_single)):
-							foreach($pack_single as $key => $sg):
-								if($key == 0):
-									$single['id'] = $sg->id;
-									$single['name'] = $sg->name;
-									$single['sale'] = $sg->sale;
-									$single['price'] = $sg->price;
-								endif;
-								$single['colors'][] = $sg->color_id;
-							endforeach;
-						endif;
-					@endphp
+					<div class="form-group">
+						<label>Nội dung chi tiết</label>
+						<textarea name="product_content" id="product_content" rows="5" style="resize: none;" class="form-control" placeholder="Nội dung chi tiết">{{old('product_content')?old('product_content'):$product->product_content}}</textarea>
+					</div>
 					<div class="form-group">
 						<h4>Sản phẩm đơn lẻ</h4>
 						<div class="item_pack">
 							<div class="pack">
-								<input type="hidden" name="single_id" value="{{$single['id']}}">
+								<input type="hidden" name="single_id" value="{{$pack_single->id}}">
 								<div class="form-group">
 									<label>Số lượng sản phẩm</label>
-									<input type="text" name="pack_single" class="form-control" value="{{$single['name']}}" placeholder="1 sản phẩm">
+									<input type="text" name="pack_single" class="form-control" value="{{$pack_single->name}}" placeholder="1 sản phẩm">
 								</div>
 								<div class="form-group">
 									<label>Giá</label>
-									<input type="text" name="price_single" class="form-control" value="{{$single['price']}}">
+									<input type="text" name="price_single" class="form-control" value="{{$pack_single->price}}">
 								</div>
 								<div class="form-group">
 									<label>Giá sale</label>
-									<input type="text" name="sale_single" class="form-control" value="{{$single['sale']}}">
+									<input type="text" name="sale_single" class="form-control" value="{{$pack_single->sale}}">
 								</div>
 							</div>
 							<div class="color">
 								<div class="form-group">
 									<label>Màu</label>
+									@php
+										$arrcol = [];
+										if(count($pack_single->color()) > 0):
+											foreach($pack_single->color() as $color):
+												$arrcol[] = $color->id;
+											endforeach;
+										endif;
+									@endphp
+
 									<select name="color_single[]" class="form-control select2" multiple>
 										@if(!empty($colors))
 										@foreach($colors as $color)
-										<option value="{{$color->id}}" {{(in_array($color->id,$single['colors']))?'selected':FALSE}}>{{$color->name}}</option>
+										<option value="{{$color->id}}" {{(in_array($color->id,$arrcol))?'selected':FALSE}}>{{$color->name}}</option>
 										@endforeach
 										@endif
 									</select>
@@ -163,48 +161,42 @@ Cập nhật {{$product->name}}
 							</div>
 						</div>
 					</div>
-					@php
-						$multi = [];
-
-						if(!empty($pack_multi)):
-							foreach($pack_multi as $key => $sg):
-								if($key == 0):
-									$multi['id'] = $sg->id;
-									$multi['name'] = $sg->name;
-									$multi['sale'] = $sg->sale;
-									$multi['price'] = $sg->price;
-								endif;
-								$multi['colors'][] = $sg->color_id;
-							endforeach;
-						endif;
-					@endphp
 					<div class="form-group">
 						<h4>Nhiều sản phẩm</h4>
 						<div class="item_pack">
 							<div class="pack">
-								@if(!empty($multi))
-								<input type="hidden" name="multi_id" value="{{$multi['id']}}">
+								@if(!empty($pack_multi))
+								<input type="hidden" name="multi_id" value="{{$pack_multi->id}}">
 								@endif
 								<div class="form-group">
 									<label>Số lượng sản phẩm</label>
-									<input type="text" name="pack_multi" class="form-control" value="{{(!empty($multi))?$multi['name']:FALSE}}" placeholder="2 sản phẩm">
+									<input type="text" name="pack_multi" class="form-control" value="{{(!empty($pack_multi))?$pack_multi->name:FALSE}}" placeholder="2 sản phẩm">
 								</div>
 								<div class="form-group">
 									<label>Giá</label>
-									<input type="text" name="price_multi" class="form-control" value="{{(!empty($multi))?$multi['price']:FALSE}}">
+									<input type="text" name="price_multi" class="form-control" value="{{(!empty($pack_multi))?$pack_multi->price:FALSE}}">
 								</div>
 								<div class="form-group">
 									<label>Giá sale</label>
-									<input type="text" name="sale_multi" class="form-control" value="{{(!empty($multi))?$multi['sale']:FALSE}}">
+									<input type="text" name="sale_multi" class="form-control" value="{{(!empty($pack_multi))?$pack_multi->sale:FALSE}}">
 								</div>
 							</div>
 							<div class="color">
 								<div class="form-group">
 									<label>Màu</label>
+									@php
+										$arrcolm = [];
+										if(!empty($pack_multi) && count($pack_multi->color()) > 0):
+											foreach($pack_multi->color() as $color):
+												$arrcolm[] = $color->id;
+											endforeach;
+										endif;
+									@endphp
+
 									<select name="color_multi[]" class="form-control select2" multiple>
 										@if(!empty($colors))
 										@foreach($colors as $color)
-										<option value="{{$color->id}}" {{(!empty($multi) && in_array($color->id,$multi['colors']))?'selected':FALSE}}>{{$color->name}}</option>
+										<option value="{{$color->id}}" {{(!empty($pack_multi) && in_array($color->id,$arrcolm))?'selected':FALSE}}>{{$color->name}}</option>
 										@endforeach
 										@endif
 									</select>
@@ -262,18 +254,18 @@ Cập nhật {{$product->name}}
 					<div class="form-group">
 						<label>Sản phẩm đi kèm</label>
 						<select name="essential[]" class="form-control select2" multiple="multiple">
-							@if(count($essentials) > 0)
 							@php
 							$art = [];
 							@endphp
+							@if(count($essentials) > 0)
 							@foreach($essentials as $ess)
 							@php
-							$art[] = $ess->id
+							$art[] = $ess->essential_product_id
 							@endphp
 							@endforeach
 							@endif
 							@if(count($products) > 0)
-							@foreach($products as product)
+							@foreach($products as $product)
 							<option value="{{$product->id}}" {{(in_array($product->id,$art))?'selected':FALSE}}>{{$product->name}}</option>
 							@endforeach
 							@endif
@@ -348,7 +340,7 @@ Cập nhật {{$product->name}}
 		jQuery('input[name=quantity],input[name=price]').on('keypress',function(e){
 			if(e.keyCode < 48 || e.keyCode > 57) return false;
 		});
-		CKEDITOR.replace('description');
+		CKEDITOR.replace('product_content');
 	});
 	jQuery(document).ready(function(){
 		jQuery('input[name=name]').on('change',function(){

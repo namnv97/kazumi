@@ -107,6 +107,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 });
 
 Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
+
+Route::get('/product/get_rate','ProductController@get_rate')->name('client.product.get_rate');
+
 Route::get('/product/{slug?}','ProductController@index')->name('client.product.index');
 
 

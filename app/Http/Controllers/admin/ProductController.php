@@ -39,6 +39,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->slug = $request->slug;
         $product->description = $request->description;
+        $product->product_content = $request->product_content;
 
         $product->save();
 
@@ -52,13 +53,16 @@ class ProductController extends Controller
         $pack_single->save();
 
         
-        foreach($request->color_single as $col)
+        if(!empty($request->color_single))
         {
-            $color = new PackColor();
-            $color->pack_id = $pack_single->id;
-            $color->color_id = $col;
-            $color->save();
-            unset($color);
+            foreach($request->color_single as $col)
+            {
+                $color = new PackColor();
+                $color->pack_id = $pack_single->id;
+                $color->color_id = $col;
+                $color->save();
+                unset($color);
+            }
         }
 
         if(!empty($request->pack_multi) && !empty($request->price_multi) && !empty($request->color_multi))
@@ -127,7 +131,7 @@ class ProductController extends Controller
         endif;
 
 
-         return redirect()->route('admin.products.index')->with('msg_add','Thêm sản phẩm thành công');
+         return redirect()->route('admin.products.edit',['id' => $product->id]);
     }
 
     public function edit($id = null)
@@ -139,25 +143,19 @@ class ProductController extends Controller
 
         if(empty($product)) return redirect()->back();
 
-        $pack_single = PackColor::leftJoin('packs','packs_colors.pack_id','=','packs.id')
-        ->leftJoin('colors','colors.id','=','packs_colors.color_id')
-        ->select('packs.id as id','packs.name as name','packs.price as price','packs.sale as sale','colors.id as color_id','colors.name as color_name')
-        ->where([
+        $pack_single = Pack::where([
             ['packs.type','=','single'],
             ['packs.product_id','=',$id]
         ])
-        ->get();
+        ->first();
         
         
 
-        $pack_multi = Pack::leftJoin('packs_colors','packs_colors.pack_id','=','packs.id')
-        ->leftJoin('colors','colors.id','=','packs_colors.color_id')
-        ->select('packs.id as id','packs.name as name','packs.price as price','packs.sale as sale','colors.id as color_id','colors.name as color_name')
-        ->where([
+        $pack_multi = Pack::where([
             ['packs.type','=','multi'],
             ['packs.product_id','=',$id]
         ])
-        ->get();
+        ->first();
 
 
         $collection = ProductCollection::leftJoin('products','products.id','=','product_collection.product_id')
@@ -182,10 +180,10 @@ class ProductController extends Controller
         ])
         ->get();
 
-        $products = Product::all();
+        $products = Product::where('id','<>',$id)->get();
 
         $essentials = Essential::where('product_id',$id)->get();
-
+        
 
     	return view('server.product.edit',compact('collections','colors','product','pack_single','pack_multi','collection','gallery_image','gallery_video','products','essentials'));
     }
@@ -199,6 +197,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->slug = $request->slug;
         $product->description = $request->description;
+        $product->product_content = $request->product_content;
         $product->save();
 
         $single = Pack::find($request->single_id);
@@ -206,6 +205,18 @@ class ProductController extends Controller
         $single->price = $request->price_single;
         $single->sale = $request->sale_single;
         $single->save();
+
+        PackColor::where('pack_id',$request->single_id)->delete();
+
+        if(!empty($request->color_single)):
+            foreach($request->color_single as $sg):
+                $pc = new PackColor();
+                $pc->pack_id = $request->single_id;
+                $pc->color_id = $sg;
+                $pc->save();
+                unset($pc);
+            endforeach;
+        endif;
 
         $name_multi = $request->pack_multi;
         $price_multi = $request->price_multi;
@@ -218,12 +229,7 @@ class ProductController extends Controller
                 $multi->sale = $request->sale_multi;
                 $multi->save();
 
-                $pack_color = PackColor::where('pack_id','=',$request->multi_id)->get();
-                if(!empty($pack_color)):
-                    foreach($pack_color as $pc):
-                        $pc->delete();
-                    endforeach;
-                endif;
+                $pack_color = PackColor::where('pack_id','=',$request->multi_id)->delete();
 
                 if(!empty($request->color_multi)):
                     foreach($request->color_multi as $cm):
@@ -290,34 +296,19 @@ class ProductController extends Controller
 
         $gallery_image = $request->gallery;
 
-        $galim = Gallery::whereNotIn('url',$gallery_image)
-        ->where([
+        Gallery::where([
             ['product_id',$id],
             ['type','image']
         ])
-        ->get();
-        
-        if(count($galim) > 0):
-            foreach($galim as $gl):
-                $gl->delete();
-            endforeach;
-        endif;
+        ->delete();
 
         foreach($gallery_image as $gallery):
-            $gal = Gallery::where([
-                ['url',$gallery],
-                ['product_id',$id],
-                ['type','image']
-            ])
-            ->first();
-            if(empty($gal)):
-                $gl = new Gallery();
-                $gl->product_id = $id;
-                $gl->type = 'image';
-                $gl->url = $gallery;
-                $gl->save();
-                unset($gl);
-            endif;
+            $gl = new Gallery();
+            $gl->product_id = $id;
+            $gl->type = 'image';
+            $gl->url = $gallery;
+            $gl->save();
+            unset($gl);
         endforeach;
 
 
@@ -355,7 +346,17 @@ class ProductController extends Controller
             endforeach;
         endif;
 
-        echo 'done';
+        Essential::where('product_id',$id)->delete();
+
+        if(!empty($request->essential)):
+            foreach($request->essential as $essential):
+                $ess = new Essential();
+                $ess->product_id = $id;
+                $ess->essential_product_id = $essential;
+                $ess->save();
+                unset($ess);
+            endforeach;
+        endif;
 
         
         return redirect()->route('admin.products.edit',['id' => $id])->with('msg','Cập nhật thành công');

@@ -52,6 +52,7 @@ Sản phẩm
 				<th>Mô tả</th>
 				<th></th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,8 +63,11 @@ Sản phẩm
 				<td>{{$product->name}}</td>
 				<td>
 					<div class="admin-product__description">
-						{!! $product->description() !!}
+						{!! $product->description !!}
 					</div>
+				</td>
+				<td>
+					<a href="{{route('client.product.index',['slug' => $product->slug])}}" class="btn btn-sm btn-primary" target="_blank"><i class="fa fa-eye"></i> Xem</a>
 				</td>
 				<td>
 					<a href="{{route('admin.products.edit',['id' => $product->id])}}" class="btn btn-sm btn-warning">

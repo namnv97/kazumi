@@ -8,11 +8,9 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    public function description()
+    public function pack()
     {
-    	$description = strip_tags($this->description);
-
-    	return $description;
+        return $this->hasMany('App\Model\Pack','product_id','id');
     }
 
     public function gallery()
@@ -29,4 +27,5 @@ class Product extends Model
     {
     	return $this->belongsTo('App\Model\Pack','id','product_id')->where('type','multi')->first();
     }
+
 }

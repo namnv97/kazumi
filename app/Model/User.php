@@ -16,7 +16,4 @@ class User extends Model
     	if(empty($slug)) return false;
         return ($slug->slug == $has)?true:false;
     }
-
-
-    
 }
