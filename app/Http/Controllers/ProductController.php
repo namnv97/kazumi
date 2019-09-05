@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 
 use App\Model\Product;
-
 use App\Model\Rating;
-
 use App\Model\Option;
+use App\Model\Essential;
 
 use DB;
 
@@ -34,13 +33,15 @@ class ProductController extends Controller
     	$cok = $request->cookie('recent_view');
 
     	if(!empty($cok)):
-    		$arr = json_decode($cok);
-    		if(!in_array($product->id,$arr)):
-    			$arr[] = $product->id;
-    		endif;
+    		$arr = json_decode($cok,true);
+            foreach($arr as $key => $ar):
+                if($ar == $product->id) unset($arr[$key]);
+            endforeach;
+            $arr[] = $product->id;
 		else:
 			$arr = [$product->id];
 		endif;
+
 
     	$res = json_encode($arr);
 
@@ -50,8 +51,10 @@ class ProductController extends Controller
 
         $product_shipping = Option::where('meta_key','product_shipping')->first();
 
+        $essentials = Essential::leftJoin('products','essentials.essential_product_id','products.id')->where('essentials.product_id',$product->id)->get();
 
-    	return response(view('client.product.index',compact('product','rating','rate_num','relates','recents','product_shipping')))->withCookie($cookie);
+
+    	return response(view('client.product.index',compact('product','rating','rate_num','essentials','relates','recents','product_shipping')))->withCookie($cookie);
 
     }
 

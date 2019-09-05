@@ -15,7 +15,12 @@ class Product extends Model
 
     public function gallery()
     {
-    	return $this->hasMany('App\Model\Gallery','product_id','id');
+    	return $this->hasMany('App\Model\Gallery','product_id','id')->where('galleries.type','image');
+    }
+
+    public function gallery_all()
+    {
+        return $this->hasMany('App\Model\Gallery','product_id','id');
     }
 
     public function price()

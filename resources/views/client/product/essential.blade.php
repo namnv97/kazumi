@@ -1,32 +1,33 @@
+@if(count($essentials) > 0)
 <div class="essentials">
-	<p class="product-addons-heading">Add essentials</p>
+	<p class="product-addons-heading">Sản phẩm đi kèm</p>
 	<ul>
+		@foreach($essentials as $essential)
+		@php
+		$es_pro = $essential->product();
+		@endphp
 		<li>
 			<label class="check-box">
-				<input type="checkbox" name="" value="">
-				<span class="checkmark"></span>
-			</label>
-
-			<div class="pro-item-essentials">
-				<a href="#">
-					<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-unisyn-lashes-peace_love_280x.jpg?v=1551684701" alt="">
-					<p>Peace & Love</p>
-					<span class="price"><span>$22.00 USD</span></span>
-				</a>
-			</div>
-		</li>
-		<li>
-			<label class="check-box">
-				<input type="checkbox" name="" value="">
+				<input type="checkbox" value="{{$es_pro->price()->id}}">
 				<span class="checkmark"></span>
 			</label>
 			<div class="pro-item-essentials">
-				<a href="#">
-					<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-mink-lashes-unforgettable_d1360f77-b60e-47fe-aa79-5e84d857297e_280x.jpg?v=1551684798" alt="">
-					<p>Unforgettable</p>
-					<span class="price"><span>$28.00 USD</span></span>
+				<a href="{{route('client.product.index',['slug' => $es_pro->slug])}}">
+					<img src="{{asset($es_pro->gallery[0]->url)}}" alt="{{$es_pro->name}}">
+					<p>{{$es_pro->name}}</p>
+					<span class="price">
+						@if(!empty($es_pro->price()->sale))
+						<span class="price-sale">{{number_format($es_pro->price()->sale)}}VND</span>
+						&ensp;
+						<span class="old-price">{{number_format($es_pro->price()->price)}}VND</span>
+						@else
+						<span>{{number_format($es_pro->price()->price)}}VND</span>
+						@endif
+					</span>
 				</a>
 			</div>
 		</li>
+		@endforeach
 	</ul>
 </div>
+@endif

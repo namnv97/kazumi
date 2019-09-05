@@ -75,13 +75,14 @@
 		width: calc(100%/9);
 		margin: 0 5px;
 		cursor: pointer;
+		padding: 2px;
+		border: thin solid transparent;
 	}
 
 	.pack_color ul li.active
 	{
-		-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-		-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-		box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+		
+		border: thin #000 solid;
 	}
 </style>
 @endsection
@@ -144,13 +145,13 @@
 									<i class="fa fa-star" aria-hidden="true"></i>
 									<i class="fa fa-star" aria-hidden="true"></i>
 								</div>
-								<span>111 reviews</span>
+								<span>111 đánh giá</span>
 							</div>
 							<div>
 								<div class="pack">
 									<ul>
 										@foreach($product->pack as $key => $pack)
-										<li data-product="{{$product->id}}" data-pack="{{$pack->id}}" data-href="pack_{{$key}}" class="{{($key == 0)?'active':FALSE}}">
+										<li data-product="{{$product->id}}" data-pack="{{$pack->id}}" data-href="pack_{{$key}}">
 											<p>{{$pack->name}}</p>
 											<span class="price">
 												@if(!empty($pack->sale))
@@ -166,7 +167,7 @@
 								</div>
 								@foreach($product->pack as $key => $pack)
 									@if(count($pack->color()) > 0)
-									<div class="pack_color pack_{{$key}} {{($key == 0)?'active':FALSE}}">
+									<div class="pack_color pack_{{$key}}">
 										<h3 class="top">Màu : <span></span></h3>
 										<ul>
 											@foreach($pack->color() as $ft => $color)
@@ -180,10 +181,8 @@
 								@endforeach
 								@include('client.product.essential')
 								<div class="SectionHeader__ButtonWrapper">
-									<input type="hidden" id="product_id" value="{{$product->id}}">
 									<input type="hidden" id="pack_id">
-									<input type="hidden" id="color_id">
-									<div class="ButtonGroup ButtonGroup--spacingSmall "><button class="ButtonGroup__Item Button">THÊM VÀO GIỎ</button></div>
+									<div class="ButtonGroup ButtonGroup--spacingSmall "><button class="ButtonGroup__Item Button add-to-cart">THÊM VÀO GIỎ</button></div>
 								</div>
 							</div>
 							@include('client.product.after_product')
@@ -399,14 +398,92 @@
     	if(jQuery(this).hasClass('active')) return false;
     	jQuery(this).parent().find('li').removeClass('active');
     	jQuery(this).addClass('active');
-    	jQuery('.pack_color').removeClass('active');
-    	jQuery('.pack_color ul li').removeClass('active');
-    	jQuery('.pack_color h3.top span').text('');
+    	
     	var href = jQuery(this).data('href');
-    	jQuery('.'+href).addClass('active');
     	var id = jQuery(this).data('pack');
     	jQuery('#pack_id').val(id);
-    	jQuery('#color_id').val('');
+
+    	jQuery('#color_id').remove();
+
+
+
+    	if(jQuery('*').hasClass(href))
+    	{
+    		jQuery('.pack_color').removeClass('active');
+    		jQuery('.'+href).addClass('active');
+    		jQuery('.pack_color ul li').removeClass('active');
+    		jQuery('.pack_color h3.top span').text('');
+    		jQuery('#pack_id').after('<input type="hidden" id="color_id">');
+    	}
     });
+
+    jQuery('.add-to-cart').on('click',function(){
+    	var data = {};
+    	var pack_id = jQuery('#pack_id').val();
+    	if(pack_id.length == 0)
+    	{
+    		alert("Vui lòng chọn sản phẩm");
+    		return false;
+    	}
+    	else data.pack_id = pack_id;
+    	var color_id = jQuery('#color_id').val();
+
+    	if(color_id != null)
+    	{
+    		if(color_id.length == 0)
+    		{
+    			alert("Vui lòng chọn màu sản phẩm");
+    			return false;
+    		}
+    		else data.color_id = color_id;
+    	}
+
+    	var essential = [];
+
+    	jQuery('input[type=checkbox]').each(function(){
+    		if(jQuery(this).prop('checked') == true)
+    		{
+    			var es = jQuery(this).val();
+    			essential.push(es);
+    		}
+    	})
+
+    	data.essential = essential;
+
+    	jQuery.ajax({
+    		url: '{{route('client.add_to_cart')}}',
+    		type: 'get',
+    		dataType: 'json',
+    		data: data,
+    		beforeSend: function(){
+
+    		},
+    		success: function(res){
+    			jQuery('.cart-btn span').text('('+res.num+')');
+    			get_view();
+    		},
+    		errors: function(errors){
+    			console.log(errors);
+    		}
+    	});
+    })
+
+    function get_view(){
+    	jQuery.ajax({
+    		url: '{{route('client.cart.get_view')}}',
+    		type: 'get',
+    		dataType: 'html',
+    		beforeSend: function(){
+
+    		},
+    		success: function(res){
+    			jQuery('#sidebar-cart').html(res);
+    			calculator();
+    		},
+    		errors: function(errors){
+    			console.log(errors);
+    		}
+    	});
+    }
 </script>
 @endsection

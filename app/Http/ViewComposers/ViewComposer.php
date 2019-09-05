@@ -2,9 +2,12 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 use App\Model\Option;
 use App\Model\Product;
+use App\Model\Pack;
+use App\Model\Color;
 
 class ViewComposer
 {
@@ -45,8 +48,62 @@ class ViewComposer
     		$view->with('mega_product',$arr);
     	endif;
 
-    	
+        $cart = request()->cookie('cart_item');
+
+        $num = 0;
+
+        if(!empty($cart)):
+            $cart = json_decode($cart,true);
+            foreach($cart as $ca):
+                $num += $ca['quantity'];
+            endforeach;
+        endif;
+
+        
+
+        $view->with('num',$num);
     }
+
+
+    public function cart_sidebar(View $view)
+    {
+        $cart = request()->cookie('cart_item');
+
+        $arr = [];
+        if(!empty($cart)):
+            $cart = json_decode($cart,true);
+
+            foreach($cart as $ca):
+                $pack = Pack::find($ca['pack_id']);
+                $color = Color::find($ca['color_id']);
+                $item = array(
+                    'product' => $pack->product()->name,
+                    'slug' => $pack->product()->slug,
+                    'pack_id' => $pack->id,
+                    'pack_name' => $pack->name,
+                    'image' => $pack->product()->gallery[0]->url,
+                    'price' => $pack->price,
+                    'sale' => $pack->sale,
+                    'quantity' => $ca['quantity']
+                );
+                if(!empty($color)) $item['color'] = $color->name;
+                $arr[] = $item;
+            endforeach;
+        endif;
+
+        $view->with('cart_item',$arr);
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

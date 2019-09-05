@@ -32,9 +32,9 @@
 					<div class="col-md-5 col-lg-5">
 						<div class="menu-right menu">
 							<ul>
-							    <li><a href="#">ACCOUNT</a></li>
-							    <li class="search-btn-head"><a href="#">SEARCH</a></li>
-							    <li class="cart-btn"><a href="#">CART <span>(0)</span></a></li>
+							    <li><a href="#">TÀI KHOẢN</a></li>
+							    <li class="search-btn-head"><a href="#">TÌM KIẾM</a></li>
+							    <li class="cart-btn"><a href="#">GIỎ HÀNG <span>({{$num}})</span></a></li>
 							</ul>
 						</div>
 					</div>

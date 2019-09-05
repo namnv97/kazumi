@@ -106,11 +106,18 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 });
 
+
+Route::group([])
+
 Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
 
 Route::get('/product/get_rate','ProductController@get_rate')->name('client.product.get_rate');
 
 Route::get('/product/{slug?}','ProductController@index')->name('client.product.index');
+
+Route::get('/add-to-cart','CartController@add_to_cart')->name('client.add_to_cart');
+
+Route::get('/get_view','CartController@get_view')->name('client.cart.get_view');
 
 
 

@@ -251,12 +251,7 @@ class ProductController extends Controller
                 $multi->sale = $request->sale_multi;
                 $multi->save();
 
-                $pack_color = PackColor::where('pack_id','=',$request->multi_id)->get();
-                if(!empty($pack_color)):
-                    foreach($pack_color as $pc):
-                        $pc->delete();
-                    endforeach;
-                endif;
+                $pack_color = PackColor::where('pack_id','=',$request->multi_id)->delete();
 
                 if(!empty($request->color_multi)):
                     foreach($request->color_multi as $cm):
@@ -273,12 +268,9 @@ class ProductController extends Controller
 
         $collections = $request->collection_id;
 
-        $collec = ProductCollection::whereNotIn('collection_id',$collections)->where('product_id',$id)->get();
-        if(!empty($collec)):
-            foreach($collec as $col):
-                $col->delete();
-            endforeach;
-        endif;
+        ProductCollection::whereNotIn('collection_id',$collections)
+        ->where('product_id',$id)
+        ->delete();
 
         foreach($collections as $col):
             $collection = ProductCollection::where([

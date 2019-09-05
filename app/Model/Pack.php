@@ -14,4 +14,9 @@ class Pack extends Model
 
     	return $packcolor;
     }
+
+    public function product()
+    {
+    	return $this->belongsTo('App\Model\Product','product_id','id')->first();
+    }
 }

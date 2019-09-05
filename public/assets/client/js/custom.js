@@ -93,7 +93,7 @@ $(document).ready(function() {
     nav: false,
     autoplay: false,
     dots: false,
-    loop: false,
+    loop: true,
     responsiveRefreshRate : 200,
     navText: ['<svg width="100%" height="100%" viewBox="0 0 11 20"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>','<svg width="100%" height="100%" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'],
   }).on('changed.owl.carousel', syncPosition);
@@ -170,6 +170,7 @@ jQuery(document).ready(function() {
 
     jQuery('.header-pc .menu ul li.cart-btn ,.header-mobile .cart-xs').click(function(e) {
         e.preventDefault();
+        jQuery('body').css('overflow-y','hidden');
         jQuery('#sidebar-cart .PageOverlay').css({
           visibility: 'visible',
           opacity: '.5'
@@ -196,6 +197,7 @@ jQuery(document).ready(function() {
             opacity: '0'
           });
           jQuery('.Drawer').css('transform', 'translateX(calc(100vw - 65px))');
+          jQuery('body').css('overflow-y','auto');
     });
     jQuery('.Drawer .Drawer__Close').click(function() {
       jQuery(this).parents('.Drawer').css({
@@ -207,6 +209,7 @@ jQuery(document).ready(function() {
             visibility: 'hidden',
             opacity: '0'
           });
+        jQuery('body').css('overflow-y','auto');
     });
 
     jQuery('.CollectionToolbar .CollectionToolbar__LayoutType.two').click(function() {
@@ -294,4 +297,67 @@ jQuery(document).ready(function() {
         jQuery('#filter .Collapsible__Inner .Collapsible__Content ul li').removeClass('is-selected');
         jQuery(this).parent().addClass('is-selected');
     });
+
+    calculator();
+
+    jQuery('body').on('change','#sidebar-cart input[name=quantity]',function(){
+      calculator();
+    })
+
+    jQuery('body').on('click','#sidebar-cart .QuantitySelector span',function(e){
+      e.preventDefault();
+      var val = jQuery(this).parent().find('input').val();
+      if(jQuery(this).hasClass('minus'))
+      {
+        val = parseInt(val) - 1;
+        if(val < 1) val = 1;
+      }
+      else
+      {
+        val = parseInt(val) + 1;
+      }
+
+      jQuery(this).parent().find('input').val(val);
+      jQuery(this).parent().find('input').trigger('change');
+    });
+
+    jQuery('body').on('click','.CartItem__Remove',function(){
+      if(confirm("Bạn muốn xóa sản phẩm này ?"))
+      {
+        jQuery(this).parents('.CartItem').remove();
+        calculator();
+
+        if(check_cart() == 0)
+        {
+          jQuery('#sidebar-cart .CartItemWrapper').html('<p class="cart_empty">Giỏ hàng trống</p>');
+        }
+      }
+    })
 });
+
+
+function check_cart()
+{
+  var count = 0;
+  jQuery('#sidebar-cart .CartItem').each(function(){
+    count ++;
+  })
+  return count;
+}
+
+function calculator()
+{
+  var total = 0;
+  jQuery('#sidebar-cart input[name=quantity]').each(function(){
+    var num = jQuery(this).val();
+    var price = jQuery(this).data('price');
+
+    total += parseInt(num)*parseInt(price);
+  });
+
+  jQuery('#sidebar-cart .cart_total').text(numberWithCommas(total)+'VND');
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+} 
