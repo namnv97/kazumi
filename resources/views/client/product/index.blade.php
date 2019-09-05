@@ -84,9 +84,28 @@
 		
 		border: thin #000 solid;
 	}
+	.progress_bar {
+		background: red;
+		display: block;
+		height: 5px;
+		text-align: center;
+		transition: width .3s;
+		width: 0;
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 100000;
+	}
+
+	.progress_bar.hide {
+		opacity: 0;
+		transition: opacity 1.3s;
+	}
 </style>
 @endsection
 @section('content')
+<div class="progress_bar"></div>
 <div class="single-product bg-grey">
 	<div class="container-fluid">
 		<div class="content-pro-detail p-35">
@@ -450,40 +469,37 @@
 
     	data.essential = essential;
 
+    	var xd;
+
     	jQuery.ajax({
     		url: '{{route('client.add_to_cart')}}',
     		type: 'get',
-    		dataType: 'json',
+    		dataType: 'html',
     		data: data,
     		beforeSend: function(){
-
+    			jQuery('.progress_bar').css('opacity',1);
+    			var i = 0;
+    			xd = setInterval(function(){
+    				jQuery('.progress_bar').css('width',parseInt(i)+'%');
+    				console.log(i);
+    				i++;
+    				if(i > 90) clearInterval(xd);
+    			},10);
     		},
     		success: function(res){
-    			jQuery('.cart-btn span').text('('+res.num+')');
-    			get_view();
+    			jQuery('#sidebar-cart').html(res);
+    			calculator();
+    			clearInterval(xd);
+    			jQuery('.progress_bar').css('width','100%');
+    			setTimeout(function(){
+    				jQuery('.progress_bar').css('width','0');
+    				jQuery('.progress_bar').css('opacity',0);
+    			},500);
     		},
     		errors: function(errors){
     			console.log(errors);
     		}
     	});
     })
-
-    function get_view(){
-    	jQuery.ajax({
-    		url: '{{route('client.cart.get_view')}}',
-    		type: 'get',
-    		dataType: 'html',
-    		beforeSend: function(){
-
-    		},
-    		success: function(res){
-    			jQuery('#sidebar-cart').html(res);
-    			calculator();
-    		},
-    		errors: function(errors){
-    			console.log(errors);
-    		}
-    	});
-    }
 </script>
 @endsection

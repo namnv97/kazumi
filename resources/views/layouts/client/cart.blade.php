@@ -1,6 +1,7 @@
 <div id="sidebar-cart">
 	<div class="PageOverlay"></div>
 	<div class="Drawer">
+		<div class="cart_bar"></div>
 		<div class="Drawer__Header Drawer__Header--bordered Drawer__Container">
 			<span class="Drawer__Title Heading u-h4">Giỏ hàng</span>
 
@@ -8,7 +9,7 @@
 				<path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path>
 			</svg></button>
 		</div>
-		<form class="Cart Drawer__Content">
+		<div class="Cart Drawer__Content">
 			<div class="Drawer__Main">
 				<div class="Drawer__Container">
 
@@ -65,7 +66,7 @@
 													</svg>
 												</span>
 
-												<input type="text" name="quantity" data-price="{{$price}}" class="QuantitySelector__CurrentQuantity" value="{{$item['quantity']}}">
+												<input type="text" name="quantity" data-price="{{$price}}" data-pack="{{$item['pack_id']}}" data-color="{{(isset($item['color_id']))?$item['color_id']:FALSE}}" class="QuantitySelector__CurrentQuantity" value="{{$item['quantity']}}">
 												<span class="wsgReload QuantitySelector__Button Link Link--primary plus">
 													<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
 														<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
@@ -77,7 +78,7 @@
 											</div>
 										</div>
 
-										<a href="#" class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</a>
+										<a href="#" data-pack="{{$item['pack_id']}}" data-color="{{isset($item['color_id'])?$item['color_id']:FALSE}}" class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</a>
 									</div>
 								</div>
 							</div>
@@ -92,7 +93,7 @@
 			<div class="Drawer__Footer">
 				<div class="SectionHeader__ButtonWrapper">
 					<div class="ButtonGroup ButtonGroup--spacingSmall ">
-						<button type="submit" name="checkout" class="Cart__Checkout Button ButtonGroup__Item">
+						<a href="{{route('client.checkout')}}" class="Cart__Checkout Button ButtonGroup__Item" style="width: 100%;">
 							<span>Thanh toán</span>
 							<span class="Button__SeparatorDot"></span>
 							<span>
@@ -107,11 +108,11 @@
 									<span class="wh-extra-note"></span>
 								</div>
 							</span>
-						</button>
+						</a>
 					</div>
 				</div>
 
 			</div>
-		</form>
+		</div>
 	</div>
 </div>

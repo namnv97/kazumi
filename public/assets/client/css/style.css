@@ -3975,6 +3975,14 @@ footer{
     	opacity: 0;
 
 	}
+
+    .pack ul li
+    {
+        display: block;
+        width: 100%;
+        float: unset;
+        margin-bottom: 10px;
+    }
 	    
   
 } 
@@ -4261,4 +4269,15 @@ footer{
     padding: 20px 0;
     font-size: 14px;
     text-transform: uppercase;
+}
+
+.cart_bar
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: red;
+    z-index: 100;
+    width: 0;
 }

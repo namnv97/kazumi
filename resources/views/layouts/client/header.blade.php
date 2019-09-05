@@ -32,9 +32,9 @@
 					<div class="col-md-5 col-lg-5">
 						<div class="menu-right menu">
 							<ul>
-							    <li><a href="#">TÀI KHOẢN</a></li>
+							    <li><a href="{{route('client.account.index')}}">TÀI KHOẢN</a></li>
 							    <li class="search-btn-head"><a href="#">TÌM KIẾM</a></li>
-							    <li class="cart-btn"><a href="#">GIỎ HÀNG <span>({{$num}})</span></a></li>
+							    <li class="cart-btn"><a href="{{route('client.cart.index')}}">GIỎ HÀNG <span>({{$num}})</span></a></li>
 							</ul>
 						</div>
 					</div>

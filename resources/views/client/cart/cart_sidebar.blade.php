@@ -1,5 +1,6 @@
 <div class="PageOverlay"></div>
 <div class="Drawer">
+	<div class="cart_bar"></div>
 	<div class="Drawer__Header Drawer__Header--bordered Drawer__Container">
 		<span class="Drawer__Title Heading u-h4">Giỏ hàng</span>
 
@@ -7,7 +8,7 @@
 			<path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path>
 		</svg></button>
 	</div>
-	<form class="Cart Drawer__Content">
+	<div class="Cart Drawer__Content">
 		<div class="Drawer__Main">
 			<div class="Drawer__Container">
 
@@ -30,11 +31,28 @@
 								</h2>
 
 								<div class="CartItem__Meta Heading Text--subdued">
-									<p class="CartItem__Variant">{{$item['pack_name']}}</p>
+									<p class="CartItem__Variant">{{$item['pack_name']}} 
+										@if(isset($item['color']))
+										/ {{$item['color']}}
+										@endif
+									</p>
 									<div class="CartItem__PriceList wsg-item-price_14590764351537">
 										<span class="CartItem__Price Price">
 											<span class="Bold-theme-hook-DO-NOT-DELETE-comment-bold_cart_item_price_2" style="display:none !important;"></span>
-											<span class="money">{{number_format($item['price'])}}VND</span>
+											@php
+											$price = $item['price'];
+											if(!empty($item['sale'])):
+											$price = $item['sale'];
+											$oldprice = $item['price'];
+											endif;
+											@endphp
+											<span class="money">{{number_format($price)}}VND</span>
+											@if(isset($oldprice))
+											&ensp;<span class="old-price">{{number_format($oldprice)}}VND</span>
+											@endif
+											@php
+											unset($oldprice);
+											@endphp
 										</span>
 									</div>
 								</div>
@@ -47,7 +65,7 @@
 												</svg>
 											</span>
 
-											<input type="text" name="quantity" data-price="{{$item['price']}}" class="QuantitySelector__CurrentQuantity" value="{{$item['quantity']}}">
+											<input type="text" name="quantity" data-price="{{$price}}" data-pack="{{$item['pack_id']}}" data-color="{{(isset($item['color_id']))?$item['color_id']:FALSE}}" class="QuantitySelector__CurrentQuantity" value="{{$item['quantity']}}">
 											<span class="wsgReload QuantitySelector__Button Link Link--primary plus">
 												<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
 													<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
@@ -59,7 +77,7 @@
 										</div>
 									</div>
 
-									<a href="#" class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</a>
+									<a href="#" data-pack="{{$item['pack_id']}}" data-color="{{isset($item['color_id'])?$item['color_id']:FALSE}}" class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</a>
 								</div>
 							</div>
 						</div>
@@ -74,7 +92,7 @@
 		<div class="Drawer__Footer">
 			<div class="SectionHeader__ButtonWrapper">
 				<div class="ButtonGroup ButtonGroup--spacingSmall ">
-					<button type="submit" name="checkout" class="Cart__Checkout Button ButtonGroup__Item">
+					<a href="{{route('client.checkout')}}" class="Cart__Checkout Button ButtonGroup__Item" style="width: 100%;">
 						<span>Thanh toán</span>
 						<span class="Button__SeparatorDot"></span>
 						<span>
@@ -89,10 +107,10 @@
 								<span class="wh-extra-note"></span>
 							</div>
 						</span>
-					</button>
+					</a>
 				</div>
 			</div>
 
 		</div>
-	</form>
+	</div>
 </div>

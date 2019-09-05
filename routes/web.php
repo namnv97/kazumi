@@ -107,7 +107,13 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 });
 
 
-Route::group([])
+Route::group(['prefix' => 'account','middleware' => ['auth']],function(){
+	Route::get('/',function(){
+		echo 'sdjgdk';
+	})->name('client.account.index');
+});
+
+Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');
 
 Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
 
@@ -117,7 +123,11 @@ Route::get('/product/{slug?}','ProductController@index')->name('client.product.i
 
 Route::get('/add-to-cart','CartController@add_to_cart')->name('client.add_to_cart');
 
-Route::get('/get_view','CartController@get_view')->name('client.cart.get_view');
+Route::get('/cart_update','CartController@cart_update')->name('client.cart.update');
+
+Route::delete('/cart_remove','CartController@cart_remove')->name('client.cart.remove');
+
+Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 
 
 

@@ -32,5 +32,10 @@ class ComposerServiceProvider extends ServiceProvider
             'layouts.client.cart',
             'App\Http\ViewComposers\ViewComposer@cart_sidebar'
         );
+
+        view()->composer(
+            'client.recent_view',
+            'App\Http\ViewComposers\ViewComposer@recent_view'
+        );
     }
 }

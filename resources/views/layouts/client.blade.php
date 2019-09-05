@@ -146,6 +146,141 @@
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-scrolltofixed-min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery.fancybox.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/custom.js')}}"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('body').on('change','#sidebar-cart input[name=quantity]',function(){
+				var quantity = jQuery(this).val();
+				if(parseInt(quantity) < 1)
+				{
+					quantity = 1;
+					jQuery(this).val('1');
+				}
+
+				var pack_id = jQuery(this).data('pack');
+				var color_id = jQuery(this).data('color');
+
+				jQuery.ajax({
+					url: '{{route('client.cart.update')}}',
+					type: 'get',
+					dataType: 'text',
+					data: {
+						pack_id: pack_id,
+						color_id: color_id,
+						quantity: quantity
+					},
+					beforeSend: function(){
+						jQuery('.cart_bar').css('opacity',1);
+						var i = 0;
+						xd = setInterval(function(){
+							jQuery('.cart_bar').css('width',parseInt(i)+'%');
+							console.log(i);
+							i++;
+							if(i > 90) clearInterval(xd);
+						},10);
+					},
+					success: function(res){
+						console.log(res);
+						calculator();
+						clearInterval(xd);
+						jQuery('.cart_bar').css('width','100%');
+						setTimeout(function(){
+							jQuery('.cart_bar').css('width','0');
+							jQuery('.cart_bar').css('opacity',0);
+						},300);
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				})
+			})
+
+			jQuery('body').on('click','#sidebar-cart .CartItem__Remove',function(){
+				if(confirm("Bạn muốn xóa sản phẩm này ?"))
+				{
+					var pack_id = jQuery(this).data('pack');
+					var color_id = jQuery(this).data('color');
+					jQuery(this).parents('.CartItem').remove();
+					calculator();
+
+					if(check_cart() == 0)
+					{
+						jQuery('#sidebar-cart .CartItemWrapper').html('<p class="cart_empty">Giỏ hàng trống</p>');
+					}
+
+					jQuery.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}',
+						},
+						url: '{{route('client.cart.remove')}}',
+						type: 'post',
+						dataType: 'text',
+						data: {
+							pack_id: pack_id,
+							color_id: color_id,
+							_method: 'DELETE'
+						},
+						beforeSend: function(){
+
+						},
+						success: function(res){
+							console.log(res);
+						},
+						errors: function(errors){
+							console.log(errors);
+						}
+					})
+				}
+			})
+
+			jQuery('.header-pc .menu ul li.cart-btn ,.header-mobile .cart-xs').click(function(e) {
+				if(parseInt({{request()->is('gio-hang')}}) != 1)
+				{
+					e.preventDefault();
+					jQuery('body').css('overflow-y','hidden');
+					jQuery('#sidebar-cart .PageOverlay').css({
+						visibility: 'visible',
+						opacity: '.5'
+					});
+					jQuery('#sidebar-cart .Drawer').css({
+						transform: 'translateX(0)',
+						visibility: 'visible'
+					});
+				}
+			});
+			jQuery('.CollectionToolbar__Item--filter').click(function() {
+				jQuery('#filter .PageOverlay').css({
+					visibility: 'visible',
+					opacity: '.5'
+				});
+				jQuery('#filter .Drawer').css({
+					transform: 'translateX(0)',
+					visibility: 'visible'
+				});
+
+			});
+			jQuery('body').on('click','.PageOverlay',function() {
+				jQuery(this).css({
+					visibility: 'hidden',
+					opacity: '0'
+				});
+				jQuery('.Drawer').css('transform', 'translateX(calc(100vw - 65px))');
+				jQuery('body').css('overflow-y','auto');
+			});
+			jQuery('body').on('click','.Drawer .Drawer__Close',function() {
+				jQuery(this).parents('.Drawer').css({
+					transform: 'translateX(calc(100vw - 65px))',
+					visibility: 'hidden'
+				});
+
+				jQuery('.PageOverlay').css({
+					visibility: 'hidden',
+					opacity: '0'
+				});
+				jQuery('body').css('overflow-y','auto');
+			});
+
+		});
+	</script>
 	@yield('script')
 </body>
 </html>

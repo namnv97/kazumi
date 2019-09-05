@@ -86,12 +86,28 @@ class ViewComposer
                     'sale' => $pack->sale,
                     'quantity' => $ca['quantity']
                 );
-                if(!empty($color)) $item['color'] = $color->name;
+                if(!empty($color)){
+                    $item['color'] = $color->name;
+                    $item['color_id'] = $color->id;
+                }
                 $arr[] = $item;
             endforeach;
         endif;
 
         $view->with('cart_item',$arr);
+    }
+
+    public function recent_view(View $view)
+    {
+        $cok = request()->cookie('recent_view');
+        $arr = [];
+        if(!empty($cok)):
+            $arr = json_decode($cok,true);
+        endif;
+
+        $recents = Product::whereIn('id',$arr)->get();
+        
+        $view->with('recents',$recents);
     }
 
 

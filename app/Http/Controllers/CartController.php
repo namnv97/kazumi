@@ -7,9 +7,37 @@ use Illuminate\Http\Request;
 use App\Model\Pack;
 use App\Model\Product;
 use App\Model\Color;
+use App\Model\Option;
 
 class CartController extends Controller
 {
+    public function index(Request $request){
+        $cok = $request->cookie('cart_item');
+        $arr = [];
+        if(!empty($cok)):
+            $cart = json_decode($cok,true);
+            foreach($cart as $ca):
+                $pack = Pack::find($ca['pack_id']);
+                $color = Color::find($ca['color_id']);
+                $item = array(
+                    'product' => $pack->product()->name,
+                    'slug' => $pack->product()->slug,
+                    'pack_id' => $pack->id,
+                    'pack_name' => $pack->name,
+                    'image' => $pack->product()->gallery[0]->url,
+                    'price' => $pack->price,
+                    'sale' => $pack->sale,
+                    'quantity' => $ca['quantity']
+                );
+                if(!empty($color)){
+                    $item['color'] = $color->name;
+                    $item['color_id'] = $color->id;
+                }
+                $arr[] = $item;
+            endforeach;
+        endif;
+        return view('client.cart.index',['cart_item' => $arr]);
+    }
     public function add_to_cart(Request $request)
     {
     	$cok = $request->cookie('cart_item');
@@ -65,34 +93,71 @@ class CartController extends Controller
 
     	$cookie = cookie('cart_item', json_encode($cart) , 60*24*30);
 
-    	return response()->json(['num' => $num])->withCookie($cookie);
+        foreach($cart as $ca):
+            $pack = Pack::find($ca['pack_id']);
+            $color = Color::find($ca['color_id']);
+            $item = array(
+                'product' => $pack->product()->name,
+                'slug' => $pack->product()->slug,
+                'pack_id' => $pack->id,
+                'pack_name' => $pack->name,
+                'image' => $pack->product()->gallery[0]->url,
+                'price' => $pack->price,
+                'sale' => $pack->sale,
+                'quantity' => $ca['quantity']
+            );
+            if(!empty($color)){
+                $item['color'] = $color->name;
+                $item['color_id'] = $color->id;
+            }
+            $arr[] = $item;
+        endforeach;
+
+    	return response(view('client.cart.cart_sidebar',['cart_item' => $arr]))->withCookie($cookie);
     }
 
-    public function get_view(Request $request)
+    public function cart_update(Request $request)
     {
-        $cart = $request->cookie('cart_item');
-        $arr = [];
-        
-        if(!empty($cart)):
-            $cart = json_decode($cart,true);
-            foreach($cart as $ca):
-                $pack = Pack::find($ca['pack_id']);
-                $color = Color::find($ca['color_id']);
-                $arr[] = array(
-                    'product' => $pack->product()->name,
-                    'slug' => $pack->product()->slug,
-                    'pack_id' => $pack->id,
-                    'pack_name' => $pack->name,
-                    'image' => $pack->product()->gallery[0]->url,
-                    'price' => $pack->price,
-                    'sale' => $pack->sale,
-                    'quantity' => $ca['quantity']
-                );
+        $pack_id = $request->pack_id;
+        $color_id = (empty($request->color_id))?NULL:$request->color_id;
+        $quantity = $request->quantity;
+        $cok = $request->cookie('cart_item');
+        if(!empty($cok)):
+            $cart = json_decode($cok,true);
+            foreach($cart as $key => $ca):
+                if($pack_id == $ca['pack_id'] && $color_id == $ca['color_id']):
+                    $cart[$key]['quantity'] = $quantity;
+                endif;
             endforeach;
+
+            $cookie = cookie('cart_item',json_encode($cart),60*24*30);
+            return response('Cập nhật thành công')->withCookie($cookie);
         endif;
+        return response('Failure');        
+    }
 
-        return view('client.cart.cart_sidebar',['cart_item' => $arr]);
+    public function cart_remove(Request $request){
+        $pack_id = $request->pack_id;
+        $color_id = empty($request->color_id)?NULL:$request->color_id;
 
+        $cok = $request->cookie('cart_item');
+        if(!empty($cok)):
+            $cart = json_decode($cok,true);
+            foreach($cart as $key => $ca):
+                if($pack_id == $ca['pack_id'] && $color_id == $ca['color_id']):
+                    unset($cart[$key]);
+                endif;
+            endforeach;
+
+            $cookie = cookie('cart_item',json_encode($cart),60*24*30);
+            return response('Xóa thành công')->withCookie($cookie);
+        endif;
+    }
+
+    public function checkout()
+    {
+        $logo = Option::where('meta_key','logo')->first();
+        return view('client.cart.checkout',compact('logo'));
     }
 
 }
