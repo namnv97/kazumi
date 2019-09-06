@@ -32,6 +32,7 @@ class StoreCreateArticle extends FormRequest
         return [
             'title' => 'required',
             'slug' => 'required|unique:articles,slug',
+            'description' => 'required',
             'article_content' => 'required',
             'thumbnail' => 'required'
         ];
@@ -50,6 +51,7 @@ class StoreCreateArticle extends FormRequest
         return [
             'title' => 'Tiêu đề bài viết',
             'slug' => 'Đường dẫn bài viết',
+            'description' => 'Mô tả',
             'article_content' => 'Nội dung bài viết',
             'thumbnail' => 'Ảnh bài viết'
         ];

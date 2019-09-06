@@ -4,6 +4,8 @@ jQuery('.slide-bn-home').owlCarousel({
     nav:false,
     dots:true,
     animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    mouseDrag: true,
     smartSpeed:450,
     autoplay:true,
     autoplayTimeout:5500,

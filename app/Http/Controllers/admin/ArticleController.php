@@ -13,9 +13,15 @@ use App\Model\Article;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $key = $request->q;
+        if(!empty($key)):
+            $articles = Article::where('title','like',"%$key%")->orderBy('created_at','desc')->paginate(10);
+            $articles->withPath('?q='.$key);
+        else:
         $articles = Article::orderBy('created_at','desc')->paginate(10);
+        endif;
         return view('server.article.index',compact('articles'));
     }
 
@@ -26,11 +32,12 @@ class ArticleController extends Controller
 
     public function postCreate(StoreCreateArticle $request)
     {
-        $req = $request->only(['title','slug','article_content','thumbnail']);
+        $req = $request->only(['title','slug','description','article_content','thumbnail']);
         $article = new Article();
         foreach($req as $field => $val):
             $article->$field = $val;
         endforeach;
+        $article->user_id = Auth::user()->id;
         $article->save();
         return redirect()->route('admin.articles.edit',['id' => $article->id]);
     }
@@ -44,7 +51,14 @@ class ArticleController extends Controller
 
     public function postEdit(StoreEditArticle $request,$id = null)
     {
-        dd($request->all());
+        $req = $request->only(['title','slug','description','article_content','thumbnail']);
+        $id = $request->id;
+        $article = Article::find($id);
+        foreach($req as $field => $val):
+            $article->$field = $val;
+        endforeach;
+        $article->save();
+        return redirect()->route('admin.articles.edit',['id' => $article->id])->with('msg',"Cập nhật thành công");
     }
 
     public function delete($id)

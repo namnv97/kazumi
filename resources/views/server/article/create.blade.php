@@ -44,22 +44,33 @@ Thêm mới
 @section('content')
 <div class="page-articles">
 	<h1>Thêm mới</h1>
+	@if(session('errors'))
+	<div class="alert alert-warning">
+		@foreach(session('errors')->all() as $msg)
+		<p>{{$msg}}</p>
+		@endforeach
+	</div>
+	@endif
 	<form action="{{route('admin.articles.create')}}" method="post">
 		@csrf
 		<div class="row">
 			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 				<div class="form-group">
 					<label>Tiêu đề</label>
-					<input type="text" name="title" class="form-control" placeholder="Tiêu đề bài viết">
+					<input type="text" name="title" class="form-control" placeholder="Tiêu đề bài viết" value="{{old('title')}}">
 				</div>
 				<div class="form-group">
 					<label>Đường dẫn</label>
-					<input type="text" name="slug" class="form-control" placeholder="Đường dẫn bài viết">
+					<input type="text" name="slug" class="form-control" placeholder="Đường dẫn bài viết" value="{{old('slug')}}">
+				</div>
+				<div class="form-group">
+					<label>Mô tả</label>
+					<textarea name="description" rows="5" class="form-control" style="resize: vertical;">{!! old('description') !!}</textarea>
 				</div>
 				<div class="form-group">
 					<label>Nội dung</label>
-					<textarea name="article_content" id="article_content" rows="10" class
-					="form-control" style="resize: horizontal;" placeholder="Nội dung bài viết"></textarea>
+					<textarea name="article_content" id="article_content" rows="20" class
+					="form-control" style="resize: horizontal;" placeholder="Nội dung bài viết">{!! old('article_content') !!}</textarea>
 				</div>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">

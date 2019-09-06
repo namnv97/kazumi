@@ -37,6 +37,8 @@ CKEDITOR.editorConfig = function(config) {
 
     config.basicEntities = false;
 
+    config.height = eval(this.element.$.rows*30) + 'px';
+
 
     // Simplify the dialog windows.
     config.removeDialogTabs = 'image:advanced;link:advanced';

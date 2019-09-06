@@ -44,7 +44,19 @@ Cập nhật bài viết
 @section('content')
 <div class="page-articles">
 	<h1>Cập nhật bài viết</h1>
-	<form action="{{route('admin.articles.create')}}" method="post">
+	@if(session('errors'))
+	<div class="alert alert-warning">
+		@foreach(session('errors')->all() as $msg)
+		<p>{{$msg}}</p>
+		@endforeach
+	</div>
+	@endif
+	@if(session('msg'))
+	<div class="alert alert-success">
+		<p>{{session('msg')}}</p>
+	</div>
+	@endif
+	<form action="{{route('admin.articles.edit')}}" method="post">
 		@csrf
 		<input type="hidden" name="id" value="{{$article->id}}">
 		<div class="row">
@@ -58,9 +70,13 @@ Cập nhật bài viết
 					<input type="text" name="slug" class="form-control" placeholder="Đường dẫn bài viết" value="{{$article->slug}}">
 				</div>
 				<div class="form-group">
+					<label>Mô tả</label>
+					<textarea name="description" rows="5" class="form-control" style="resize: vertical;">{!! $article->description !!}</textarea>
+				</div>
+				<div class="form-group">
 					<label>Nội dung</label>
-					<textarea name="article_content" id="article_content" rows="10" class
-					="form-control" style="resize: horizontal;" placeholder="Nội dung bài viết">{!! $article->article_content !!}</textarea>
+					<textarea name="article_content" id="article_content" rows="20" class
+					="form-control" style="resize: vertical;" placeholder="Nội dung bài viết">{!! $article->article_content !!}</textarea>
 				</div>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">

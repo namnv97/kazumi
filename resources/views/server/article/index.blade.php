@@ -8,6 +8,41 @@ Tất cả bài viết
 	{
 		word-wrap: wrap;
 	}
+
+	.page-articles .form-search
+	{
+		margin: 10px 0;
+	}
+
+	.page-articles .form-search form
+	{
+		width: 40%;
+		padding-right: 50px;
+		position: relative;
+	}
+
+	.page-articles .form-search form input
+	{
+		width: calc(100%-50px);
+		margin-bottom: 0;
+		outline: none;
+	}
+
+	.page-articles .form-search form input:focus
+	{
+		outline: none;
+		border-color: #ccc;
+	}
+
+	.page-articles .form-search form button
+	{
+		position: absolute;
+		width: 50px;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		outline: none;
+	}
 </style>
 @endsection
 @section('content')
@@ -15,8 +50,8 @@ Tất cả bài viết
 	<h1>Tất cả bài viết</h1>
 	<a href="{{route('admin.articles.create')}}" class="btn btn-md btn-primary">Thêm mới</a>
 	<div class="form-search">
-		<form action="" method="get">
-			<input type="text" name="s" class="form-control">
+		<form action="{{route('admin.articles.index')}}" method="get">
+			<input type="text" name="q" class="form-control" placeholder="Tiêu đề bài viết" value="{{request()->q}}">
 			<button type="submit"><i class="fa fa-search"></i></button>
 		</form>
 	</div>
@@ -38,10 +73,10 @@ Tất cả bài viết
 				<td>{{($articles->currentPage() - 1) * $articles->perPage() + $key + 1}}</td>
 				<td>{{$article->title}}</td>
 				<td>
-					<div class="article_excerpt">{{$article->excerpt()}}</div>
+					<div class="article_excerpt">{{$article->description}}</div>
 				</td>
 				<td>
-					<a href="#" class="btn btn-sm btn-info" title="Xem bài viết" target="_blank"><i class="fa fa-eye"></i> Xem</a>
+					<a href="{{route('client.articles.single',['slug'=>$article->slug])}}" class="btn btn-sm btn-info" title="Xem bài viết" target="_blank"><i class="fa fa-eye"></i> Xem</a>
 				</td>
 				<td>
 					<a href="{{route('admin.articles.edit',['id' => $article->id])}}" class="btn btn-sm btn-warning" title="Sửa bài viết"><i class="fa fa-edit"></i> Sửa</a>
