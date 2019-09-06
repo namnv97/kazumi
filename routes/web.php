@@ -137,3 +137,5 @@ Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 Auth::routes();
 
 Route::get('/','HomeController@index')->name('home');
+
+Route::get('collection/{id}','HomeController@getCollection')->name('collection');
