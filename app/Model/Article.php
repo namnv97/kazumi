@@ -14,4 +14,9 @@ class Article extends Model
 
     	return $excerpt;
     }
+
+    public function user()
+    {
+    	return $this->belongsTo('App\Model\User','user_id','id')->first();
+    }
 }

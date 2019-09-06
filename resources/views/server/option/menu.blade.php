@@ -234,9 +234,9 @@ Thiết lập Menu
 						<h3>Bài viết</h3>
 						<ul>
 							@if(count($articles) > 0)
-							@foreach($articles as $articles)
-							<li data-url="{{$page->slug}}">
-								<span>{{$page->title}}</span>
+							@foreach($articles as $article)
+							<li data-url="{{$article->slug}}">
+								<span>{{$article->title}}</span>
 							</li>
 							@endforeach
 							<li class="text-right">
@@ -262,12 +262,13 @@ Thiết lập Menu
 
 				<section id="demo">
 					<ol class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">
-						@if(!empty($menus))
+						@if(!empty($menus->meta_value))
 						@php
-						$menus = json_decode($menus->meta_value,true)
+						$menus = json_decode($menus->meta_value,true);
+						$i = 0;
 						@endphp
-						@foreach($menus as $key => $menu)
-						<li style="display: list-item;" class="mjs-nestedSortable-leaf" id="menuItem_{{$key}}">
+						@foreach($menus as $menu)
+						<li style="display: list-item;" class="mjs-nestedSortable-leaf" id="menuItem_{{$i}}">
 							<div class="menuDiv">
 								<span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick">
 									<span></span>
@@ -276,12 +277,12 @@ Thiết lập Menu
 									<span></span>
 								</span>
 								<span>
-									<span data-id="{{$key}}" data-href="{{$menu['url']}}" class="itemTitle">{{$menu['text']}}</span>
-									<span title="Click to delete item." data-id="{{$key}}" class="deleteMenu ui-icon ui-icon-closethick">
+									<span data-id="{{$i}}" data-href="{{$menu['url']}}" class="itemTitle menu{{$i}}">{{$menu['text']}}</span>
+									<span title="Click to delete item." data-id="{{$i}}" class="deleteMenu ui-icon ui-icon-closethick">
 										<span></span>
 									</span>
 								</span>
-								<div id="key{{$key}}" class="menuEdit">
+								<div id="menuEdit{{$i}}" class="menuEdit">
 									<p>
 										Link gốc: <a href="{{$menu['url']}}">{{$menu['url']}}</a>
 									</p>
@@ -289,8 +290,11 @@ Thiết lập Menu
 							</div>
 							@if(isset($menu['children']))
 							<ol>
-								@foreach($menu['children'] as $keyy => $item)
-								<li style="display: list-item;" class="mjs-nestedSortable-leaf" id="menuItem_{{$keyy}}">
+								@foreach($menu['children'] as  $item)
+								@php
+								$i ++;
+								@endphp
+								<li style="display: list-item;" class="mjs-nestedSortable-leaf" id="menuItem_{{$i}}">
 									<div class="menuDiv">
 										<span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick">
 											<span></span>
@@ -299,12 +303,12 @@ Thiết lập Menu
 											<span></span>
 										</span>
 										<span>
-											<span data-id="{{$key}}" data-href="{{$item['url']}}" class="itemTitle">{{$item['text']}}</span>
-											<span title="Click to delete item." data-id="{{$keyy}}" class="deleteMenu ui-icon ui-icon-closethick">
+											<span data-id="{{$i}}" data-href="{{$item['url']}}" class="itemTitle menu{{$i}}">{{$item['text']}}</span>
+											<span title="Click to delete item." data-id="{{$i}}" class="deleteMenu ui-icon ui-icon-closethick">
 												<span></span>
 											</span>
 										</span>
-										<div id="keyy{{$keyy}}" class="menuEdit">
+										<div id="menuEdit{{$i}}" class="menuEdit">
 											<p>
 												Link gốc: <a href="{{$item['url']}}">{{$item['url']}}</a>
 											</p>
@@ -315,6 +319,9 @@ Thiết lập Menu
 							</ol>
 							@endif
 						</li>
+						@php
+						$i ++;
+						@endphp
 						@endforeach
 
 						@endif
@@ -352,25 +359,19 @@ Thiết lập Menu
 					excludeRoot: true,
 					rootID:"root"
 				});
-
-				$('.expandEditor').attr('title','Click to show/hide item editor');
-				$('.disclose').attr('title','Click to show/hide children');
-				$('.deleteMenu').attr('title', 'Click to delete item.');
-
+				
 				$('.disclose').on('click', function() {
 					$(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
 					$(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
 				});
 
 				$('.expandEditor, .itemTitle').click(function(){
-					var id = $(this).attr('data-id');
-					$('#menuEdit'+id).toggle();
+					$(this).next().next().toggle();
 					$(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
 				});
 
 				$('.deleteMenu').click(function(){
-					var id = $(this).attr('data-id');
-					$('#menuItem_'+id).remove();
+					jQuery(this).parents('li').first().remove();
 				});
 			});	
 		}	
@@ -415,12 +416,12 @@ Thiết lập Menu
 						<span></span>
 						</span>
 						<span>
-						<span data-id="`+i+`" data-href="`+url+`" class="itemTitle">`+text+`</span>
+						<span data-id="`+i+`" data-href="`+url+`" class="itemTitle menu`+i+`">`+text+`</span>
 						<span title="Click to delete item." data-id="`+i+`" class="deleteMenu ui-icon ui-icon-closethick">
 						<span></span>
 						</span>
 						</span>
-						<div id="`+i+`" class="menuEdit">
+						<div id="menuEdit`+i+`" class="menuEdit">
 						<p>
 						Link gốc: <a href="`+url+`">`+url+`</a>
 						</p>
@@ -449,12 +450,12 @@ Thiết lập Menu
 						<span></span>
 						</span>
 						<span>
-						<span data-id="`+i+`" data-href="`+url+`" class="itemTitle">`+text+`</span>
+						<span data-id="`+i+`" data-href="`+url+`" class="itemTitle menu`+i+`">`+text+`</span>
 						<span title="Click to delete item." data-id="`+i+`" class="deleteMenu ui-icon ui-icon-closethick">
 						<span></span>
 						</span>
 						</span>
-						<div id="`+i+`" class="menuEdit">
+						<div id="menuEdit`+i+`" class="menuEdit">
 						<p>
 						Link gốc: <a href="`+url+`">`+url+`</a>
 						</p>
@@ -477,7 +478,9 @@ Thiết lập Menu
 
 			jQuery('.btn__submit').on('click',function(e){
 				var loading = jQuery(this).prev();
+				jQuery(this).parents('#demo').find('.alert').remove();
 				hiered = jQuery('ol.sortable').nestedSortable('toHierarchy', {startDepthCount: 0});
+				console.log(hiered);
 				var menu = [];
 				hiered.forEach(function(e){
 					var item = {};
@@ -485,13 +488,16 @@ Thiết lập Menu
 					var text = jQuery('span[data-id='+e.id+']').text();
 					text = text.replace('/  /gi',' ');
 					item.url = url;
+					text = text.replace(/\n/g,'');
+					text = text.replace(/\s\s+/g,'');
 					item.text = text;
 					if(typeof e.children != "undefined")
 					{
 						var child = [];
 						e.children.forEach(function(ev){
-							var urle = jQuery('span[data-id='+ev.id+']').data('href');
-							var texte = jQuery('span[data-id='+ev.id+']').text();
+							console.log();
+							var urle = jQuery('span.menu'+ev.id).data('href');
+							var texte = jQuery('span.menu'+ev.id).text();
 							child.push({'url':urle,'text':texte});
 						})
 						item.children = child;
@@ -499,6 +505,7 @@ Thiết lập Menu
 
 					menu.push(item);
 				});
+
 				jQuery.ajax({
 					headers: {
 						'X-CSRF-TOKEN': '{{ csrf_token() }}',

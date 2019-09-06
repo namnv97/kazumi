@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
     public function archive()
     {
-    	$articles = Article::orderBy('created_at','desc')->paginate(1);
+    	$articles = Article::orderBy('created_at','desc')->paginate(12);
     	return view('client.article.archive',compact('articles'));
 
     }
@@ -24,7 +24,14 @@ class ArticleController extends Controller
 
     	$article = Article::where('slug',$slug)->first();
 
-    	return view('client.article.single',compact('article'));
+        $relates = Article::where('id','<>',$article->id)
+        ->orderBy('created_at','desc')
+        ->take(2)
+        ->select('title','slug','thumbnail')
+        ->get()
+        ->toArray();
+
+    	return view('client.article.single',compact('article','relates'));
 
     }
 }

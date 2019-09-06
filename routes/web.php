@@ -106,6 +106,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/check_slug','ArticleController@check_slug')->name('admin.articles.check_slug');
 	});
 
+	Route::group(['prefix' => 'forms'],function(){
+		Route::get('/','FormController@index')->name('admin.forms.index');
+	});
 });
 
 
@@ -138,6 +141,12 @@ Route::get('search','HomeController@getSearch')->name('client.search');
 Route::get('/news','ArticleCOntroller@archive')->name('client.articles.archive');
 
 Route::get('/post/{slug?}','ArticleController@article')->name('client.articles.single');
+
+Route::get('/lien-he',function(){
+	return view('client.page.contact');
+})->name('client.page.contact');
+
+Route::post('/formdata','FormController@formdata')->name('client.form.data');
 
 
 Auth::routes();

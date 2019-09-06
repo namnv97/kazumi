@@ -51,10 +51,15 @@
 							<h4 class="title-ft">NEWSLETTER</h4>
 							<div class="info-ft">
 								<p>Subscribe to receive updates, access to exclusive deals, and more.</p>
-								<form>
-									<input type="email" name="" placeholder="Enter your email address" class="form-control">
-									<button type="submit" class="ButtonGroup__Item Button">SUBSCRIBE</button>
-								</form>
+								<div class="form-register">
+									<input type="email" name="email" placeholder="Enter your email address" class="form-control">
+									<button class="ButtonGroup__Item Button">SUBSCRIBE</button>
+									<div class="ajax-loaded"></div>
+									<div class="response">
+										<div class="text"></div>
+										<i class="fa fa-times" title="Ẩn thông báo"></i>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

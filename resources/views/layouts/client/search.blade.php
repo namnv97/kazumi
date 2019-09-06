@@ -35,10 +35,10 @@
 											<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
 											<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
 											@if($sale != "")
-											<span class="price"><span class="price-sale">${{$value->price()->sale}} USD</span> 
-											<span class="old-price"> ${{$value->price()->price}} USD</span></span>
+											<span class="price"><span class="price-sale">${{$value->price()->sale}} VND</span> 
+											<span class="old-price"> ${{$value->price()->price}} VND</span></span>
 											@else
-											<span class="price">FROM <span>${{$value->price()->price}} USD</span></span>
+											<span class="price">FROM <span>${{$value->price()->price}} VND</span></span>
 											
 											@endif
 										</div>

@@ -65,7 +65,7 @@
 	    					@foreach($mega_product as $mage)
 	    					<div class="col-lg-6 col-md-6">
 	    						<div class="MegaMenu__Push MegaMenu__Push--shrink">
-	    							<a class="MegaMenu__PushLink" href="{{$mage['slug']}}">
+	    							<a class="MegaMenu__PushLink" href="{{route('client.product.index',['slug' => $mage['slug']])}}">
 	    								<div class="MegaMenu__PushImageWrapper AspectRatio">
           									<img class="Image--fadeIn Image--lazyLoaded" alt="" src="{{asset($mage['image'])}}">
         								</div>
