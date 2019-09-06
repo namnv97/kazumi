@@ -101,9 +101,11 @@ class HomeController extends Controller
     }
 
 
-    public function getCollection($id,Request $rq)
+    public function getCollection($slug,Request $rq)
     {
-        $collection = Collection::find($id);
+        $collection = Collection::where('slug',$slug)->first();
+        $id = $collection->id;
+        $name = $collection->name;
         
         
         $products = Product::join('packs', 'packs.product_id', '=', 'products.id')
@@ -154,6 +156,6 @@ class HomeController extends Controller
     
        
         
-        return view('client.collection',compact('products'));
+        return view('client.collection',compact('products','name'));
     }
 }

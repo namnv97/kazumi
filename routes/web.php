@@ -138,4 +138,4 @@ Auth::routes();
 
 Route::get('/','HomeController@index')->name('home');
 
-Route::get('collection/{id}','HomeController@getCollection')->name('collection');
+Route::get('collection/{slug}','HomeController@getCollection')->name('collection');
