@@ -108,3 +108,5 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 Auth::routes();
 
 Route::get('/','HomeController@index')->name('home');
+
+Route::get('collection/{id}','HomeController@getCollection')->name('collection');

@@ -12,6 +12,7 @@ use App\Http\Requests\StoreOptionFooter;
 use App\Model\Option;
 use App\Model\Product;
 use App\Model\Collection;
+use Validator;
 
 class OptionController extends Controller
 {
@@ -118,7 +119,38 @@ class OptionController extends Controller
         // print_r($rq->all());
         // print_r($rq->collecttion);
         // die();
+        $validator = Validator::make($rq->all(), [
+            'gallery' => 'required',
+            'product_id' => 'required',
+            'about_title1' => 'required',
+            'about_title2' => 'required',
+            'about_gallery' => 'required|image',
+            'video' => 'required',
+            'video_title1' => 'required',
+            'video_title2' => 'required',
+            'video_gallery' => 'required',
+            'product_look_product' => 'required',
+            'product_look_gallery' => 'required',
 
+            'collecttion' => 'required',
+            'gallery_col' => 'required',
+            'collection_title' => 'required',
+            'look_title1' => 'required',
+            'look_title2' => 'required',
+            
+
+        ],[
+            'gallery.required' => 'Chưa nhập ảnh nền',
+            'about_title1.required' => 'Chưa nhập tiêu đề giới thiệu 1',
+            'about_title2.required' => 'Chưa nhập tiêu đề giới thiệu 2',
+            'about_gallery.required' => 'Chưa nhập ảnh nền giới thiệu',
+            'video.required' => 'Chưa nhập link video'
+        ]);
+        if ($validator->fails()) {
+            return redirect('admin/options/home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         
         $option_slide = Option::where('meta_key','slide')->delete();
         foreach ($rq->gallery as $key => $value) 
