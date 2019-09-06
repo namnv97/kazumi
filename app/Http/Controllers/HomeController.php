@@ -31,26 +31,28 @@ class HomeController extends Controller
 
         $slides = Option::where('meta_key','slide')->get();
         $product = Option::where('meta_key','product')->get();
-        
+        if(!empty($product)):
         foreach ($product as $key => $value) {
             if($key == 0)
-                $pro = $pro->where('id',$value->meta_value);
+                $pro = Product::where('id',$value->meta_value);
             else
                 $pro = $pro->orWhere('id',$value->meta_value);
         }
-
+        endif;
         $products = isset($pro) ? $pro->get() : [];
 
 
         $collection_id = Option::where('meta_key','collection')->get();
 
-       
+        if(!empty($collection_id)):
         foreach ($collection_id as $key => $value) {
             if($key == 0)
-                $collections = $collections->where('id',$value->meta_value);
+                $collections = Collection::where('id',$value->meta_value);
             else
                 $collections = $collections->orWhere('id',$value->meta_value);
         }
+        endif;
+
 
         //$collections = $collections->get();
         $collections = isset($collections) ? $collections->get() : [];
@@ -71,13 +73,14 @@ class HomeController extends Controller
 
         $product_look_id = Option::where('meta_key','product_look_product')->get();
 
-       
+        if(!empty($product_look_id)):
         foreach ($product_look_id as $key => $value) {
             if($key == 0)
-                $products_look = $products_look->where('id',$value->meta_value);
+                $products_look = Product::where('id',$value->meta_value);
             else
                 $products_look = $products_look->orWhere('id',$value->meta_value);
         }
+        endif;
 
         $products_look = isset($products_look) ? $products_look->get() : [];
 
