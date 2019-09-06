@@ -154,6 +154,7 @@ class OptionController extends Controller
         $products = Product::all();
         $collections = Collection::all();
         $slide = Option::where('meta_key','slide')->get();
+
         $product = Option::where('meta_key','product')->get();
         $about_title1 = Option::where('meta_key','about_title1')->get();
         $about_title2 = Option::where('meta_key','about_title2')->get();
@@ -177,38 +178,46 @@ class OptionController extends Controller
 
     public function postHome(Request $rq)
     {
-        // $validator = Validator::make($rq->all(), [
-        //     'gallery' => 'required',
-        //     'product_id' => 'required',
-        //     'about_title1' => 'required',
-        //     'about_title2' => 'required',
-        //     'about_gallery' => 'required|image',
-        //     'video' => 'required',
-        //     'video_title1' => 'required',
-        //     'video_title2' => 'required',
-        //     'video_gallery' => 'required',
-        //     'product_look_product' => 'required',
-        //     'product_look_gallery' => 'required',
+        $validator = Validator::make($rq->all(), [
+            'gallery' => 'required',
+            'product_id' => 'required',
+            'about_title1' => 'required',
+            'about_title2' => 'required',
+            'gallery_about' => 'required',
+            'video' => 'required',
+            'video_title1' => 'required',
+            'video_title2' => 'required',
+            'video_gallery' => 'required',
+            'product_id_look' => 'required',
+            'gallery_look' => 'required',
 
-        //     'collecttion' => 'required',
-        //     'gallery_col' => 'required',
-        //     'collection_title' => 'required',
-        //     'look_title1' => 'required',
-        //     'look_title2' => 'required',
+            'collecttion' => 'required',
+            'gallery_col' => 'required',
+            'collection_title' => 'required',
+            'look_title1' => 'required',
+            'look_title2' => 'required',
             
 
-        // ],[
-        //     'gallery.required' => 'Chưa nhập ảnh nền',
-        //     'about_title1.required' => 'Chưa nhập tiêu đề giới thiệu 1',
-        //     'about_title2.required' => 'Chưa nhập tiêu đề giới thiệu 2',
-        //     'about_gallery.required' => 'Chưa nhập ảnh nền giới thiệu',
-        //     'video.required' => 'Chưa nhập link video'
-        // ]);
-        // if ($validator->fails()) {
-        //     return redirect('admin/options/home')
-        //                 ->withErrors($validator)
-        //                 ->withInput();
-        // }
+        ],[
+            'gallery.required' => 'Chưa nhập ảnh nền',
+            'about_title1.required' => 'Chưa nhập tiêu đề giới thiệu 1',
+            'about_title2.required' => 'Chưa nhập tiêu đề giới thiệu 2',
+            'gallery_about.required' => 'Chưa nhập ảnh nền giới thiệu',
+            'video.required' => 'Chưa nhập link video',
+            'video_title1.required' => 'Chưa nhập tiêu đề video 1',
+            'video_title2.required' => 'Chưa nhập tiêu đề video 2',
+            'video_gallery.required' => 'Chưa ảnh nền video',
+            'gallery_look.required' => 'Chưa ảnh nền sản phẩm',
+            'gallery_col.required' => 'Chưa ảnh nền bộ sưu tập',
+            'collection_title.required' => 'Chưa tiều đề bộ sưu tập',
+            'look_title1.required' => 'Chưa tiêu đề 1 sản phẩm',
+            'look_title2.required' => 'Chưa tiêu đề 2 sản phẩm',
+        ]);
+        if ($validator->fails()) {
+            return redirect('admin/options/home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         $option_slide = Option::where('meta_key','slide')->delete();
         foreach ($rq->gallery as $key => $value) 
         {
@@ -347,6 +356,9 @@ class OptionController extends Controller
         $option->meta_key = 'look_title2';    
         $option->meta_value = $rq->look_title2; 
         $option->save();
+
+
+        return redirect('admin/options/home')->with('msg','Cập nhật hành Công !');
 
     }
 

@@ -41,68 +41,43 @@
 	    			<div class="PageLayout__Section">
 	    				<div class="Segment">
 	    					<div class="Segment__Title Segment__Title--flexed">
-	    						<span class="Heading Text--subdued u-h7">37 results</span>
+	    						<span class="Heading Text--subdued u-h7 total_result_search">{{count($pros)}} results</span>
 	    						<a class="Heading Link Link--secondary u-h7" href="#">View all</a>
 	    					</div>
 	    					<div class="Segment__Content">
-	    						<div class="row">
+	    						<div class="row result_search" >
+	    							@foreach($pros as $key => $value)
 	    							<div class="col-md-4 col-sm-4 col-xs-12">
 	    								<div class="product-item">
 											<div class="pro-img">
 												<a href="#">
-													<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-accessories-eyelash-companion-glue-open_400x.jpg?v=1552317290" alt="">
+													<img src="{{$value->gallery[0]->url}}" alt="">
 													<div class="img-hide">
-														<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-accessories-eyelash-companion-glue_900x.jpg?v=1552317290" alt="">
+														<?php $a = 0; ?>
+														<img src="{{$a}}" alt="">
 													</div>
 												</a>
 											</div>
 											<div class="info-product">
-												<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-												<span class="price">FROM <span>$22.00 USD</span></span>
+												<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
+												<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
+												@if($sale != "")
+												<span class="price"><span class="price-sale">${{$value->price()->sale}} USD</span> 
+												<span class="old-price"> ${{$value->price()->price}} USD</span></span>
+												@else
+												<span class="price">FROM <span>${{$value->price()->price}} USD</span></span>
+												
+												@endif
 											</div>
+											@if($sale != "")
 											<div class="tag-stt">
 												<span>On sale</span>
 											</div>
+											@endif
 										</div>
 	    							</div>
-	    							<div class="col-md-4 col-sm-4 col-xs-12">
-										<div class="product-item">
-											<div class="pro-img">
-												<a href="#">
-													<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-unisyn-lashes-peace_love_400x.jpg?v=1551684701" alt="">
-													<div class="img-hide">
-														<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esq-unisyn-false-eyelashes-peace-and-love_61716f75-d011-421a-94ff-fb9bab042d0f_300x.jpg?v=1551684702" alt="">
-													</div>
-												</a>
-											</div>
-											<div class="info-product">
-												<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-												<span class="price">FROM <span>$22.00 USD</span></span>
-											</div>
-											<div class="tag-stt">
-												<span>Sold out</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-4 col-sm-4 col-xs-12">
-	    								<div class="product-item">
-											<div class="pro-img">
-												<a href="#">
-													<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-accessories-eyelash-companion-glue-open_400x.jpg?v=1552317290" alt="">
-													<div class="img-hide">
-														<img src="https://cdn.shopify.com/s/files/1/0250/1519/products/esqido-accessories-eyelash-companion-glue_900x.jpg?v=1552317290" alt="">
-													</div>
-												</a>
-											</div>
-											<div class="info-product">
-												<h3 class="title-pro"><a href="#">COMPANION EYELASH GLUE</a></h3>
-												<span class="price">FROM <span>$22.00 USD</span></span>
-											</div>
-											<div class="tag-stt">
-												<span>On sale</span>
-											</div>
-										</div>
-	    							</div>
+	    							@endforeach
+	    							
 	    						</div>
 	    					</div>
 	    				</div>
@@ -278,6 +253,135 @@
 				});
 				jQuery('body').css('overflow-y','auto');
 			});
+
+			var timeout = null;
+			jQuery('body').on('keyup','.Search__Input',function(){
+				$('.result_search').html('Searching...')
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function (){
+					$.ajax({
+						url : "{{route('client.search')}}",
+						method : 'get',
+						dataType : 'json',
+						cache: false,
+						data :  {key : jQuery('.Search__Input').val()},
+						success(results){
+							let html = ``;
+							$.each(results.data, function(key,val) { 
+								var p = 0;
+								if(val.sale == 0)
+								{
+									p = val.price;
+								}
+								else
+									p = val.sale;            
+					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
+		    								<div class="product-item">
+												<div class="pro-img">
+													<a href="#">
+														<img src="`+val.img+`" alt="">
+														<div class="img-hide">
+															<img src="`+val.img1+`" alt="">
+														</div>
+													</a>
+												</div>
+												
+												`
+
+								if(val.sale != 0)
+									html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
+													<span class="old-price"> $`+val.price+` USD</span></span>
+												</div>
+												<div class="tag-stt">
+													<span>On sale</span>
+												</div>
+											</div>
+		    							</div>`
+		    					else
+		    						html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price">FROM <span>$`+val.price+` USD</span></span>
+												</div>
+											</div>
+		    							</div>`
+					        });  
+
+					        $('.result_search').html(html) 
+							$('.total_result_search').html(results.total+ ' results')
+							
+							
+						}
+
+					})
+				},1000);
+			})
+
+			jQuery('body').on('keydown','.Search__Input',function(){
+				$('.result_search').html('Searching...')
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function (){
+					$.ajax({
+						url : "{{route('client.search')}}",
+						method : 'get',
+						dataType : 'json',
+						cache: false,
+						data :  {key : jQuery('.Search__Input').val()},
+						success(results){
+							let html = ``;
+							$.each(results.data, function(key,val) { 
+								var p = 0;
+								if(val.sale == 0)
+								{
+									p = val.price;
+								}
+								else
+									p = val.sale;            
+					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
+		    								<div class="product-item">
+												<div class="pro-img">
+													<a href="#">
+														<img src="`+val.img+`" alt="">
+														<div class="img-hide">
+															<img src="`+val.img1+`" alt="">
+														</div>
+													</a>
+												</div>
+												
+												`
+
+								if(val.sale != 0)
+									html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
+													<span class="old-price"> $`+val.price+` USD</span></span>
+												</div>
+												<div class="tag-stt">
+													<span>On sale</span>
+												</div>
+											</div>
+		    							</div>`
+		    					else
+		    						html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price">FROM <span>$`+val.price+` USD</span></span>
+												</div>
+											</div>
+		    							</div>`
+					        });  
+
+					        $('.result_search').html(html) 
+							$('.total_result_search').html(results.total+ ' results')
+							
+							
+						}
+
+					})
+				},1000);
+			})
 
 		});
 	</script>

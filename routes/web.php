@@ -139,3 +139,5 @@ Auth::routes();
 Route::get('/','HomeController@index')->name('home');
 
 Route::get('collection/{slug}','HomeController@getCollection')->name('collection');
+
+Route::get('search','HomeController@getSearch')->name('client.search');

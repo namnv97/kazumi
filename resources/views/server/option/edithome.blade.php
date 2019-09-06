@@ -111,18 +111,18 @@ Cập nhật
 			<!-- Tab content -->
 			
 			<div id="slide" class="tabcontent">
-				<h3>Ảnh nền <span class="btn btn-success addTaskSlide" ><i class="fa fa-plus"></i></span></h3>
-				@if(empty($slide) && isset($slide))
+				<h3>Ảnh nền <span class="btn btn-success addTaskSlide" ></span></h3>
+				@if(!empty($slide) && isset($slide))
 				@foreach($slide as $key => $value)
 				<div id="list_more_slide">
 					<div class="row item_slide1">
 						<div class="form-group">
-				          	<input type="hidden" name="text-input" value="A"/>
+				          	
 				    		<div class="gallery">
 				    			<div class="img">
 									<img src="{{$value->meta_value}}" alt="image">
 									<input type="hidden" name="gallery[]" value="{{$value->meta_value}}">
-									<i class="fa fa-times"></i>
+									
 								</div>
 				    		</div>
 				    		<span style="height: 34px; line-height: 25px; font-size: 14px;" class="choose_gallery btn btn-sm btn-success">Chọn ảnh</span>
@@ -154,7 +154,7 @@ Cập nhật
 			</div>
 			<div id="product" class="tabcontent" >
 				<h3>Sản phẩm bán chạy <span class="btn btn-success addTask" ><i class="fa fa-plus"></i></span></h3>
-				@if(empty($product) && isset($product))
+				@if(!empty($product) && isset($product))
 				@foreach($product as $key => $pro)
 		   		<div id="list_more">
 					<div class="row item_p">
@@ -214,7 +214,7 @@ Cập nhật
 			</div>
 			<div id="collecttion" class="tabcontent" >
 				<h3>Bô sưu tập <span class="btn btn-success addTask" ><i class="fa fa-plus"></i></span></h3>
-				@if(empty($collection) && isset($collection))
+				@if(!empty($collection))
 				@foreach($collection as $k => $col)
 		   		<div id="list_more_col">
 					<div class="row item_col">
@@ -247,7 +247,7 @@ Cập nhật
 				    			<div class="img">
 									<img src="{{$collection_gallery[$k]->meta_value}}" alt="image">
 									<input type="hidden" name="gallery_col[]" value="{{$collection_gallery[$k]->meta_value}}">
-									<i class="fa fa-times"></i>
+									
 								</div>
 				    		</div>
 		         
@@ -313,7 +313,7 @@ Cập nhật
 			</div>
 			<div id="about" class="tabcontent" >
 				<h3>Giới thiệu</h3>
-				@if(empty($about_title1) && isset($about_title1))
+				@if(!empty($about_title1))
 				@foreach($about_title1 as $k => $col)
 				<div id="list_more_about">
 					<div class="row item_about" style="padding-left: 20px;">
@@ -406,7 +406,7 @@ Cập nhật
 							<div class="col-md-6 form-group">
 								<label>Ảnh đại diện video</label>
 								<div class="gallery">
-									@if(!isset($video_gallery) || !empty($video_gallery))
+									@if(empty($video_gallery))
 					    			<div class="img" style="width: 400px; height: 250px;">
 						    			<img src="" style="width: 100%; height: 250px;" />
 						    		</div>
@@ -454,7 +454,7 @@ Cập nhật
 							<input type="text" name="look_title2"  @if(!empty($look_title2)) value="{{$look_title2->meta_value}}"  @endif class="form-control">
 						</div>
 					</div>
-					@if(empty($product_look_product) && isset($product_look_product))
+					@if(!empty($product_look_product))
 					@foreach($product_look_product as $k => $pro)
 					<div class="row item_h" style="padding-top: 40px;">
 
@@ -571,7 +571,7 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery[]" value="`+url+`">
-									<i class="fa fa-times"></i>
+									
 								</div>
 								`)
 							});
@@ -593,7 +593,7 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery_about[]" value="`+url+`">
-									<i class="fa fa-times"></i>
+									
 								</div>
 								`)
 							});
@@ -615,7 +615,7 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery_col[]" value="`+url+`">
-									<i class="fa fa-times"></i>
+									
 								</div>
 								`)
 							});
@@ -637,7 +637,7 @@ Cập nhật
 								<div class="img">
 									<img src="`+url+`" alt="image">
 									<input type="hidden" name="gallery_look[]" value="`+url+`">
-									<i class="fa fa-times"></i>
+									
 								</div>
 								`)
 							});
