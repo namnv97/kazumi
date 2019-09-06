@@ -14,12 +14,12 @@
 				<div class="PageLayout__Section">
 					<div class="Segment">
 						<div class="Segment__Title Segment__Title--flexed">
-							<span class="Heading Text--subdued u-h7 total_result_search">{{count($pros)}} kết quả</span>
+							<span class="Heading Text--subdued u-h7 total_result_search"></span>
 							<a class="Heading Link Link--secondary u-h7" href="#">Xem tất cả</a>
 						</div>
 						<div class="Segment__Content">
 							<div class="row result_search" >
-								@foreach($pros as $key => $value)
+								<!-- @foreach($pros as $key => $value)
 								<div class="col-md-4 col-sm-4 col-xs-12">
 									<div class="product-item">
 										<div class="pro-img">
@@ -49,7 +49,7 @@
 										@endif
 									</div>
 								</div>
-								@endforeach
+								@endforeach -->
 								
 							</div>
 						</div>
@@ -61,23 +61,13 @@
 				<div class="PageLayout__Section PageLayout__Section--secondary">
 					<div class="Segment">
 						<div class="Segment__Title Segment__Title--flexed">
-							<span class="Heading Text--subdued u-h7">Pages &amp; Journal</span>
-							<a class="Heading Link Link--secondary u-h7" href="#">View all</a>
+							<span class="Heading Text--subdued u-h7">Bài viết & Trang</span>
+							<a class="Heading Link Link--secondary u-h7" href="#">Xem tất cả</a>
 						</div>
 						<div class="Segment__Content">
-							<ul class="Linklist">
-								<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">3 Reasons to Attend IMATS With ESQIDO</a>
-								</li>
-								<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">ESQIDO officially launches in Holt Renfrew + Launch event recap</a>
-								</li>
-								<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">This Winter, Embrace Self-Care</a>
-								</li>
-								<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">Terms and Conditions</a>
-								</li>
+
+							<ul class="Linklist result_search_ul">
+								
 							</ul>
 						</div>
 					</div>
