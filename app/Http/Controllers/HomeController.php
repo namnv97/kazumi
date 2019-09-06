@@ -101,9 +101,11 @@ class HomeController extends Controller
     }
 
 
-    public function getCollection($id,Request $rq)
+    public function getCollection($slug,Request $rq)
     {
-        $collection = Collection::find($id);
+        $collection = Collection::where('slug',$slug)->first();
+        $id = $collection->id;
+        $name = $collection->name;
         
         
         $products = Product::join('packs', 'packs.product_id', '=', 'products.id')
@@ -154,6 +156,30 @@ class HomeController extends Controller
     
        
         
-        return view('client.collection',compact('products'));
+        return view('client.collection',compact('products','name'));
+    }
+
+    public function getSearch(Request $rq)
+    {
+        $key = '%'.$rq->key.'%';
+
+        $products = $data = Product::where('name','like',$key)->orWhere('description','like',$key)->orWhere('product_content','like',$key)->get();
+
+
+
+        foreach ($products as $key => $value) {
+            $a = isset($value->gallery[1]->url)?$value->gallery[1]->url:$value->gallery[0]->url;
+            $data[$key]['img'] = $value->gallery[0]->url;
+            $data[$key]['img1'] = $a;
+            $sale = $value->price()->sale ? $value->price()->sale : 0;
+            $data[$key]['sale'] = $sale;
+            $data[$key]['price'] = $value->price()->price;
+            
+        }
+
+        $respone = ['data' => $data , 'total' => count($products)];
+        echo json_encode($respone);
+
+
     }
 }

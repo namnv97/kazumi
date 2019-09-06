@@ -27,6 +27,7 @@
 	@include('layouts.client.footer')
 	@include('layouts.client.cart')
 	@include('layouts.client.search')
+	
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-ui.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/owl.carousel.min.js')}}"></script>
@@ -165,6 +166,135 @@
 				});
 				jQuery('body').css('overflow-y','auto');
 			});
+
+			var timeout = null;
+			jQuery('body').on('keyup','.Search__Input',function(){
+				$('.result_search').html('Searching...')
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function (){
+					$.ajax({
+						url : "{{route('client.search')}}",
+						method : 'get',
+						dataType : 'json',
+						cache: false,
+						data :  {key : jQuery('.Search__Input').val()},
+						success(results){
+							let html = ``;
+							$.each(results.data, function(key,val) { 
+								var p = 0;
+								if(val.sale == 0)
+								{
+									p = val.price;
+								}
+								else
+									p = val.sale;            
+					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
+		    								<div class="product-item">
+												<div class="pro-img">
+													<a href="#">
+														<img src="`+val.img+`" alt="">
+														<div class="img-hide">
+															<img src="`+val.img1+`" alt="">
+														</div>
+													</a>
+												</div>
+												
+												`
+
+								if(val.sale != 0)
+									html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
+													<span class="old-price"> $`+val.price+` USD</span></span>
+												</div>
+												<div class="tag-stt">
+													<span>On sale</span>
+												</div>
+											</div>
+		    							</div>`
+		    					else
+		    						html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price">FROM <span>$`+val.price+` USD</span></span>
+												</div>
+											</div>
+		    							</div>`
+					        });  
+
+					        $('.result_search').html(html) 
+							$('.total_result_search').html(results.total+ ' results')
+							
+							
+						}
+
+					})
+				},1000);
+			})
+
+			jQuery('body').on('keydown','.Search__Input',function(){
+				$('.result_search').html('Searching...')
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function (){
+					$.ajax({
+						url : "{{route('client.search')}}",
+						method : 'get',
+						dataType : 'json',
+						cache: false,
+						data :  {key : jQuery('.Search__Input').val()},
+						success(results){
+							let html = ``;
+							$.each(results.data, function(key,val) { 
+								var p = 0;
+								if(val.sale == 0)
+								{
+									p = val.price;
+								}
+								else
+									p = val.sale;            
+					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
+		    								<div class="product-item">
+												<div class="pro-img">
+													<a href="#">
+														<img src="`+val.img+`" alt="">
+														<div class="img-hide">
+															<img src="`+val.img1+`" alt="">
+														</div>
+													</a>
+												</div>
+												
+												`
+
+								if(val.sale != 0)
+									html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
+													<span class="old-price"> $`+val.price+` USD</span></span>
+												</div>
+												<div class="tag-stt">
+													<span>On sale</span>
+												</div>
+											</div>
+		    							</div>`
+		    					else
+		    						html += `<div class="info-product">
+													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
+													<span class="price">FROM <span>$`+val.price+` USD</span></span>
+												</div>
+											</div>
+		    							</div>`
+					        });  
+
+					        $('.result_search').html(html) 
+							$('.total_result_search').html(results.total+ ' results')
+							
+							
+						}
+
+					})
+				},1000);
+			})
 
 		});
 	</script>

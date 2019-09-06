@@ -1,6 +1,6 @@
 @extends('layouts.client')
 @section('title')
-Danh Mục
+Bô Sưu Tập | {{$name}}
 @endsection
 @section('css')
 

@@ -131,7 +131,9 @@ Route::delete('/cart_remove','CartController@cart_remove')->name('client.cart.re
 
 Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 
-Route::get('collection/{id}','HomeController@getCollection')->name('collection');
+Route::get('collection/{slug}','HomeController@getCollection')->name('collection');
+
+Route::get('search','HomeController@getSearch')->name('client.search');
 
 Route::get('/news','ArticleCOntroller@archive')->name('client.articles.archive');
 
@@ -141,4 +143,3 @@ Route::get('/post/{slug?}','ArticleController@article')->name('client.articles.s
 Auth::routes();
 
 Route::get('/','HomeController@index')->name('home');
-
