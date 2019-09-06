@@ -51,4 +51,13 @@ class ArticleController extends Controller
     {
     	return redirect()->route('admin.articles.index');
     }
+
+    public function check_slug(Request $request)
+    {
+        $slug = $request->slug;
+
+        $article = Article::where('slug',$slug)->first();
+
+        if(!empty($article)) return response()->json(['status' => 'errors','msg' => "Đường dẫn đã tồn tại"]);
+    }
 }

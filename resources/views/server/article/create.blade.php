@@ -105,6 +105,30 @@ Thêm mới
 			jQuery(this).parent().find('input').val('');
 		});
 
+		jQuery('input[name=title]').on('change',function(){
+			jQuery('input[name=slug]').val(ChangeToSlug(jQuery(this).val()));
+			jQuery('input[name=slug]').trigger('change');
+		});
+
+		jQuery('input[name=slug]').on('change',function(){
+			jQuery(this).parent().find('.errors').remove();
+			var slug = jQuery(this).val();
+			jQuery.ajax({
+				url: '{{route('admin.articles.check_slug')}}',
+				type: 'get',
+				dataType: 'json',
+				data: {
+					slug: slug
+				},
+				success: function(res){
+					if(res.status == 'errors')
+					{
+						jQuery('input[name=slug]').after('<p class="errors">'+res.msg+'</p>');
+					}
+				}
+			});
+		});
+
 		jQuery('form').on('submit',function(){
 			jQuery('form .errors').remove();
 			var err = 0;

@@ -102,6 +102,8 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/edit/{id?}','ArticleController@edit')->name('admin.articles.edit');
 		Route::post('/edit/{id?}','ArticleController@postEdit')->name('admin.articles.edit');
 		Route::delete('/delete/{id}','ArticleController@delete')->name('admin.articles.delete');
+
+		Route::get('/check_slug','ArticleController@check_slug')->name('admin.articles.check_slug');
 	});
 
 });
