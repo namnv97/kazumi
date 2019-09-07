@@ -30,14 +30,18 @@ class StoreOptionIndex extends FormRequest
     public function rules()
     {
         return [
-            'logo' => 'required'
+            'logo' => 'required',
+            'banner_collection' => 'required',
+            'suggest_collection' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'logo.required' => 'Logo không được để trống'
+            'logo.required' => 'Logo không được để trống',
+            'banner_collection' => 'Banner bộ sưu tập không được để trống',
+            'suggest_collection' => 'Nội dung bộ sưu tập không được để trống'
         ];
     }
 }

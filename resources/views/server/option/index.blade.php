@@ -35,6 +35,17 @@ Thiết lập chung
 		font-weight: bold;
 		cursor: pointer;
 	}
+
+	.banner-collection .img
+	{
+		display: none;
+		margin-bottom: 10px;
+	}
+
+	.banner-collection .img.active
+	{
+		display: block;
+	}
 </style>
 @endsection
 @section('content')
@@ -60,6 +71,7 @@ Thiết lập chung
 				<ul class="nav nav-tabs">
 					<li class="active"><a data-toggle="tab" href="#logo">Logo</a></li>
 					<li><a data-toggle="tab" href="#shipping">Giao hàng và Hoàn lại</a></li>
+					<li><a data-toggle="tab" href="#collection">Bộ sưu tập</a></li>
 				</ul>
 
 				<div class="tab-content">
@@ -78,6 +90,22 @@ Thiết lập chung
 						<div class="form-group">
 							<label>Nội dung</label>
 							<textarea name="product_shipping" id="product_shipping" rows="10" class="form-control" style="resize: vertical;">{{old('product_shipping')?old('product_shipping'):(($product_shipping)?$product_shipping->meta_value:FALSE)}}</textarea>
+						</div>
+					</div>
+					<div id="collection" class="tab-pane fade">
+						<div class="form-group">
+							<label>Banner</label>
+							<div class="banner-collection">
+								<div class="img {{(!empty($banner_collection))?'active':FALSE}}">
+									<img src="{{(!empty($banner_collection))?$banner_collection->meta_value:FALSE}}" alt="image">
+									<input type="hidden" name="banner_collection" value="{{(!empty($banner_collection))?$banner_collection->meta_value:FALSE}}">
+								</div>
+								<span class="btn btn-sm btn-info add-banner">Chọn ảnh</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Nội dung</label>
+							<textarea name="suggest_collection" id="suggest_collection" rows="3" class="form-control" style="resize: vertical;">{!! (!empty($suggest_collection))?$suggest_collection->meta_value:FALSE !!}</textarea>
 						</div>
 					</div>
 				</div>
@@ -121,6 +149,22 @@ Thiết lập chung
 		})
 
 		CKEDITOR.replace('product_shipping');
+		CKEDITOR.replace('suggest_collection');
+
+		jQuery('.add-banner').on('click',function(){
+			var cur = jQuery(this).parent();
+			CKFinder.popup( {
+				chooseFiles: true,
+				onInit: function( finder ) {
+					finder.on( 'files:choose', function( evt ) {
+						var file = evt.data.files.first();
+						cur.find('.img img').attr('src',file.getUrl());
+						cur.find('.img input').val(file.getUrl());
+						cur.find('.img').addClass('active');
+					} );
+				}
+			} );
+		});
 	})
 </script>
 

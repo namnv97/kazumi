@@ -13,9 +13,7 @@ Trang chủ
 			@if(!empty($slides))
 			@foreach($slides as $slide)
 			<div class="item">
-
 				<div class="slide-home-item" style="background-image: url({{$slide->meta_value}})">
-					
 				</div>
 			</div>
 			@endforeach
@@ -26,8 +24,8 @@ Trang chủ
 	<div class="best-sellers p-35">
 		<div class="container-fluid">
 			<div class="title-home">
-				<h3 class="title-small">FEATURING</h3>
-				<h2 class="title-large">OUR BEST SELLERS</h2>
+				<!-- <h3 class="title-small">FEATURING</h3> -->
+				<h2 class="title-large">BÁN CHẠY NHẤT</h2>
 			</div>
 			@if(count($products) > 0)
 			<div class="row">
@@ -36,7 +34,7 @@ Trang chủ
 				<div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
 					<div class="product-item wow fadeInUp">
 						<div class="pro-img">
-							<a href="#">
+							<a href="{{route('client.product.index',['slug' => $value->slug])}}">
 								<img src="{{$value->gallery[0]->url}}" alt="">
 								<div class="img-hide">
 									<?php $a = isset($value->gallery[1]->url)?$value->gallery[1]->url:$value->gallery[0]->url; ?>
@@ -46,8 +44,21 @@ Trang chủ
 						</div>
 						<div class="info-product">
 							<?php $price = $value->price()->price; ?>
-							<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
-							<span class="price">FROM <span>${{$price}} USD</span></span>
+							<h3 class="title-pro">
+								<a href="{{route('client.product.index',['slug' => $value->slug])}}">{{$value->name}}</a>
+							</h3>
+							<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
+							@if($sale != "")
+							<span class="price"><span class="price-sale">{{number_format($value->price()->sale)}}VND</span> 
+							<span class="old-price">{{number_format($value->price()->price)}}VND</span></span>
+							@else
+							<span class="price">
+								Chỉ từ <span class="price-sale">{{number_format($value->price()->price)}}VND</span>
+							</span>
+							@endif
+							@php
+							unset($sale);
+							@endphp
 						</div>
 					</div>
 				</div>
@@ -57,7 +68,7 @@ Trang chủ
 			</div>
 			@endif
 			<div class="SectionHeader__ButtonWrapper">
-				<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">SHOP ALL BEST SELLERS</a></div>
+				<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="{{(!empty($view_best_seller))?$view_best_seller->meta_value:FALSE}}" class="ButtonGroup__Item Button" target="blank">Xem tất cả sản phẩm bán chạy</a></div>
 			</div>
 		</div>
 	</div>
@@ -75,7 +86,7 @@ Trang chủ
 							<h3 class="title-small">{{$collection_title[$key]->meta_value}}</h3>
 							<h2 class="title-large">{{$value->name}}</h2>
 							<div class="SectionHeader__ButtonWrapper">
-								<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">Detail</a></div>
+								<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="{{route('client.collection.index',['slug' => $value->slug])}}" class="ButtonGroup__Item Button">Chi tiết</a></div>
 							</div>
 						</div>
 					</div>
@@ -164,13 +175,12 @@ Trang chủ
 			</div>
 			@if(count($products_look) > 0)
 			<div class="owl-carousel owl-theme slide-discover">
-				@if(!empty($products_look))
 				@foreach($products_look as $key => $value)
 				<div class="item">
 					<div class="row">
 						<div class="col-md-7 col-lg-7 col-sm-6 col-xs-12">
 							<div class="home-discover-img">
-								<img src="{{$products_look_gallery[$key]->meta_value}}" alt="">
+								<img src="{{$products_look_gallery[$key]->meta_value}}" alt="{{$value->name}}">
 							</div>
 						</div>
 						<div class="col-md-5 col-lg-5 col-sm-6 col-xs-12">
@@ -178,25 +188,27 @@ Trang chủ
 								<div class="product-item">
 									<div class="pro-img">
 										<?php $a = isset($value->gallery[1]->url)?$value->gallery[1]->url:$value->gallery[0]->url; ?>
-										<a href="#">
-											<img src="{{$value->gallery[0]->url}}" alt="">
+										<a href="{{route('client.product.index',['slug' => $value->slug])}}" target="_blank">
+											<img src="{{$value->gallery[0]->url}}" alt="{{$value->name}}">
 											<div class="img-hide">
-												<img src="{{$a}}" alt="">
+												<img src="{{$a}}" alt="{{$value->name}}">
 											</div>
 										</a>
 									</div>
 									<div class="info-product">
-										<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
+										<h3 class="title-pro">
+											<a href="{{route('client.product.index',['slug' => $value->slug])}}">{{$value->name}}</a>
+										</h3>
 										<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
 										@if($sale != "")
-										<span class="price"><span class="price-sale">${{$value->price()->sale}} USD</span> 
-										<span class="old-price">${{$value->price()->price}} USD</span></span>
+										<span class="price"><span class="price-sale">{{number_format($value->price()->sale)}}VND</span> 
+										<span class="old-price">{{number_format($value->price()->price)}}VND</span></span>
 										@else
-										<span class="old-price" style="text-decoration: none!important;">${{$value->price()->price}} USD</span></span>
+										<span class="old-price" style="text-decoration: none!important;">{{number_format($value->price()->price)}}VND</span></span>
 										@endif
 									</div>
 									<div class="SectionHeader__ButtonWrapper">
-										<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">VIEW THIS PRODUCT</a></div>
+										<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="{{route('client.product.index',['slug' => $value->slug])}}" class="ButtonGroup__Item Button" target="_blank">Xem sản phẩm</a></div>
 									</div>
 								</div>
 							</div>
@@ -204,7 +216,6 @@ Trang chủ
 					</div>
 				</div>
 				@endforeach
-				@endif
 			</div>
 			@endif
 		</div>

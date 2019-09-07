@@ -112,7 +112,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 });
 
 
-Route::group(['prefix' => 'account','middleware' => ['auth']],function(){
+Route::group(['prefix' => 'account'],function(){
 	Route::get('/',function(){
 		echo 'sdjgdk';
 	})->name('client.account.index');
@@ -142,7 +142,7 @@ Route::delete('/cart_remove','CartController@cart_remove')->name('client.cart.re
 
 Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 
-Route::get('collection/{slug}','HomeController@getCollection')->name('collection');
+Route::get('collection/{slug}','HomeController@getCollection')->name('client.collection.index');
 
 Route::get('search','HomeController@getSearch')->name('client.search');
 

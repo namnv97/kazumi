@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOptionIndex;
 use App\Http\Requests\StoreOptionFooter;
 use App\Http\Requests\StoreOptionMegamenu;
+use App\Http\Requests\StoreOptionHome;
 
 use App\Model\Option;
 use App\Model\Product;
@@ -21,9 +22,11 @@ class OptionController extends Controller
 {
     public function index()
     {
-    	$logo = Option::where('meta_key','logo')->first();
-        $product_shipping = Option::where('meta_key','product_shipping')->first();
-    	return view('server.option.index',compact('logo','product_shipping'));
+        $arr = ['logo','product_shipping','banner_collection','suggest_collection'];
+        foreach($arr as $ar):
+            $$ar = Option::where('meta_key',$ar)->first();
+        endforeach;
+    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -55,6 +58,22 @@ class OptionController extends Controller
             $product_shipping->meta_value = $shp;
             $product_shipping->save();
         endif;
+
+        $arr = ['banner_collection','suggest_collection'];
+        foreach($arr as $ar):
+            $$ar = Option::where('meta_key',$ar)->first();
+            if(empty($$ar)):
+                $$ar = new Option();
+                $$ar->meta_key = $ar;
+                $$ar->meta_value = $request->$ar;
+                $$ar->save();
+                unset($$ar);
+            else:
+                $$ar->meta_value = $request->$ar;
+                $$ar->save();
+                unset($$ar);
+            endif;
+        endforeach;
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');
 
@@ -171,53 +190,25 @@ class OptionController extends Controller
         $collection_title = Option::where('meta_key','collection_title')->get();
         $look_title1 = Option::where('meta_key','look_title1')->get()->first();
         $look_title2 = Option::where('meta_key','look_title2')->get()->first();
+        $view_best_seller = Option::where('meta_key','view_best_seller')->first();
 
         
-        return view('server.option.edithome',compact('products','collections','slide','product','about_title1','about_title2','about_gallery','about_content','video','video_title1','video_title2','video_gallery','product_look_product','product_look_gallery','collection','collection_gallery','collection_title','look_title1','look_title2'));
+        return view('server.option.edithome',compact('products','collections','slide','product','about_title1','about_title2','about_gallery','about_content','video','video_title1','video_title2','video_gallery','product_look_product','product_look_gallery','collection','collection_gallery','collection_title','look_title1','look_title2','view_best_seller'));
     }
 
-    public function postHome(Request $rq)
+    public function postHome(StoreOptionHome $rq)
     {
-        $validator = Validator::make($rq->all(), [
-            'gallery' => 'required',
-            'product_id' => 'required',
-            'about_title1' => 'required',
-            'about_title2' => 'required',
-            'gallery_about' => 'required',
-            'video' => 'required',
-            'video_title1' => 'required',
-            'video_title2' => 'required',
-            'video_gallery' => 'required',
-            'product_id_look' => 'required',
-            'gallery_look' => 'required',
-
-            'collecttion' => 'required',
-            'gallery_col' => 'required',
-            'collection_title' => 'required',
-            'look_title1' => 'required',
-            'look_title2' => 'required',
-            
-
-        ],[
-            'gallery.required' => 'Chưa nhập ảnh nền',
-            'about_title1.required' => 'Chưa nhập tiêu đề giới thiệu 1',
-            'about_title2.required' => 'Chưa nhập tiêu đề giới thiệu 2',
-            'gallery_about.required' => 'Chưa nhập ảnh nền giới thiệu',
-            'video.required' => 'Chưa nhập link video',
-            'video_title1.required' => 'Chưa nhập tiêu đề video 1',
-            'video_title2.required' => 'Chưa nhập tiêu đề video 2',
-            'video_gallery.required' => 'Chưa ảnh nền video',
-            'gallery_look.required' => 'Chưa ảnh nền sản phẩm',
-            'gallery_col.required' => 'Chưa ảnh nền bộ sưu tập',
-            'collection_title.required' => 'Chưa tiều đề bộ sưu tập',
-            'look_title1.required' => 'Chưa tiêu đề 1 sản phẩm',
-            'look_title2.required' => 'Chưa tiêu đề 2 sản phẩm',
-        ]);
-        if ($validator->fails()) {
-            return redirect('admin/options/home')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
+        $op = Option::where('meta_key','view_best_seller')->first();
+        if(empty($op)):
+            $op = new Option();
+            $op->name = 'Link xem sản phẩm bán chạy';
+            $op->meta_key = 'view_best_seller';
+            $op->meta_value = $rq->view_best_seller;
+            $op->save();
+        else:
+            $op->meta_value = $request->view_best_seller;
+            $op->save();
+        endif;
         $option_slide = Option::where('meta_key','slide')->delete();
         foreach ($rq->gallery as $key => $value) 
         {
@@ -358,10 +349,9 @@ class OptionController extends Controller
         $option->save();
 
 
-        return redirect('admin/options/home')->with('msg','Cập nhật hành Công !');
+        return redirect()->route('admin.options.home')->with('msg','Các thiết lập đã được lưu !');
 
     }
-
 
 
 }

@@ -2,58 +2,40 @@
 		<div class="ft-top">
 			<div class="container-fluid">
 				<div class="row">
+					@if(count($footer) > 0)
+					@foreach($footer as $key => $item)
+					@php
+					$ft = json_decode($item->meta_value,true);
+					@endphp
+					@if($key == 0)
 					<div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
 						<div class="ft-item">
-							<h4 class="title-ft">ABOUT ESQIDO</h4>
+							<h4 class="title-ft">{{$ft['title']}}</h4>
 							<div class="info-ft">
-								<p>Esqido is the world's leading brand of mink and false eyelashes, adorne by celebrities and pro artists around the world. Discover the ultimate lash experience with Esqido.</p>
-								<p><strong>Questions?</strong> <a href="#">support@esqido.com</a></p>
-								<p>185 Bridgeland Ave, Suite 102, Toronto, ON, M6A 1Y7</p>
-								<div class="social-ft">
-									<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-									<a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-									<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-									<a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-								</div>
+								{!! $ft['content'] !!}
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 col-lg-1 col-xs-12 col-sm-12"></div>
+					@else
 					<div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
 						<div class="ft-item">
-							<h4 class="title-ft">SHOP</h4>
+							<h4 class="title-ft">{{$ft['title']}}</h4>
 							<div class="info-ft">
-								<ul>
-								    <li><a href="#">Lash Guide</a></li>
-								    <li><a href="#">Mink Lashes</a></li>
-								    <li><a href="#">Unisyn™ Lashes</a></li>
-								    <li><a href="#">Eyelash Glue</a></li>
-								    <li><a href="#">Eyeliners</a></li>
-								</ul>
+								{!! $ft['content'] !!}
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
-						<div class="ft-item">
-							<h4 class="title-ft">INFORMATION</h4>
-							<div class="info-ft">
-								<ul>
-								    <li><a href="#">Apply & Care</a></li>
-								    <li><a href="#">Shipping & Returns</a></li>
-								    <li><a href="#">FAQ</a></li>
-								    <li><a href="#">Contact us</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+					@endif
+					@endforeach
+					@endif
 					<div class="col-md-4 col-lg-3 col-xs-12 col-sm-12">
 						<div class="ft-item">
-							<h4 class="title-ft">NEWSLETTER</h4>
+							<h4 class="title-ft">BẢN TIN</h4>
 							<div class="info-ft">
-								<p>Subscribe to receive updates, access to exclusive deals, and more.</p>
+								<p>Đăng ký ngay để nhận những thông tin ưu đãi hấp dẫn từ chúng tôi</p>
 								<div class="form-register">
-									<input type="email" name="email" placeholder="Enter your email address" class="form-control">
-									<button class="ButtonGroup__Item Button">SUBSCRIBE</button>
+									<input type="email" name="email" placeholder="Email của bạn" class="form-control">
+									<button class="ButtonGroup__Item Button">Đăng ký</button>
 									<div class="ajax-loaded"></div>
 									<div class="response">
 										<div class="text"></div>

@@ -37,5 +37,15 @@ class ComposerServiceProvider extends ServiceProvider
             'client.recent_view',
             'App\Http\ViewComposers\ViewComposer@recent_view'
         );
+
+        view()->composer(
+            'client.collection.decide',
+            'App\Http\ViewComposers\ViewComposer@decide'
+        );
+
+        view()->composer(
+            'layouts.client.footer',
+            'App\Http\ViewComposers\ViewComposer@footer'
+        );
     }
 }

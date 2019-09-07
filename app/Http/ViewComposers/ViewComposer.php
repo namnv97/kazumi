@@ -111,6 +111,20 @@ class ViewComposer
     }
 
 
+    public function decide(View $view)
+    {
+        $arr = ['banner_collection','suggest_collection'];
+        foreach($arr as $ar):
+            $$ar = Option::where('meta_key',$ar)->first();
+            $view->with($ar,$$ar);
+        endforeach;
+    }
+
+    public function footer(View $view)
+    {
+        $footer = Option::where('meta_key','footer')->get();
+        $view->with('footer',$footer);
+    }
 
 
 

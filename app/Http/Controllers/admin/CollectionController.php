@@ -27,6 +27,7 @@ class CollectionController extends Controller
     	$collection->name = $request->name;
     	$collection->slug = $request->slug;
     	$collection->description = $request->description;
+        $collection->banner = $request->banner;
     	if($request->parent > 0) $collection->parent = $request->parent;
     	$collection->save();
     	return redirect()->route('admin.collection.index')->with('msg_add','Thêm danh mục thành công');
@@ -56,6 +57,7 @@ class CollectionController extends Controller
     	$collection->description = $request->description;
     	if($request->parent > 0) $collection->parent = $request->parent;
     	else $collection->parent = null;
+        $collection->banner = $request->banner;
 
     	$collection->save();
     	return response()->json(['status' => 'success','msg' => 'Cập nhật danh mục thành công']);

@@ -92,12 +92,9 @@ class HomeController extends Controller
         $look_title1 = Option::where('meta_key','look_title1')->get()->first();
         $look_title2 = Option::where('meta_key','look_title2')->get()->first();
 
+        $view_best_seller = Option::where('meta_key','view_best_seller')->first();
 
-        // echo "<pre>";
-        // print_r($product->toArray());
-
-        // die();
-        return view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1'));
+        return view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1','view_best_seller'));
 
 
     }
@@ -106,14 +103,12 @@ class HomeController extends Controller
     public function getCollection($slug,Request $rq)
     {
         $collection = Collection::where('slug',$slug)->first();
-        $id = $collection->id;
-        $name = $collection->name;
         
         
         $products = Product::join('packs', 'packs.product_id', '=', 'products.id')
                         ->join('product_collection', 'product_collection.product_id', '=', 'products.id')
                         ->join('collections','collections.id','=','product_collection.collection_id')
-                        ->where('packs.type','single')->where('collections.id',$id);
+                        ->where('packs.type','single')->where('collections.id',$collection->id);
 
         $products = $products->select(DB::raw('(CASE WHEN packs.sale IS NOT NULL THEN packs.sale   ELSE packs.price END) AS ninh'),'products.*','packs.price','packs.sale');
 
@@ -158,7 +153,7 @@ class HomeController extends Controller
     
        
         
-        return view('client.collection',compact('products','name'));
+        return view('client.collection.collection',compact('products','collection'));
     }
 
     public function getSearch(Request $rq)
