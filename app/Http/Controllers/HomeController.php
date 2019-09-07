@@ -7,6 +7,8 @@ use App\Model\Option;
 use App\Model\Product;
 use App\Model\Collection;
 use App\Model\CartItem;
+use App\Model\Article;
+use App\Model\Page;
 use DB;
 
 class HomeController extends Controller
@@ -161,10 +163,12 @@ class HomeController extends Controller
 
     public function getSearch(Request $rq)
     {
-        $key = '%'.$rq->key.'%';
+        $key = '%'.trim(strtolower($rq->key)).'%';
 
         $products = $data = Product::where('name','like',$key)->orWhere('description','like',$key)->orWhere('product_content','like',$key)->get();
 
+         $pages = Page::where('name','like',$key)->get();
+        $articles = Article::where('title','like',$key)->get();
 
 
         foreach ($products as $key => $value) {
@@ -177,8 +181,23 @@ class HomeController extends Controller
             
         }
 
-        $respone = ['data' => $data , 'total' => count($products)];
+
+        // $a = DB::table(DB::raw('pages, articles'))->where('pages.name','like',$key)->orWhere('articles.title','like',$key)->select('pages.id as pages_id','pages.name as pages_name','articles.*')->groupBy('articles.title','pages_name')->get();
+
+       
+
+        $respone = [
+            'articles' => $articles ,
+            'data' => $data ,
+            'pages' => $pages ,
+            
+            'total' => count($products)
+        ];
         echo json_encode($respone);
+
+
+
+
 
 
     }

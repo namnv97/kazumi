@@ -9,6 +9,7 @@ Cập nhật
 		background-color: #ef5c6a!important;
     	border: 1px solid #ef5c6a!important;
 	}*/
+	
 	.gallery .img
 	{
 		display: inline-block;
@@ -100,7 +101,7 @@ Cập nhật
 		<form action="" method="post" enctype="multipart/form-data" >
 			@csrf
 			<div class="tab">
-				<button class="tablinks" onclick="openCity(event, 'slide')">Ảnh nền</button>
+				<button class="tablinks active" onclick="openCity(event, 'slide')">Ảnh nền</button>
 				<button class="tablinks" onclick="openCity(event, 'product')">Sản phẩm bán chạy</button>
 				<button class="tablinks" onclick="openCity(event, 'collecttion')">Bộ sưu tập</button>
 				<button class="tablinks" onclick="openCity(event, 'about')">Giới thiệu</button>
@@ -110,8 +111,8 @@ Cập nhật
 
 			<!-- Tab content -->
 			
-			<div id="slide" class="tabcontent">
-				<h3>Ảnh nền <span class="btn btn-success addTaskSlide" ></span></h3>
+			<div id="slide" style="display: block;" class="tabcontent">
+				<h3>Ảnh nền  <span class="btn btn-success addTaskSlide" ><i class="fa fa-plus"></i></span></h3>
 				@if(!empty($slide) && isset($slide))
 				@foreach($slide as $key => $value)
 				<div id="list_more_slide">
@@ -213,10 +214,10 @@ Cập nhật
 				
 			</div>
 			<div id="collecttion" class="tabcontent" >
-				<h3>Bô sưu tập <span class="btn btn-success addTask" ><i class="fa fa-plus"></i></span></h3>
+				<h3>Bô sưu tập <span class="btn btn-success removeTaskCol" ><i class="fa fa-plus"></i></span></h3>
 				@if(!empty($collection))
 				@foreach($collection as $k => $col)
-		   		<div id="list_more_col">
+		   		<div id="list_more_col" style="padding-left: 20px;">
 					<div class="row item_col">
 						<div class="col-md-6">
 						
@@ -312,7 +313,7 @@ Cập nhật
 				
 			</div>
 			<div id="about" class="tabcontent" >
-				<h3>Giới thiệu</h3>
+				<h3>Giới thiệu <span class="btn btn-success re addTaskAbout" ><i class="fa fa-plus"></i></span></h3>
 				@if(!empty($about_title1))
 				@foreach($about_title1 as $k => $col)
 				<div id="list_more_about">
@@ -441,7 +442,7 @@ Cập nhật
 
 			</div>
 
-			<div id="shoplook" class="tabcontent" >
+			<div id="shoplook" class="tabcontent" style="padding-left: 20px;">
 				<h3>Sản phẩm hot<span class="btn btn-success addTaskH" ><i class="fa fa-plus"></i></span></h3>
 				<div id="list_moreh">
 					<div class="row">
@@ -537,7 +538,7 @@ Cập nhật
 			
 			
 
-			<button class="btn btn-primary">-- Lưu --</button>
+			<button class="btn btn-primary" style="margin-top: 30px;">-- Lưu --</button>
 
 
 			

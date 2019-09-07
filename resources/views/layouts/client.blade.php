@@ -170,6 +170,7 @@
 			var timeout = null;
 			jQuery('body').on('keyup','.Search__Input',function(){
 				$('.result_search').html('Searching...')
+				$('.Linklist').html('Searching...')
 				clearTimeout(timeout);
 
 				timeout = setTimeout(function (){
@@ -181,6 +182,7 @@
 						data :  {key : jQuery('.Search__Input').val()},
 						success(results){
 							let html = ``;
+							let html1 = ``;
 							$.each(results.data, function(key,val) { 
 								var p = 0;
 								if(val.sale == 0)
@@ -221,6 +223,21 @@
 											</div>
 		    							</div>`
 					        });  
+					        $.each(results.articles, function(key,val) { 
+
+								html1 += `<li class="Linklist__Item">
+									<a href="#" class="Link Link--secondary">`+val.title+`</a>
+								</li>`;
+							});
+							$.each(results.pages, function(key,val) { 
+
+								html1 += `<li class="Linklist__Item">
+									<a href="#" class="Link Link--secondary">`+val.name+`</a>
+								</li>`;
+							});
+							
+
+							$('.Linklist').html(html1);
 
 					        $('.result_search').html(html) 
 							$('.total_result_search').html(results.total+ ' results')
@@ -234,6 +251,7 @@
 
 			jQuery('body').on('keydown','.Search__Input',function(){
 				$('.result_search').html('Searching...')
+				$('.Linklist').html('Searching...')
 				clearTimeout(timeout);
 
 				timeout = setTimeout(function (){
@@ -245,6 +263,7 @@
 						data :  {key : jQuery('.Search__Input').val()},
 						success(results){
 							let html = ``;
+							let html1 = ``;
 							$.each(results.data, function(key,val) { 
 								var p = 0;
 								if(val.sale == 0)
@@ -284,11 +303,30 @@
 												</div>
 											</div>
 		    							</div>`
-					        });  
 
-					        $('.result_search').html(html) 
-							$('.total_result_search').html(results.total+ ' results')
+
+		    					
+					        });  
+							$.each(results.articles, function(key,val) { 
+
+								html1 += `<li class="Linklist__Item">
+									<a href="#" class="Link Link--secondary">`+val.title+`</a>
+								</li>`;
+							});
+							$.each(results.pages, function(key,val) { 
+
+								html1 += `<li class="Linklist__Item">
+									<a href="#" class="Link Link--secondary">`+val.name+`</a>
+								</li>`;
+							});
 							
+
+							$('.Linklist').html(html1);
+					        $('.result_search').html(html) 
+							$('.total_result_search').html(results.total+ ' sản phẩm')
+							
+
+
 							
 						}
 

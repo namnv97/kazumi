@@ -116,6 +116,14 @@ Route::group(['prefix' => 'account','middleware' => ['auth']],function(){
 	Route::get('/',function(){
 		echo 'sdjgdk';
 	})->name('client.account.index');
+	Route::get('/login','AccountController@getLogin')->name('client.account.login');
+	Route::post('/login','AccountController@postLogin')->name('client.account.login');
+
+	Route::get('/register','AccountController@getRegister')->name('client.account.register');
+	Route::post('/register','AccountController@postRegister')->name('client.account.register');
+
+	Route::get('/forgot_password','AccountController@getForgot')->name('client.account.forgot_password');
+	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
 });
 
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');
@@ -147,6 +155,8 @@ Route::get('/lien-he',function(){
 })->name('client.page.contact');
 
 Route::post('/formdata','FormController@formdata')->name('client.form.data');
+
+
 
 
 Auth::routes();
