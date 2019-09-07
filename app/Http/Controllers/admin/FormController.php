@@ -24,6 +24,9 @@ class FormController extends Controller
     		case 'contact':
     			$head_title = "Form Liên hệ";
     			break;
+            case 'register':
+                $head_title = "Form Đăng ký Email";
+                break;
     	}
 
     	return view('server.form.index',compact('forms','head_title'));

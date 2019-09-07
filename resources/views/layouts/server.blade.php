@@ -145,6 +145,12 @@
                     <li class="{{(request()->is('admin/pages/create'))?'active':FALSE}}"><a href="{{route('admin.pages.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a></li>
                 </ul>
             </li>
+            <li class="{{(request()->is('admin/forms*'))?'active':FALSE}}">
+                <a href="{{route('admin.forms.index')}}">
+                    <i class="fa fa-list-alt"></i>
+                    <span>Form Data</span>
+                </a>
+            </li>
             <li class="{{(request()->is('admin/user*'))?'active':FALSE}}">
                 <a href="{{route('admin.user.index')}}">
                     <i class="fa fa-user"></i>

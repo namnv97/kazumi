@@ -1383,7 +1383,7 @@ footer{
 	padding-bottom: 80px;
 	border-bottom: 1px solid #d2d2d2;
 }
-.jdgm-form-wrapper form .form-group>span{
+.jdgm-form-wrapper .form-program .form-group>span{
 	padding: 10px 0;
     line-height: normal;
     color: #6a6a6a;
@@ -1394,7 +1394,7 @@ footer{
     margin-right: 4px;
     display: block;
 }
-.jdgm-form-wrapper form .form-group input{
+.jdgm-form-wrapper .form-program .form-group input{
 	background-color: transparent;
 	padding: 12px 14px;
     border-radius: 0;
@@ -1402,7 +1402,7 @@ footer{
     height: 45px;
     box-shadow: none;
 }
-.jdgm-form-wrapper form .form-group textarea{
+.jdgm-form-wrapper .form-program .form-group textarea{
 	background-color: transparent;
 	padding: 12px 14px;
     border-radius: 0;
@@ -1410,7 +1410,7 @@ footer{
     height: 100px;
     box-shadow: none;
 }
-.jdgm-form-wrapper form button{
+.jdgm-form-wrapper .form-program button{
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 12px;
@@ -1425,16 +1425,16 @@ footer{
     box-shadow: none;
     padding: 15px 30px;
 }
-.jdgm-form-wrapper form button:hover{
+.jdgm-form-wrapper .form-program button:hover{
 	background: transparent;
 	color: #c2a284;
 }
-.jdgm-form-wrapper form .jdgm-form__rating i{
+.jdgm-form-wrapper .form-program .jdgm-form__rating i{
 	display: inline-block;
 	font-size: 16px;
 	color: #c2a284;
 }
-.jdgm-form-wrapper form .jdgm-form__rating i:hover{
+.jdgm-form-wrapper .form-program .jdgm-form__rating i:hover{
 	color: #fff;
 }
 .jdgm-form-wrapper{
@@ -2938,22 +2938,22 @@ footer{
 	margin: 0 auto;
 	margin-top: 50px;
 }
-.program .jdgm-form-wrapper form .form-group input{
+.program .jdgm-form-wrapper .form-program .form-group input{
 	height: 40px;
 	background-color: #fff;
 	padding: 6px 12px;
 }
-.program .jdgm-form-wrapper form .form-group select{
+.program .jdgm-form-wrapper .form-program .form-group select{
 	height: 40px;
 	background-color: #fff;
     border-radius: 0;
     border: 1px solid #d2d2d2;
     box-shadow: none;
 }
-.program .jdgm-form-wrapper form .form-group{
+.program .jdgm-form-wrapper .form-program .form-group{
 	position: relative;
 }
-.program .jdgm-form-wrapper form .form-group label{
+.program .jdgm-form-wrapper .form-program .form-group label{
 	position: absolute;
 	height: 40px;
 	background-color: #fff;
@@ -2965,10 +2965,10 @@ footer{
     top: 0;
     left: 0;
 }
-.program .jdgm-form-wrapper form input[type="file"]{
+.program .jdgm-form-wrapper .form-program input[type="file"]{
 	opacity: 0;
 }
-.program .jdgm-form-wrapper form button{
+.program .jdgm-form-wrapper .form-program button{
 	width: 100%;
 	display: block;
 	background: #333;
