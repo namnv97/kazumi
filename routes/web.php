@@ -125,7 +125,7 @@ Route::group(['prefix' => 'account'],function(){
 	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
 
 	Route::group(['middleware' => 'auth'],function(){
-		Route::get('/','AccountCOntroller@index')->name('client.account.index');
+		Route::get('/','AccountController@index')->name('client.account.index');
 		Route::get('/reward','AccountController@reward')->name('client.account.reward');
 	});
 
