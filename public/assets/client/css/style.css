@@ -2210,15 +2210,15 @@ footer{
 	margin: 20px 0;
 }
 .info-content-head{
-	display: flex;
+	/*display: flex;
 	padding: 20px 0 0px;
-	align-items: center;
+	align-items: center;*/
 }
 .info-content-head .layout-flex__item{
 	padding-left: 225px;
 	margin-bottom: 0;
 }
-.info-content form input{
+.info-content .form-info input{
 	background-color: white;
     color: #333333;
     border-color: #d9d9d9;
@@ -2233,16 +2233,16 @@ footer{
 	padding-top: 15px;
 	padding-bottom: 20px;
 }
-.info-content form .check-info>input{
+.info-content .form-info .check-info>input{
 	height: auto;
 	display: inline-block;
 	margin-right: 10px;
 	margin-top: 0;
 }
-.info-content form .form-group{
+.info-content .form-info .form-group{
 	position: relative;
 }
-.info-content form .form-group label{
+.info-content .form-info .form-group label{
 	position: absolute;
 	color: #737373;
 	font-weight: normal;
@@ -2254,17 +2254,17 @@ footer{
     padding: 0 0.91667em;
     z-index: 1;
 }
-.info-content form .form-group select{
+.info-content .form-info .form-group select{
 	padding: 0.92857em 0.91667em;
 	height: 45px;
 	padding-top: 1.5em;
     padding-bottom: 0.35714em;
     border-radius: 5px;
 }
-.info-content form .row{
+.info-content .form-info .row{
 	margin: 0 -5px;
 }
-.info-content form .row>.col-xs-12{
+.info-content .form-info .row>.col-xs-12{
 	padding: 0 5px;
 }
 .step__footer{

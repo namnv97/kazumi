@@ -113,17 +113,22 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 
 Route::group(['prefix' => 'account'],function(){
-	Route::get('/',function(){
-		echo 'sdjgdk';
-	})->name('client.account.index');
+	
 	Route::get('/login','AccountController@getLogin')->name('client.account.login');
 	Route::post('/login','AccountController@postLogin')->name('client.account.login');
+	Route::post('/logout','AccountController@logout')->name('client.account.logout');
 
 	Route::get('/register','AccountController@getRegister')->name('client.account.register');
 	Route::post('/register','AccountController@postRegister')->name('client.account.register');
 
 	Route::get('/forgot_password','AccountController@getForgot')->name('client.account.forgot_password');
 	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
+
+	Route::group(['middleware' => 'auth'],function(){
+		Route::get('/','AccountCOntroller@index')->name('client.account.index');
+		Route::get('/reward','AccountController@reward')->name('client.account.reward');
+	});
+
 });
 
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');
@@ -156,9 +161,8 @@ Route::get('/lien-he',function(){
 
 Route::post('/formdata','FormController@formdata')->name('client.form.data');
 
-
-
-
-Auth::routes();
+Route::get('/login',function(){
+	return redirect()->route('client.account.login');
+})->name('login');
 
 Route::get('/','HomeController@index')->name('home');

@@ -23,12 +23,15 @@ Giỏ hàng
 	{
 		display: table;
 		width: 100%;
+		padding: 15px 0;
+		text-transform: uppercase;
+		border-bottom: 1px #ddd solid;
 	}
 
 	.cart_table .head-cart .product
 	{
 		display: table-cell;
-		width: 20%;
+		width: 15%;
 	}
 	.cart_table .head-cart .info
 	{
@@ -53,18 +56,18 @@ Giỏ hàng
 	{
 		width: 20%;
 		display: table-cell;
+		text-align: right;
 	}
 
-	.cart_table .body-cart .Cartitem
+	.cart_table .body-cart .CartItem
 	{
-		display: table;
-		width: 100%;
+		display: flex;
+		align-items: center;
 	} 
 
 	.cart_table .body-cart .CartItem .image
 	{
-		display: table-cell;
-		width: 20%;
+		width: 15%;
 	}
 
 	.cart_table .body-cart .CartItem .image img
@@ -74,28 +77,195 @@ Giỏ hàng
 
 	.cart_table .body-cart .CartItem .info_detail
 	{
+		width: 65%;
 		display: table;
-		width: 100%;
 	}
 
 	.cart_table .body-cart .CartItem .info_detail .left
 	{
 		display: table-cell;
 		width: 60%;
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 
 	.cart_table .body-cart .CartItem .info_detail .right
 	{
 		display: table-cell;
 		width: 40%;
+		vertical-align: bottom;
 	}
 
 	.cart_table .body-cart .CartItem .sgtotal
 	{
-		display: table-cell;
 		width: 20%;
+		text-align: right;
 	}
 
+
+	.quantity
+	{
+		width: 50%;
+		margin: 0 auto;
+		position: relative;
+	}
+
+	.quantity input
+	{
+		width: 100%;
+		height: 35px;
+		text-align: center;
+		background: transparent;
+		border:thin #dedede solid;
+		outline: none;
+	}
+
+	.quantity span.minus
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	.quantity span.plus
+	{
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.btn-remove-cart
+	{
+		display: inline-block;
+		margin: 5px 0;
+		cursor: pointer;
+	}
+
+	.btn-remove-cart:hover
+	{
+		text-decoration: underline;
+	}
+	
+	.cart_table .body-cart .CartItem .sale-price
+	{
+		color: #f94c43;
+	}
+	
+	.cart_table .footer-cart
+	{
+		padding: 10px 0;
+		border-top: thin #dedede solid;
+		margin-top: 15px;
+	}
+
+	.cart_table .footer-cart .total
+	{
+		text-transform: uppercase;
+	}
+
+	.action_checkout
+	{
+		text-align: right;
+	}
+
+	.action_checkout .btn-checkout
+	{
+		font-family: 'Montserrat', sans-serif;
+		color: #ffffff;
+		border: 1px solid transparent;
+		border-radius: 0;
+		text-transform: uppercase;
+		font-size: 12px;
+		text-align: center;
+		letter-spacing: 0.2em;
+		border-color: #000000;
+		display: inline-block;
+		padding: 14px 28px;
+		font-weight: 600;
+		position: relative;
+		z-index: 9;
+		margin-top: 20px;
+		background-color: #fff;
+	}
+
+	.action_checkout .btn-checkout:before{
+		content: '';
+		display: block;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		-webkit-transform: scale(1, 1);
+		transform: scale(1, 1);
+		-webkit-transform-origin: left center;
+		transform-origin: left center;
+		z-index: -1;
+		background-color: #000000;
+		-webkit-transition: -webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+		transition: -webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+		transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+		transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),-webkit-transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+		position: absolute;
+	}
+
+	.action_checkout .btn-checkout:hover:before
+	{
+		-webkit-transform-origin: right center;
+		transform-origin: right center;
+		-webkit-transform: scale(0, 1);
+		transform: scale(0, 1);
+	}
+
+	.action_checkout .btn-checkout:hover
+	{
+		color: #000;
+	}
+
+	@media(max-width: 991px){
+		.cart_table .head-cart, .cart_table .body-cart .CartItem .sgtotal
+		{
+			display: none;
+		}
+
+		.cart_table .body-cart .CartItem .image
+		{
+			width: 40% !important;
+		}
+
+		.cart_table .body-cart .CartItem .info_detail
+		{
+			width: 60% !important;
+		}
+
+		.cart_table .body-cart .CartItem .info_detail .left
+		{
+			display: block !important;
+			width: 100% !important
+		}
+		.cart_table .body-cart .CartItem .info_detail .right
+		{
+			display: block !important;
+			width: 100% !important;
+		}
+
+		.quantity
+		{
+			display: inline-block;
+			margin: 0 15px;
+		}
+
+		.cart_table .body-cart .CartItem .info_detail .right p
+		{
+			display: inline-block;
+		}
+
+		.cart_table .body-cart .CartItem
+		{
+			align-items: flex-start;
+		}
+	}
 
 </style>
 @endsection
@@ -107,6 +277,7 @@ Giỏ hàng
 			<h1 class="title-large">Giỏ hàng</h1>
 		</div>
 		<div class="cart-content">
+			@if(count($cart_item) > 0)
 			<div class="cart_table">
 				<div class="head-cart">
 					<div class="product">Sản phẩm</div>
@@ -117,197 +288,84 @@ Giỏ hàng
 					<div class="calt">Tổng</div>
 				</div>
 				<div class="body-cart">
+					@php
+					$total = 0;
+					@endphp
+					@foreach($cart_item as $item)
 					<div class="CartItem">
 						<div class="image">
-							<a href="#">
-								<img src="http://localhost:8000/assets/uploads/images/products/keo-dan-tao-mat-2-mi-848x900.jpg" alt="">
+							<a href="{{route('client.product.index',['slug' => $item['slug']])}}">
+								<img src="{{asset($item['image'])}}" alt="{{$item['product']}}">
 							</a>
 						</div>
 						<div class="info_detail">
 							<div class="left">
-								<p class="title">KEO GẮN MI 5 GRAM</p>
-								<p class="pack_color">1 sản phẩm / Đỏ</p>
+								<p class="title">{{$item['product']}}</p>
+								<p class="pack_color">{{$item['pack_name']}} {{(isset($item['color']) && !empty($item['color']))?'/ '.$item['color']:FALSE}}</p>
+								@php
+								$price = $item['price'];
+								if(!empty($item['sale'])):
+								$price = $item['sale'];
+								$oldprice = $item['price'];
+								endif;
+								@endphp
 								<p class="price">
-									<span class="sale-price">55.000VND</span>
-									&ensp;
-									<span class="old-price">60.000VND</span>
+									<span class="sale-price">{{number_format($price)}}VND</span>
+								@if(isset($oldprice))
+								&ensp;<span class="old-price">{{number_format($oldprice)}}VND</span>
+								@endif
 								</p>
+								@php
+								unset($oldprice);
+								@endphp
+								
 							</div>
 							<div class="right">
 								<div class="quantity">
 									<span class="wsgReload QuantitySelector__Button Link Link--primary minus">
-												<svg class="Icon Icon--minus" role="presentation" viewBox="0 0 16 2">
-													<path d="M1,1 L15,1" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square"></path>
-												</svg>
-											</span>
-									<input type="text" name="quantity" value="1">
-									<span class="wsgReload QuantitySelector__Button Link Link--primary">
-												<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
-													<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
-														<path d="M8,1 L8,15"></path>
-														<path d="M1,8 L15,8"></path>
-													</g>
-												</svg>
-											</span>
+										<svg class="Icon Icon--minus" role="presentation" viewBox="0 0 16 2">
+											<path d="M1,1 L15,1" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square"></path>
+										</svg>
+									</span>
+									<input type="text" name="quantity" value="{{$item['quantity']}}" data-pack="{{$item['pack_id']}}" data-color="{{(isset($item['color_id']))?$item['color_id']:FALSE}}" data-price="{{$price}}">
+									<span class="wsgReload QuantitySelector__Button Link Link--primary plus">
+										<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
+											<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
+												<path d="M8,1 L8,15"></path>
+												<path d="M1,8 L15,8"></path>
+											</g>
+										</svg>
+									</span>
 								</div>
 								<p class="text-center">
-									<span>Xóa</span>
+									<span class="btn-remove-cart" data-pack="{{$item['pack_id']}}" data-color="{{(isset($item['color_id']))?$item['color_id']:FALSE}}">Xóa</span>
 								</p>
 							</div>
 						</div>
 						<div class="sgtotal">
-							<span class="single_total">55.000VND</span>
+							<span class="single_total">{{number_format($price)}}VND</span>
 						</div>
+					</div>
+					@php
+					$total += $price*$item['quantity'];
+					@endphp
+					@endforeach
+				</div>
+				<div class="footer-cart">
+					<div class="text-right">
+						<p class="total">Tổng cộng : <span class="total_price">{{number_format($total)}}VND</span></p>
+						<p>Phí vận chuyển và thuế sẽ được tính khi thanh toán</p>
+					</div>
+					<div class="action_checkout">
+						<a href="{{route('client.checkout')}}" class="btn-checkout">THANH TOÁN</button>
 					</div>
 				</div>
 			</div>
-			<div class="table-cart">
-				<form class="Cart--expanded">
-					<div class="table-cart-item">
-						<div class="Cart__Head hidden-xs hidden-sm">
-							<span class="Cart__HeadItem Heading Text--subdued u-h7">Sản phẩm</span>
-							<span class="Cart__HeadItem"> </span>
-							<span class="Cart__HeadItem Heading Text--subdued u-h7" style="text-align: center">Số lượng</span>
-							<span class="Cart__HeadItem Heading Text--subdued u-h7" style="text-align: right">Tổng</span>
-						</div>
-						@if(!empty($cart_item))
-						@foreach($cart_item as $item)
-						<div class="CartItem">
-							<div class="CartItem__ImageWrapper AspectRatio">
-								<div class="AspectRatio" style="--aspect-ratio: 1.0">
-									<img class="CartItem__Image" src="{{asset($item['image'])}}" alt="{{$item['product']}}">
-								</div>
-							</div>
-
-							<div class="CartItem__Info hidden-xs hidden-sm">
-								<h2 class="CartItem__Title Heading">
-									<a href="{{route('client.product.index',['slug' => $item['slug']])}}">{{$item['product']}}<span class="booster-cart-item-success-notes"></span><span class="booster-cart-item-upsell-notes"></span>
-									</a>
-								</h2>
-
-								<div class="CartItem__Meta Heading Text--subdued">
-									<p class="CartItem__Variant">{{$item['pack_name']}} 
-											@if(isset($item['color']))
-												/ {{$item['color']}}
-											@endif</p>
-									<div class="CartItem__PriceList wsg-item-price_14590764351537">
-										<span class="CartItem__Price Price">
-											@php
-												$price = $item['price'];
-												if(!empty($item['sale'])):
-													$price = $item['sale'];
-													$oldprice = $item['price'];
-												endif;
-												@endphp
-												<span class="money">{{number_format($price)}}VND</span>
-												@if(isset($oldprice))
-												&ensp;<span class="old-price">{{number_format($oldprice)}}VND</span>
-												@endif
-												@php
-												unset($oldprice);
-												@endphp
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="CartItem__Info hidden-md hidden-lg">
-								<h2 class="CartItem__Title Heading">
-									<a href="{{route('client.product.index',['slug' => $item['slug']])}}">{{$item['product']}}
-										<span class="booster-cart-item-success-notes"></span><span class="booster-cart-item-upsell-notes"></span>
-									</a>
-								</h2>
-
-								<div class="CartItem__Meta Heading Text--subdued">
-									<p class="CartItem__Variant">{{$item['pack_name']}} 
-											@if(isset($item['color']))
-												/ {{$item['color']}}
-											@endif</p>
-									<div class="CartItem__PriceList wsg-item-price_14590764351537">
-										<span class="CartItem__Price Price">
-											@php
-												$price = $item['price'];
-												if(!empty($item['sale'])):
-													$price = $item['sale'];
-													$oldprice = $item['price'];
-												endif;
-												@endphp
-												<span class="money">{{number_format($price)}}VND</span>
-												@if(isset($oldprice))
-												&ensp;<span class="old-price">{{number_format($oldprice)}}VND</span>
-												@endif
-												
-										</span>
-									</div>
-								</div>
-								<div class="CartItem__Actions Heading Text--subdued" style="text-align: center">
-									<div class="CartItem__QuantitySelector">
-										<div class="QuantitySelector">
-											<span class="wsgReload QuantitySelector__Button Link Link--primary minus">
-												<svg class="Icon Icon--minus" role="presentation" viewBox="0 0 16 2">
-													<path d="M1,1 L15,1" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square"></path>
-												</svg>
-											</span>
-
-											<input type="text" name="quantity" data-pack="{{$item['pack_id']}}" data-color="{{empty($item['color_id'])?FALSE:$item['color_id']}}" data-price="{{$price}}" class="QuantitySelector__CurrentQuantity plus" value="{{$item['quantity']}}">
-											<span class="wsgReload QuantitySelector__Button Link Link--primary">
-												<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
-													<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
-														<path d="M8,1 L8,15"></path>
-														<path d="M1,8 L15,8"></path>
-													</g>
-												</svg>
-											</span>
-										</div>
-									</div>
-
-									<span class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</span>
-								</div>
-							</div>
-							<div class="CartItem__Actions Heading Text--subdued hidden-xs hidden-sm" style="text-align: center">
-								<div class="CartItem__QuantitySelector">
-									<div class="QuantitySelector">
-										<span class="wsgReload QuantitySelector__Button Link Link--primary minus" >
-											<svg class="Icon Icon--minus" role="presentation" viewBox="0 0 16 2">
-												<path d="M1,1 L15,1" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square"></path>
-											</svg>
-										</span>
-
-										<input type="text" name="quantity" data-pack="{{$item['pack_id']}}" data-color="{{empty($item['color_id'])?FALSE:$item['color_id']}}" data-price="{{$price}}" class="QuantitySelector__CurrentQuantity" value="{{$item['quantity']}}">
-										<span class="wsgReload QuantitySelector__Button Link Link--primary plus">
-											<svg class="Icon Icon--plus" role="presentation" viewBox="0 0 16 16">
-												<g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square">
-													<path d="M8,1 L8,15"></path>
-													<path d="M1,8 L15,8"></path>
-												</g>
-											</svg>
-										</span>
-									</div>
-								</div>
-
-								<span class="CartItem__Remove Link Link--underline Link--underlineShort">Xóa</span>
-							</div>
-							<span class= "CartItem__LinePrice Price Heading Text--subdued u-h7 hidden-xs hidden-sm"style="text-align: right">
-								<span class="money single_total">{{number_format($price * $item['quantity'])}}VND</span>
-								@php
-								unset($oldprice);
-								@endphp
-							</span>
-						</div>
-						@endforeach
-						@endif
-					</div>
-					<div class="Cart__Footer">
-						<div class="Cart__Recap">
-							<span class="Cart__Total Heading u-h6">
-								Tổng cộng: <span class="wh-original-price total_price"></span>
-
-							</span>
-							<span class="Cart__Taxes Text--subdued">Phí vận chuyển và thuế tính khi thanh toán</span>
-							<button type="submit" name="checkout" class="Cart__Checkout Button Button--primary Button--full">THANH TOÁN</button>
-						</div>
-					</div>
-				</form>
+			@else
+			<div class="alert alert-info">
+				Bạn chưa có sản phẩm nào trong giỏ hàng
 			</div>
+			@endif
 		</div>
 		<div class="estimate-shipping">
 			<h2 class="Heading">Báo giá vận chuyển</h2>
@@ -339,7 +397,7 @@ Giỏ hàng
 	jQuery(document).ready(function(){
 		sgcalculator();
 
-		jQuery('.QuantitySelector span').on('click',function(){
+		jQuery('.quantity span').on('click',function(){
 			var val = jQuery(this).parent().find('input').val();
 			if(jQuery(this).hasClass('minus'))
 			{
@@ -396,9 +454,52 @@ Giỏ hàng
 				}
 			})
 
-			
 		})
+
+		jQuery('.btn-remove-cart').on('click',function(){
+			var $this = jQuery(this);
+			if(confirm("Bạn muốn xóa sản phẩm này?"))
+			{
+				var pack_id = jQuery(this).data('pack');
+				var color_id = jQuery(this).data('color');
+				jQuery.ajax({
+					headers: {
+						'X-CSRF-TOKEN': '{{ csrf_token() }}',
+					},
+					url: '{{route('client.cart.remove')}}',
+					type: 'post',
+					dataType: 'text',
+					data: {
+						pack_id: pack_id,
+						color_id: color_id,
+						_method: 'DELETE'
+					},
+					beforeSend: function(){
+
+					},
+					success: function(res){
+						console.log(res);
+						$this.parents('.CartItem').remove();
+						check_cart();
+						sgcalculator();
+
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				});
+			}
+		});
 	});
+
+	function check_cart(){
+		var i = 0;
+		jQuery('.cart_table .CartItem').each(function(){
+			i ++;
+		});
+
+		if(i == 0) window.location.href = '';
+	}
 
 	function sgcalculator(){
 		var total = 0;

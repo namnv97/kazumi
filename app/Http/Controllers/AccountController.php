@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+
 use App\Model\User;
 use App\Model\RoleUser;
 use App\Model\Roles;
 use Auth;
 use Validator;
 use Mail;
-use Hash;
 
 class AccountController extends Controller
 {
@@ -17,6 +19,8 @@ class AccountController extends Controller
 
     public function getLogin()
     {
+        if(Auth::check()) return $this->redirect();
+
     	return view('client.account.login');
     }
 
@@ -55,6 +59,7 @@ class AccountController extends Controller
 
     public function getRegister()
     {
+        if(Auth::check()) return $this->redirect();
     	return view('client.account.register');
     }
 
@@ -87,13 +92,22 @@ class AccountController extends Controller
         $user = new User;
         $user->name = $rq->name;
         $user->email = $rq->email;
-        $user->password = $rq->password;
+        $user->point_reward = 100;
+        $user->refferal_code = strtoupper(str_random(10));
+        $user->password = Hash::make($rq->password);
         $user->save();
 
         $user_role = new RoleUser;
         $user_role->user_id = $user->id;
         $user_role->role_id = 3;
         $user_role->save();
+
+        $reward = new Reward();
+        $reward->user_id = $user->id;
+        $reward->point = 100;
+        $reward->action = "Đăng ký tài khoản";
+        $reward->status = 'approved';
+        $reward->save();
 
         return redirect('account/login')->with('success','Đăng ký thàng công!');
 
@@ -132,12 +146,33 @@ class AccountController extends Controller
         $user->password = Hash::make($pass);
         $user->save();
         Mail::send('client.account.mail', array('password'=>$pass,'email'=>$rq->email), function($message){
-	        $message->to('ninhpham0308@gmail.com', 'Mật Khẩu Mới')->subject('Cấp lại mật khẩu!');
+	        $message->to('namnguyen.pveser@gmail.com', 'Mật Khẩu Mới')->subject('Cấp lại mật khẩu!');
 	    });
 
         return redirect('account/login')->with('success','Gửi yêu cầu lấy lại mật khẩu thành công! Vui lòng kiểm tra email của bạn');
-
-
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('client.account.login');
+    }
+
+    public function redirect()
+    {
+        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) return redirect()->route('admin.dasshboard');
+        return redirect('/');
+    }
+
+
+    public function index()
+    {
+        $user = Auth::user();
+        return view('client.account.index',compact('user'));
+    }
+
+    public function reward()
+    {
+        return view('client.account.reward_account');
+    }
 }
