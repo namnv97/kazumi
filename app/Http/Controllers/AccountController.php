@@ -40,18 +40,20 @@ class AccountController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('account/login')
+            return redirect()
+                        ->route('client.account.login')
                         ->withErrors($validator)
                         ->withInput();
         }
 
     	if (Auth::attempt(['email' => $rq->email, 'password'=>$rq->password])) 
     	{
-            return redirect('/');
+            return $this->redirect();
         }
         else
         {
-            return redirect('account/login')
+            return redirect()
+                        ->route('client.account.login')
                         ->withErrors(['email hoặc mật khẩu không đúng']);
         }
     }
@@ -84,7 +86,8 @@ class AccountController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('account/register')
+            return redirect()
+                        ->route('client.account.register')
                         ->withErrors($validator)
                         ->withInput();
         }
