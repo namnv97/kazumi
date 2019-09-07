@@ -160,7 +160,7 @@ class AccountController extends Controller
 
     public function redirect()
     {
-        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) return redirect()->route('admin.dasshboard');
+        if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) return redirect()->route('admin.dashboard');
         return redirect('/');
     }
 
