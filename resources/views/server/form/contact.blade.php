@@ -23,7 +23,7 @@
 			<td>{{$single['email']}}</td>
 			<td>{{$single['phone']}}</td>
 			<td>{{$single['message']}}</td>
-			<td>{{$single['ip']}}</td>
+			<td>{{$item->ip}}</td>
 			<td>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s')}}</td>
 			<td>
 				<span class="btn btn-sm btn-danger" title="Xóa bản ghi"><i class="fa fa-trash"></i> Xóa</span>

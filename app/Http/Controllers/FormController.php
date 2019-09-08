@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 use App\Model\FormData;
+use App\Model\RegisterMail;
 
 class FormController extends Controller
 {
@@ -41,11 +43,31 @@ class FormController extends Controller
 
       public function register(Request $request)
       {
-         $data = ['email' => $request->email,'ip' => $_SERVER['REMOTE_ADDR']];
-         $form = new FormData();
-         $form->form_name = 'register';
-         $form->form_value = json_encode($data);
+         $ck = 0;
+
+         $mali = RegisterMail::where('email',$request->email)->first();
+
+         if(!empty($mali)) return response()->json(['status' => 'error','msg' => 'Email đã được đăng ký trước đó']);
+
+         $mapi = RegisterMail::where('ip',$_SERVER['REMOTE_ADDR'])->orderBy('created_at','desc')->first();
+         $last = 0;
+
+         if(!empty($mapi)) $last = \Carbon\Carbon::parse($mapi->created_at)->format('U');
+
+         $now = time();
+
+         if(($now - $last) < 300)
+         {
+            $cur = 300 - $now + $last;
+            $time = (floor($cur/60)).':'.(($cur%60 < 10)?'0'.($cur%60):($cur%60));
+            return response()->json(['status' => 'error','msg' => 'Vui lòng thử lại sau '.$time.' phút']);
+         }
+
+
+         $form = new RegisterMail();
+         $form->email = $request->email;
+         $form->ip = $_SERVER['REMOTE_ADDR'];
          $form->save();
-         return response()->json(['status' => 'success','msg' => 'Form đã được gửi thành công. Xin cảm ơn']);
+         return response()->json(['status' => 'success','msg' => 'Đăng ký thành công !']);
       }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Model\FormData;
+use App\Model\RegisterMail;
 
 class FormController extends Controller
 {
@@ -15,9 +16,12 @@ class FormController extends Controller
 
     	if(empty($form_name)) return view('server.form.index');
 
-    	$forms = FormData::where('form_name',$form_name)->orderBy('created_at','desc')->paginate(10);
-    	$forms->withPath('?form_name='.$form_name);
-
+        if($form_name = 'register'):
+            $forms = RegisterMail::orderBy('created_at','desc')->paginate(10);
+        else:
+        	$forms = FormData::where('form_name',$form_name)->orderBy('created_at','desc')->paginate(10);
+        endif;
+        $forms->withPath('?form_name='.$form_name);
     	$head_title = 'Form Data';
 
     	switch ($form_name) {

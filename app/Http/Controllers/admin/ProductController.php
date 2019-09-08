@@ -15,6 +15,10 @@ use App\Model\PackColor;
 use App\Model\ProductCollection;
 use App\Model\Gallery;
 use App\Model\Essential;
+use App\Model\RegisterMail;
+
+use Mail;
+Use App\Jobs\SendProductEmail;
 
 class ProductController extends Controller
 {
@@ -130,8 +134,9 @@ class ProductController extends Controller
             endforeach;
         endif;
 
+        $this->dispatch(new SendProductEmail($product));
 
-         return redirect()->route('admin.products.edit',['id' => $product->id]);
+        return redirect()->route('admin.products.edit',['id' => $product->id]);
     }
 
     public function edit($id = null)
@@ -369,5 +374,20 @@ class ProductController extends Controller
 
         $products = Product::where('name','like',"%$key%")->select('id','name as text')->get();
         return response()->json($products);
+    }
+
+    public function send_mail($product)
+    {
+        $emails = RegisterMail::select('email')->get()->toArray();
+
+        $emails = array_merge_recursive(...$emails)['email'];
+
+        Mail::send('mail.new_product', array('product' => $product), 
+            function($message) use ($emails){
+                $message
+                ->from('admin@admin.org', 'Administrator')
+                ->subject('Thông báo sản phẩm mới')
+                ->to($email);
+            });
     }
 }

@@ -387,6 +387,7 @@
 						},300);
 
 						jQuery('.form-register .response .text').text(res.msg);
+						jQuery('.form-register .response').addClass(res.status);
 						jQuery('.form-register .response').addClass('active');
 					},
 					errors: function(errors){
@@ -394,6 +395,11 @@
 					}
 				})
 			}
+		});
+
+		jQuery('.form-register .response i').on('click',function(){
+			jQuery('.form-register .response').removeClass('success').removeClass('errors').removeClass('active');
+			jQuery('.form-register .response .text').html('');
 		});
 	</script>
 	@yield('script')
