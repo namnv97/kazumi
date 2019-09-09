@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEarnPointsTable extends Migration
+class CreateGetRewardTalbe extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateEarnPointsTable extends Migration
      */
     public function up()
     {
-        Schema::create('earn_points', function (Blueprint $table) {
+        Schema::create('get_reward', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('image');
+            $table->string('name');
             $table->integer('point');
-            $table->string('unit')->nullable();
+            $table->integer('reward');
+            $table->string('unit');
+            
+         
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateEarnPointsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('earn_points');
+        Schema::dropIfExists('get_reward');
     }
 }

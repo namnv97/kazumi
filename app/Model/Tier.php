@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Tier extends Model
 {
     protected $table = 'tiers';
+    
 }

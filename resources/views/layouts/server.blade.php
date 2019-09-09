@@ -157,6 +157,60 @@
                     <span>Người dùng</span>
                 </a>
             </li>
+            <li class="treeview {{(request()->is('admin/tier*'))?'active':FALSE}}">
+                <a href="{{route('admin.tier.index')}}">
+                    <i class="fa fa-cog"></i>
+                    <span>Bậc thưởng</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/tier'))?'active':FALSE}}">
+                        <a href="{{route('admin.tier.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a>
+                    </li>
+                    <li class="{{(request()->is('admin/tier/create'))?'active':FALSE}}">
+                        <a href="{{route('admin.tier.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li class="treeview {{(request()->is('admin/earn_point*'))?'active':FALSE}}">
+                <a href="{{route('admin.earn_point.index')}}">
+                    <i class="fa fa-cog"></i>
+                    <span>Kiếm điểm</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/earn_point'))?'active':FALSE}}">
+                        <a href="{{route('admin.earn_point.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a>
+                    </li>
+                    <li class="{{(request()->is('admin/earn_point/create'))?'active':FALSE}}">
+                        <a href="{{route('admin.earn_point.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li class="treeview {{(request()->is('admin/get_reward*'))?'active':FALSE}}">
+                <a href="{{route('admin.get_reward.index')}}">
+                    <i class="fa fa-cog"></i>
+                    <span>Phần thưởng</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/get_reward'))?'active':FALSE}}">
+                        <a href="{{route('admin.get_reward.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a>
+                    </li>
+                    <li class="{{(request()->is('admin/get_reward/create'))?'active':FALSE}}">
+                        <a href="{{route('admin.get_reward.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a>
+                    </li>
+                   
+                </ul>
+            </li>
             <li class="treeview {{(request()->is('admin/options*'))?'active':FALSE}}">
                 <a href="{{route('admin.options.index')}}">
                     <i class="fa fa-cog"></i>
@@ -183,6 +237,8 @@
                     </li>
                 </ul>
             </li>
+
+
         </ul>
     </section>
     

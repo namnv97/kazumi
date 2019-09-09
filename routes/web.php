@@ -109,6 +109,49 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 	Route::group(['prefix' => 'forms'],function(){
 		Route::get('/','FormController@index')->name('admin.forms.index');
 	});
+
+	Route::group(['prefix' => 'tier'],function(){
+		Route::get('/','TierController@index')->name('admin.tier.index');
+
+		Route::get('/create','TierController@create')->name('admin.tier.create');
+		Route::post('/create','TierController@postCreate')->name('admin.tier.create');
+
+		Route::get('/edit/{id?}','TierController@edit')->name('admin.tier.edit');
+		Route::post('/edit/{id?}','TierController@postEdit')->name('admin.tier.edit');
+
+		Route::delete('/delete/{id?}','TierController@delete')->name('admin.tier.delete');
+
+		//Route::get('/get_product','ProductController@get_product')->name('admin.tier.get_product');
+	});
+
+	Route::group(['prefix' => 'earn_point'],function(){
+		Route::get('/','EarnPointController@index')->name('admin.earn_point.index');
+
+		Route::get('/create','EarnPointController@create')->name('admin.earn_point.create');
+		Route::post('/create','EarnPointController@postCreate')->name('admin.earn_point.create');
+
+		Route::get('/edit/{id?}','EarnPointController@edit')->name('admin.earn_point.edit');
+		Route::post('/edit/{id?}','EarnPointController@postEdit')->name('admin.earn_point.edit');
+
+		Route::delete('/delete/{id?}','EarnPointController@delete')->name('admin.earn_point.delete');
+
+		//Route::get('/get_product','ProductController@get_product')->name('admin.tier.get_product');
+	});
+
+	Route::group(['prefix' => 'get_reward'],function(){
+		Route::get('/','GetRewardController@index')->name('admin.get_reward.index');
+
+		Route::get('/create','GetRewardController@create')->name('admin.get_reward.create');
+		Route::post('/create','GetRewardController@postCreate')->name('admin.get_reward.create');
+
+		Route::get('/edit/{id?}','GetRewardController@edit')->name('admin.get_reward.edit');
+		Route::post('/edit/{id?}','GetRewardController@postEdit')->name('admin.get_reward.edit');
+
+		Route::delete('/delete/{id?}','GetRewardController@delete')->name('admin.get_reward.delete');
+
+		//Route::get('/get_product','ProductController@get_product')->name('admin.tier.get_product');
+	});
+
 });
 
 
@@ -129,6 +172,11 @@ Route::group(['prefix' => 'account'],function(){
 		Route::get('/reward','AccountController@reward')->name('client.account.reward');
 	});
 
+	Route::get('/forgot_password','AccountController@getForgot')->name('client.account.forgot_password');
+	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
+
+	Route::get('/profile','AccountController@getProfile')->name('client.account.profile');
+	Route::post('/profile','AccountController@postProfile')->name('client.account.profile');
 });
 
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');
