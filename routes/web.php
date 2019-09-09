@@ -114,15 +114,15 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 Route::group(['prefix' => 'account'],function(){
 	
-	Route::get('/login','AccountController@getLogin')->name('client.account.login');
-	Route::post('/login','AccountController@postLogin')->name('client.account.login');
-	Route::post('/logout','AccountController@logout')->name('client.account.logout');
+	Route::get('/login','AccountController@getLogin')->name('login');
+	Route::post('/login','AccountController@postLogin')->name('login');
+	Route::post('/logout','AccountController@logout')->name('logout');
 
-	Route::get('/register','AccountController@getRegister')->name('client.account.register');
-	Route::post('/register','AccountController@postRegister')->name('client.account.register');
+	Route::get('/register','AccountController@getRegister')->name('register');
+	Route::post('/register','AccountController@postRegister')->name('register');
 
-	Route::get('/forgot_password','AccountController@getForgot')->name('client.account.forgot_password');
-	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
+	Route::get('/forgot_password','AccountController@getForgot')->name('forgot_password');
+	Route::post('/forgot_password','AccountController@postForgot')->name('forgot_password');
 
 	Route::group(['middleware' => 'auth'],function(){
 		Route::get('/','AccountController@index')->name('client.account.index');
@@ -160,9 +160,5 @@ Route::get('/lien-he',function(){
 })->name('client.page.contact');
 
 Route::post('/formdata','FormController@formdata')->name('client.form.data');
-
-Route::get('/login',function(){
-	return redirect()->route('client.account.login');
-})->name('login');
 
 Route::get('/','HomeController@index')->name('home');

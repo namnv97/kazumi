@@ -26,20 +26,20 @@
 			
 		</div>
 		@endif
-		<form action="" method="post">
+		<form action="{{route('login')}}" method="post">
 			@csrf
 			<div class="form-group">
 				<input type="email" name="email" placeholder="Email" class="form-control">
 			</div>
 			<div class="form-group">
 				<input type="password" name="password" placeholder="Password" class="form-control">
-				<a href="{{route('client.account.forgot_password')}}">Quên mật khẩu?</a>
+				<a href="{{route('forgot_password')}}">Quên mật khẩu?</a>
 			</div>
 			<div class="SectionHeader__ButtonWrapper">
 	            <div class="ButtonGroup ButtonGroup--spacingSmall "><button type="submit" class="ButtonGroup__Item Button">Đăng nhập</button></div>
 	        </div>
 		</form>
-		<p>Chưa có tài khoản? <a href="{{route('client.account.register')}}">Đăng ký</a></p>
+		<p>Chưa có tài khoản? <a href="{{route('register')}}">Đăng ký</a></p>
 	</div>
 </div>
 @endsection

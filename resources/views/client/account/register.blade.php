@@ -21,7 +21,7 @@
 		@endif
 		
 
-		<form action="" method="post">
+		<form action="{{route('register')}}" method="post">
 			@csrf
 			<div class="form-group">
 				<input type="email" name="email" placeholder="Email" class="form-control">
@@ -43,7 +43,7 @@
 	            <div class="ButtonGroup ButtonGroup--spacingSmall btn-submit"><button type="submit" class="ButtonGroup__Item Button">Đăng ký</button></div>
 	        </div>
 		</form>
-		<p>Đã có tài khoản? <a href="{{route('client.account.login')}}">Đăng Nhập</a></p>
+		<p>Đã có tài khoản? <a href="{{route('login')}}">Đăng Nhập</a></p>
 	</div>
 </div>
 @endsection

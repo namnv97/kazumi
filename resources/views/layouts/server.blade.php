@@ -65,9 +65,9 @@
                                 <a href="#" class="btn btn-default btn-flat" target="_blank">Cá nhân</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{route('client.account.logout')}}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                <a href="{{route('logout')}}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                             </div>
-                            <form id="logout-form" action="{{ route('client.account.logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </li>

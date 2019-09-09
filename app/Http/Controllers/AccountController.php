@@ -53,7 +53,7 @@ class AccountController extends Controller
         else
         {
             return redirect()
-                        ->route('client.account.login')
+                        ->route('login')
                         ->withErrors(['email hoặc mật khẩu không đúng']);
         }
     }
@@ -112,7 +112,7 @@ class AccountController extends Controller
         $reward->status = 'approved';
         $reward->save();
 
-        return redirect('account/login')->with('success','Đăng ký thàng công!');
+        return redirect()->route('login')->with('success','Đăng ký thàng công!');
 
     }
 
@@ -152,13 +152,13 @@ class AccountController extends Controller
 	        $message->to('namnguyen.pveser@gmail.com', 'Mật Khẩu Mới')->subject('Cấp lại mật khẩu!');
 	    });
 
-        return redirect('account/login')->with('success','Gửi yêu cầu lấy lại mật khẩu thành công! Vui lòng kiểm tra email của bạn');
+        return redirect()->route('login')->with('success','Gửi yêu cầu lấy lại mật khẩu thành công! Vui lòng kiểm tra email của bạn');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('client.account.login');
+        return redirect()->route('login');
     }
 
     public function redirect()

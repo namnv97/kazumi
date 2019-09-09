@@ -9,8 +9,8 @@ Tài khoản
 <div class="contact bg-grey account">
 	<div class="container">
 		<div class="title-acount">
-			<a href="{{route('client.account.logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ĐĂNG XUẤT</a>
-			<form action="{{route('client.account.logout')}}" method="post" id="logout-form">
+			<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ĐĂNG XUẤT</a>
+			<form action="{{route('logout')}}" method="post" id="logout-form">
 				@csrf
 			</form>
 			<h1 class="title-large">TÀI KHOẢN CỦA TÔI</h1>

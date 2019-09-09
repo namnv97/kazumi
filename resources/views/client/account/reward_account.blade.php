@@ -9,7 +9,7 @@ Tài khoản
 <div class="contact bg-grey account rewards-account">
 	<div class="container">
 		<div class="title-acount">
-			<h1 class="title-large">YOUR REWARDS ACCOUNT</h1>
+			<h1 class="title-large">Điểm thưởng của bạn</h1>
 		</div>
 		<div class="rewards-account-content">
 			<div class="row">
@@ -17,18 +17,18 @@ Tài khoản
 					<div class="lion-loyalty-panel-sidebar">
 						<div class="lion-loyalty-panel-sidebar__points">
 							<span class="lion-loyalty-panel-sidebar__points-value">
-								<lionpoints>300</lionpoints>
+								<lionpoints>{{Auth::user()->point_reward}}</lionpoints>
 							</span>
-							<span class="lion-loyalty-panel-sidebar__points-text">points</span>
+							<span class="lion-loyalty-panel-sidebar__points-text">điểm</span>
 						</div>
 						<ul class="nav nav-tabs">
     						<li class="active diamond"><a data-toggle="tab" href="#graded"><i class="fa fa-diamond" aria-hidden="true"></i> Silver</a></li>
-    						<li><a data-toggle="tab" href="#earn-points">EARN POINTS</a></li>
-    						<li><a data-toggle="tab" href="#get-rewards">GET REWARDS</a></li>
-    						<li><a data-toggle="tab" href="#refer-friends">REFER FRIENDS</a></li>
-    						<li><a data-toggle="tab" href="#menu4">TIERS</a></li>
-    						<li><a data-toggle="tab" href="#account">ACCOUNT</a></li>
-    						<li><a data-toggle="tab" href="#help">HELP</a></li>
+    						<li><a data-toggle="tab" href="#earn-points">Thêm điểm</a></li>
+    						<li><a data-toggle="tab" href="#get-rewards">Đổi điểm</a></li>
+    						<li><a data-toggle="tab" href="#refer-friends">Giới thiệu bạn bè</a></li>
+    						<li><a data-toggle="tab" href="#earn-points">Cấp bậc</a></li>
+    						<li><a data-toggle="tab" href="#account">Hoạt động</a></li>
+    						<li><a data-toggle="tab" href="#help">Giúp đỡ</a></li>
   						</ul>
 					</div>
 				</div>
@@ -36,7 +36,7 @@ Tài khoản
 					<div class="tab-content">
 					    <div id="graded" class="tab-pane fade in active">
 					      	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">Tiers</div>
+					      		<div class="lion-loyalty-panel-content__header">Cấp bậc</div>
 					      		<div class="row">
 					      			<div class="col-md-4 col-sm-4 col-xs-12">
 					      				<div class="lion-loyalty-panel-tier-item lion-loyalty-panel-tier-item--current">
@@ -173,7 +173,7 @@ Tài khoản
 					    </div>
 					    <div id="earn-points" class="tab-pane fade">
 					      	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">EARN POINTS</div>
+					      		<div class="lion-loyalty-panel-content__header">Thêm điểm</div>
 					      		<div class="row">
 						      		<div class="col-md-6 col-sm-6 col-xs-12">
 						      			<div class="lion-loyalty-panel-rule-item" data-toggle="modal" data-target="#myModal-account">
@@ -230,7 +230,7 @@ Tài khoản
 					    </div>
 					    <div id="get-rewards" class="tab-pane fade">
 					      	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">get rewards</div>
+					      		<div class="lion-loyalty-panel-content__header">Đổi điểm</div>
 					      		<div class="row">
 						      		<div class="col-md-6 col-sm-6 col-xs-12">
 						      			<div class="lion-loyalty-panel-rule-item">
@@ -314,7 +314,7 @@ Tài khoản
 					    </div>
 					    <div id="refer-friends" class="tab-pane fade">
 					    	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">refer friends</div>
+					      		<div class="lion-loyalty-panel-content__header">Giới thiệu bạn bè</div>
 					      		<div class="lion-referral-widget-panel lion-referral-widget-main">
 					      			<div class="lion-referral-widget-main__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-refer-friend.svg) center/50px no-repeat #fff;"></div>
 					      			<div class="lion-referral-widget-main__intro">
@@ -348,7 +348,7 @@ Tài khoản
 					    </div>
 					    <div id="account" class="tab-pane fade">
 					      	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">YOUR RECENT ACTIVITY</div>
+					      		<div class="lion-loyalty-panel-content__header">Hoạt động</div>
 					      		<div class="lion-loyalty-panel-page-history">
 					      			<table class="lion-customer-history-table table">
 					      				<thead>
@@ -361,6 +361,7 @@ Tài khoản
 					      					</tr>
 					      				</thead>
 					      				<tbody>
+					      					@foreach($rewards as $reward)
 					      					<tr class="lion-customer-history-table__row">
 					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-date">8/26/2019</td>
 					      						<td data-i18n-key="ui.general.activity" class="lion-customer-history-table__row-cell">Activity</td>
@@ -370,15 +371,7 @@ Tài khoản
 					      							<div class="lion-customer-history-table__bubble lion-history-state-bubble lion-history-state-bubble--approved">Approved</div>
 					      						</td>
 					      					</tr>
-					      					<tr class="lion-customer-history-table__row">
-					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-date">8/21/2019</td>
-					      						<td data-i18n-key="ui.general.activity" class="lion-customer-history-table__row-cell">Activity</td>
-					      						<td class="lion-customer-history-table__row-cell">Create an account</td>
-					      						<td class="lion-customer-history-table__row-cell">100</td>
-					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-status">
-					      							<div class="lion-customer-history-table__bubble lion-history-state-bubble lion-history-state-bubble--approved">Approved</div>
-					      						</td>
-					      					</tr>
+					      					@endforeach
 					      				</tbody>
 					      			</table>
 					      		</div>
@@ -386,7 +379,7 @@ Tài khoản
 					    </div>
 					    <div id="help" class="tab-pane fade">
 					      	<div class="lion-loyalty-panel-content">
-					      		<div class="lion-loyalty-panel-content__header">Help</div>
+					      		<div class="lion-loyalty-panel-content__header">Giúp đỡ</div>
 					      		<div class="lion-loyalty-panel-page-help__content">
 					      			<div class="question-help">
 					      				How does this work?
