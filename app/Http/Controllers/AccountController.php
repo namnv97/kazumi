@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Model\User;
 use App\Model\RoleUser;
 use App\Model\Roles;
+use App\Model\Reward;
+use App\Model\Option;
+use App\Model\UserTier;
+use App\Model\Tier;
+
 use Auth;
 use Validator;
 use Mail;
@@ -112,6 +117,12 @@ class AccountController extends Controller
         $reward->status = 'approved';
         $reward->save();
 
+        $tier = new UserTier();
+        $tier->user_id = $user->id;
+        $tier->tier_id = 1;
+        $tier->save();
+
+
         return redirect()->route('login')->with('success','Đăng ký thàng công!');
 
     }
@@ -176,6 +187,14 @@ class AccountController extends Controller
 
     public function reward()
     {
-        return view('client.account.reward_account');
+        $rewards = Reward::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+
+        $reward_help = Option::where('meta_key','reward_help')->first();
+
+        $grades = Tier::all();
+
+        $user_tier = UserTier::where('user_id',Auth::user()->id)->first();
+
+        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier'));
     }
 }

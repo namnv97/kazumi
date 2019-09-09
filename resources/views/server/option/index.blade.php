@@ -46,6 +46,11 @@ Thiết lập chung
 	{
 		display: block;
 	}
+
+	.tab-content {
+		padding: 15px;
+		background: #fff;
+	}
 </style>
 @endsection
 @section('content')
@@ -72,6 +77,7 @@ Thiết lập chung
 					<li class="active"><a data-toggle="tab" href="#logo">Logo</a></li>
 					<li><a data-toggle="tab" href="#shipping">Giao hàng và Hoàn lại</a></li>
 					<li><a data-toggle="tab" href="#collection">Bộ sưu tập</a></li>
+					<li><a data-toggle="tab" href="#reward_help">Trang điểm thưởng</a></li>
 				</ul>
 
 				<div class="tab-content">
@@ -89,7 +95,7 @@ Thiết lập chung
 					<div id="shipping" class="tab-pane fade">
 						<div class="form-group">
 							<label>Nội dung</label>
-							<textarea name="product_shipping" id="product_shipping" rows="10" class="form-control" style="resize: vertical;">{{old('product_shipping')?old('product_shipping'):(($product_shipping)?$product_shipping->meta_value:FALSE)}}</textarea>
+							<textarea name="product_shipping" id="product_shipping" rows="10" class="form-control editor" style="resize: vertical;">{{old('product_shipping')?old('product_shipping'):(($product_shipping)?$product_shipping->meta_value:FALSE)}}</textarea>
 						</div>
 					</div>
 					<div id="collection" class="tab-pane fade">
@@ -105,7 +111,13 @@ Thiết lập chung
 						</div>
 						<div class="form-group">
 							<label>Nội dung</label>
-							<textarea name="suggest_collection" id="suggest_collection" rows="3" class="form-control" style="resize: vertical;">{!! (!empty($suggest_collection))?$suggest_collection->meta_value:FALSE !!}</textarea>
+							<textarea name="suggest_collection" id="suggest_collection" rows="3" class="form-control editor" style="resize: vertical;">{!! (!empty($suggest_collection))?$suggest_collection->meta_value:FALSE !!}</textarea>
+						</div>
+					</div>
+					<div id="reward_help" class="tab-pane fade in">
+						<div class="form-group">
+							<label>Nội dung giúp đỡ</label>
+							<textarea name="reward_help" id="reward_help" class="editor form-control" rows="10">{!! (!empty($reward_help))?$reward_help->meta_value:FALSE !!}</textarea>
 						</div>
 					</div>
 				</div>
@@ -148,8 +160,7 @@ Thiết lập chung
 			}
 		})
 
-		CKEDITOR.replace('product_shipping');
-		CKEDITOR.replace('suggest_collection');
+		CKEDITOR.replaceClass = "editor";
 
 		jQuery('.add-banner').on('click',function(){
 			var cur = jQuery(this).parent();

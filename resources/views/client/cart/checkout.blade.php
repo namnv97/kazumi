@@ -93,8 +93,8 @@
 									<div class="text">
 										<p><span>{{Auth::user()->name}}</span> ({{Auth::user()->email}})</p>
 										<p>
-											<a href="{{route('client.account.logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
-											<form action="{{route('client.account.logout')}}" method="post" id="logout-form" style="display: none;">
+											<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+											<form action="{{route('logout')}}" method="post" id="logout-form" style="display: none;">
 												@csrf
 											</form>
 										</p>

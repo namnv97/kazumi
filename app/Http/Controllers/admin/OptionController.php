@@ -22,11 +22,11 @@ class OptionController extends Controller
 {
     public function index()
     {
-        $arr = ['logo','product_shipping','banner_collection','suggest_collection'];
+        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help'];
         foreach($arr as $ar):
             $$ar = Option::where('meta_key',$ar)->first();
         endforeach;
-    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection'));
+    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -74,6 +74,20 @@ class OptionController extends Controller
                 unset($$ar);
             endif;
         endforeach;
+
+        $hep = $request->reward_help;
+
+        $help = Option::where('meta_key','reward_help')->first();
+
+        if(!empty($help)):
+            $help->meta_value = $hep;
+            $help->save();
+        else:
+            $help = new Option();
+            $help->meta_key = 'reward_help';
+            $help->meta_value = $hep;
+            $help->save();
+        endif;
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');
 

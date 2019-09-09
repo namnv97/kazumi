@@ -22,11 +22,13 @@ Tài khoản
 							<span class="lion-loyalty-panel-sidebar__points-text">điểm</span>
 						</div>
 						<ul class="nav nav-tabs">
-    						<li class="active diamond"><a data-toggle="tab" href="#graded"><i class="fa fa-diamond" aria-hidden="true"></i> Silver</a></li>
+    						<li class="active diamond">
+    							<a data-toggle="tab" href="#graded"><i class="fa fa-diamond" aria-hidden="true"></i> Bạc</a>
+    						</li>
     						<li><a data-toggle="tab" href="#earn-points">Thêm điểm</a></li>
     						<li><a data-toggle="tab" href="#get-rewards">Đổi điểm</a></li>
     						<li><a data-toggle="tab" href="#refer-friends">Giới thiệu bạn bè</a></li>
-    						<li><a data-toggle="tab" href="#earn-points">Cấp bậc</a></li>
+    						<li><a data-toggle="tab" href="#graded">Cấp bậc</a></li>
     						<li><a data-toggle="tab" href="#account">Hoạt động</a></li>
     						<li><a data-toggle="tab" href="#help">Giúp đỡ</a></li>
   						</ul>
@@ -38,55 +40,33 @@ Tài khoản
 					      	<div class="lion-loyalty-panel-content">
 					      		<div class="lion-loyalty-panel-content__header">Cấp bậc</div>
 					      		<div class="row">
+					      			@if(count($grades) > 0)
+					      			@foreach($grades as $grade)
+					      			@if($user_tier->tier_id == $grade->id)
 					      			<div class="col-md-4 col-sm-4 col-xs-12">
 					      				<div class="lion-loyalty-panel-tier-item lion-loyalty-panel-tier-item--current">
 					      					<div class="lion-loyalty-panel-tier-item__header">
-					      						<div class="lion-loyalty-panel-tier-item__name">Silver</div>
-					      						<div class="lion-loyalty-panel-tier-item__context">You are in this tier</div>
+					      						<div class="lion-loyalty-panel-tier-item__name">{{$grade->name}}</div>
+					      						<div class="lion-loyalty-panel-tier-item__context">Bạn đang ở cấp tài khoản này</div>
 					      					</div>
 					      					<div class="lion-loyalty-panel-tier-item__accent" style="background-color: rgb(193, 225, 197);">
 					      						
 					      					</div>
 					      					<div class="lion-loyalty-panel-tier-item__inner">
 					      						<div class="lion-loyalty-panel-tier-item__list-container">
-					      							<ul class="lion-loyalty-panel-tier-item__list">
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Make a purchase - 
-					      									<div class="lion-loyalty-panel-tier-item__list-item-value">
-					      										<span>
-					      											<span class="value">30</span> 
-					      											<span class="text">points per 
-					      												<span class="lion-currency">
-					      													<span class="lion-currency__value">$1</span>
-					      												</span>
-					      											</span>
-					      										</span>
-					      									</div>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Refer a friend - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">3,000</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Happy Birthday - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">500</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item">
-					      									<a href="#" class="lion-loyalty-panel-tier-item__view-more-link">View More</a>
-					      								</li>
-					      							</ul>
+					      							{!! $grade->tier_content !!}
 					      						</div>
 					      					</div>
 					      				</div>
 					      			</div>
+					      			@else
 					      			<div class="col-md-4 col-sm-4 col-xs-12">
 					      				<div class="lion-loyalty-panel-tier-item">
 					      					<div class="lion-loyalty-panel-tier-item__header">
-					      						<div class="lion-loyalty-panel-tier-item__name">Gold</div>
+					      						<div class="lion-loyalty-panel-tier-item__name">{{$grade->name}}</div>
 					      						<div class="lion-loyalty-panel-tier-item__context">
-					      							<span data-i18n-key="ui.dashboard.tiers.spend_until_next_tier">Spend 
-					      								<strong>
-					      									<span class="lion-currency">
-					      										<span class="lion-currency__value">$100</span>
-					      									</span>
-					      								</strong> more to reach this tier
+					      							<span data-i18n-key="ui.dashboard.tiers.spend_until_next_tier">
+					      								{!! $grade->title !!}
 					      							</span>
 					      						</div>
 					      					</div>
@@ -95,79 +75,14 @@ Tài khoản
 					      					</div>
 					      					<div class="lion-loyalty-panel-tier-item__inner">
 					      						<div class="lion-loyalty-panel-tier-item__list-container">
-					      							<ul class="lion-loyalty-panel-tier-item__list">
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Make a purchase - 
-					      									<div class="lion-loyalty-panel-tier-item__list-item-value">
-					      										<span>
-					      											<span class="value">30</span> 
-					      											<span class="text">points per 
-					      												<span class="lion-currency">
-					      													<span class="lion-currency__value">$1</span>
-					      												</span>
-					      											</span>
-					      										</span>
-					      									</div>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Refer a friend - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">3,000</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Happy Birthday - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">500</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item">
-					      									<a href="#" class="lion-loyalty-panel-tier-item__view-more-link">View More</a>
-					      								</li>
-					      							</ul>
+					      							{!! $grade->tier_content !!}
 					      						</div>
 					      					</div>
 					      				</div>
 					      			</div>
-					      			<div class="col-md-4 col-sm-4 col-xs-12">
-					      				<div class="lion-loyalty-panel-tier-item">
-					      					<div class="lion-loyalty-panel-tier-item__header">
-					      						<div class="lion-loyalty-panel-tier-item__name">Platinum</div>
-					      						<div class="lion-loyalty-panel-tier-item__context">
-					      							<span data-i18n-key="ui.dashboard.tiers.spend_until_next_tier">Spend 
-					      								<strong>
-					      									<span class="lion-currency">
-					      										<span class="lion-currency__value">$300</span>
-					      									</span>
-					      								</strong> more to reach this tier
-					      							</span>
-					      						</div>
-					      					</div>
-					      					<div class="lion-loyalty-panel-tier-item__accent" style="background-color: rgb(193, 225, 197);">
-					      						
-					      					</div>
-					      					<div class="lion-loyalty-panel-tier-item__inner">
-					      						<div class="lion-loyalty-panel-tier-item__list-container">
-					      							<ul class="lion-loyalty-panel-tier-item__list">
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Make a purchase - 
-					      									<div class="lion-loyalty-panel-tier-item__list-item-value">
-					      										<span>
-					      											<span class="value">30</span> 
-					      											<span class="text">points per 
-					      												<span class="lion-currency">
-					      													<span class="lion-currency__value">$1</span>
-					      												</span>
-					      											</span>
-					      										</span>
-					      									</div>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Refer a friend - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">3,000</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item lion-loyalty-panel-tier-item__list-item--rule">Happy Birthday - 
-					      									<span class="lion-loyalty-panel-tier-item__list-item-value">500</span>
-					      								</li>
-					      								<li class="lion-loyalty-panel-tier-item__list-item">
-					      									<a href="#" class="lion-loyalty-panel-tier-item__view-more-link">View More</a>
-					      								</li>
-					      							</ul>
-					      						</div>
-					      					</div>
-					      				</div>
-					      			</div>
+					      			@endif
+					      			@endforeach
+					      			@endif
 					      		</div>
 					      	</div>
 					    </div>
@@ -353,22 +268,22 @@ Tài khoản
 					      			<table class="lion-customer-history-table table">
 					      				<thead>
 					      					<tr>
-					      						<th data-i18n-key="ui.general.date" class="lion-customer-history-table__header-cell">Date</th>
-					      						<th data-i18n-key="ui.general.type" class="lion-customer-history-table__header-cell">Type</th>
-					      						<th data-i18n-key="ui.general.action" class="lion-customer-history-table__header-cell">Action</th>
-					      						<th data-i18n-key="ui.general.points_plural" class="lion-customer-history-table__header-cell">Points</th>
-					      						<th data-i18n-key="ui.general.status" class="lion-customer-history-table__header-cell lion-customer-history-table__header-cell--centre-aligned">Status</th>
+					      						<th data-i18n-key="ui.general.date" class="lion-customer-history-table__header-cell">Ngày</th>
+					      						<th data-i18n-key="ui.general.type" class="lion-customer-history-table__header-cell">Kiểu</th>
+					      						<th data-i18n-key="ui.general.action" class="lion-customer-history-table__header-cell">Hành động</th>
+					      						<th data-i18n-key="ui.general.points_plural" class="lion-customer-history-table__header-cell">Điểm</th>
+					      						<th data-i18n-key="ui.general.status" class="lion-customer-history-table__header-cell lion-customer-history-table__header-cell--centre-aligned">Trạng thái</th>
 					      					</tr>
 					      				</thead>
 					      				<tbody>
 					      					@foreach($rewards as $reward)
 					      					<tr class="lion-customer-history-table__row">
-					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-date">8/26/2019</td>
+					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-date">{{\Carbon\Carbon::parse($reward->created_at)->format('d/m/Y')}}</td>
 					      						<td data-i18n-key="ui.general.activity" class="lion-customer-history-table__row-cell">Activity</td>
-					      						<td class="lion-customer-history-table__row-cell">Like us on Facebook</td>
-					      						<td class="lion-customer-history-table__row-cell">200</td>
+					      						<td class="lion-customer-history-table__row-cell">{{$reward->action}}</td>
+					      						<td class="lion-customer-history-table__row-cell">{{$reward->point}}</td>
 					      						<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-status">
-					      							<div class="lion-customer-history-table__bubble lion-history-state-bubble lion-history-state-bubble--approved">Approved</div>
+					      							<div class="lion-customer-history-table__bubble lion-history-state-bubble lion-history-state-bubble--approved">{{($reward->status == 'approved')?'Chấp nhận':'Chờ duyệt'}}</div>
 					      						</td>
 					      					</tr>
 					      					@endforeach
@@ -381,18 +296,7 @@ Tài khoản
 					      	<div class="lion-loyalty-panel-content">
 					      		<div class="lion-loyalty-panel-content__header">Giúp đỡ</div>
 					      		<div class="lion-loyalty-panel-page-help__content">
-					      			<div class="question-help">
-					      				How does this work?
-					      			</div>
-					      			<p>We've created the ESQIDO Rewards as a token of our appreciation for our customers. You’ll earn points for activities on our site, like referrals and purchases. You can use them to earn discounts off purchases, so the more you collect the more you save.</p>
-					      			<div class="question-help">
-					      				WHO CAN JOIN?
-					      			</div>
-					      			<p>Anyone with an account is automatically enrolled.</p>
-					      			<div class="question-help">
-					      				How do I earn points?
-					      			</div>
-					      			<p>You can earn points for all sorts of activities, including referring friends, liking and following us on Facebook and Instagram, and making purchases. To see all the ways you can earn points click the <em>Earn Points</em> tab in the menu.</p>
+					      			{!! (!empty($reward))?$reward_help->meta_value:FALSE !!}
 					      		</div>
 					      	</div>
 					    </div>

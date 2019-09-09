@@ -32,7 +32,8 @@ class StoreOptionIndex extends FormRequest
         return [
             'logo' => 'required',
             'banner_collection' => 'required',
-            'suggest_collection' => 'required'
+            'suggest_collection' => 'required',
+            'reward_help' => 'required'
         ];
     }
 
@@ -40,8 +41,9 @@ class StoreOptionIndex extends FormRequest
     {
         return [
             'logo.required' => 'Logo không được để trống',
-            'banner_collection' => 'Banner bộ sưu tập không được để trống',
-            'suggest_collection' => 'Nội dung bộ sưu tập không được để trống'
+            'banner_collection.required' => 'Banner bộ sưu tập không được để trống',
+            'suggest_collection.required' => 'Nội dung bộ sưu tập không được để trống',
+            'reward_help.required' => 'Nội dung hỗ trợ trang điểm thưởng không được để trống'
         ];
     }
 }
