@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Model\User;
 use App\Model\RoleUser;
 use App\Model\Roles;
+use App\Model\Tier;
+use App\Model\Get_reward;
+use App\Model\Earn_point;
+use App\Model\History_reward;
 use Auth;
 use Validator;
 use Mail;
@@ -159,6 +163,7 @@ class AccountController extends Controller
 
         ]);
 
+
         if ($validator->fails()) {
             return redirect('account/profile')
                         ->withErrors($validator)
@@ -176,5 +181,58 @@ class AccountController extends Controller
         return redirect('account/profile')->with('success','Cập nhật thành công');
     }
 
+    public function getReward()
+    {
+        $history = History_reward::where('user_id',Auth::user()->id)->get();
+        $earn_point = Earn_point::all();
+        $rewards = Get_reward::orderBy('reward','asc')->get();
+        return view('client.account.getreward',compact('rewards','earn_point','history'));
+    }
+    public function postReward(Request $rq)
+    {
+       $user = User::find(Auth::user()->id);
+       $reward = Get_reward::find($rq->id);
+
+       if($user->point_reward >= $reward->point)
+       {
+            $user->point_reward -= $reward->point;
+            $user->save();
+
+            //luu lai lich su
+            $ht = new History_reward;
+            $ht->user_id = $user->id;
+            $ht->point = -$reward->point;
+            $ht->action = "Đổi quà tặng";
+            $ht->status = "approved";
+            $ht->save();
+            $json_data = [
+                'status' => 1,
+                'msg' => 'Đổi thưởng thành công'
+            ];
+            echo json_encode($json_data); 
+       }
+       else
+       {
+            $json_data = [
+                'status' => 0,
+                'msg' => 'Đổi thưởng không thành công'
+            ];
+            echo json_encode($json_data); 
+       }
+    }
+
+
+    public function postDataEarn(Request $rq)
+    {
+        $er = Earn_point::find($rq->id);
+
+        $json_data = [
+                
+                'data' => $er
+            ];
+        echo json_encode($json_data); 
+
+
+    }
 
 }

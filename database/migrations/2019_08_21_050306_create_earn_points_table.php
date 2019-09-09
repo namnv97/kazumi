@@ -18,7 +18,9 @@ class CreateEarnPointsTable extends Migration
             $table->string('title');
             $table->string('image');
             $table->integer('point');
+            $table->string('price');
             $table->string('unit');
+
             $table->timestamps();
         });
     }

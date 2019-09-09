@@ -77,6 +77,10 @@ Cập nhật điểm
 					</div>
 					<div class="form-group">
 						<label>Đơn vị</label>
+						<input type="number" name="price" class="form-control" placeholder="Dơn vị" value="{{$earn_point->price}}">
+					</div>
+					<div class="form-group">
+						<label>Đơn vị</label>
 						<input type="text" name="unit" class="form-control" placeholder="Dơn vị" value="{{$earn_point->unit}}">
 					</div>
 					

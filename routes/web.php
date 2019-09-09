@@ -167,6 +167,12 @@ Route::group(['prefix' => 'account','middleware' => ['auth']],function(){
 
 	Route::get('/profile','AccountController@getProfile')->name('client.account.profile');
 	Route::post('/profile','AccountController@postProfile')->name('client.account.profile');
+
+	Route::get('rewards-account','AccountController@getReward')->name('client.account.getreward');
+	Route::post('getreward.json','AccountController@postReward')->name('client.account.getreward');
+
+	Route::post('model.json','AccountController@postDataEarn')->name('client.account.modelearn');
+
 });
 
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');

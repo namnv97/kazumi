@@ -25,13 +25,13 @@ class EarnPointController extends Controller
     public function postCreate(Request $request)
     {
     	$validator = Validator::make($request->all(), [
-            'unit' => 'required',
+            
             'title' => 'required',
             'point' => 'required',
             'image' => 'required',
         ],[
             'title.required' => 'Chưa nhập tên bậc',
-            'unit.required' => 'Chưa nhập đơn vị',
+            
             'point.required' => 'Chưa nhập số điểm',
            	'image.required' => 'Chưa có ảnh',
         ]);
@@ -46,6 +46,8 @@ class EarnPointController extends Controller
         $earn_point->title = $request->title;
         $earn_point->unit = $request->unit;
         $earn_point->image = $request->image;
+        $earn_point->price = $request->price;
+
         $earn_point->point = $request->point;
 
         $earn_point->save();
@@ -85,6 +87,8 @@ class EarnPointController extends Controller
         $earn_point->unit = $request->unit;
         $earn_point->title = $request->title;
         $earn_point->point = $request->point;
+        $earn_point->price = $request->price;
+
         
         $earn_point->image = $request->image;
 

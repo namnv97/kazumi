@@ -52,7 +52,10 @@ Danh sách điểm
 				
 				<th>Tiêu đề</th>
 				<th>Số điểm</th>
+
+				<th>Số tiền</th>
 				<th>Đơn vị</th>
+
 				<th>Ảnh</th>
 				<th></th>
 				<th></th>
@@ -67,6 +70,7 @@ Danh sách điểm
 				<td>
 					{{$value->point}}
 				</td>
+				<th>{{number_format($value->price)}}</th>
 				<td>{{$value->unit}}</td>
 				<td>
 					@if(isset($value->image))
