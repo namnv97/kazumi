@@ -34,7 +34,8 @@ class EarnPointController extends Controller
            	'image.required' => 'Chưa có ảnh',
         ]);
         if ($validator->fails()) {
-            return redirect('admin/earn_point/create')
+            return redirect()
+                        ->route('admin.earn_point.create')
                         ->withErrors($validator)
                         ->withInput();
 
@@ -44,6 +45,7 @@ class EarnPointController extends Controller
         $earn_point->title = $request->title;
         $earn_point->unit = $request->unit;
         $earn_point->image = $request->image;
+        $earn_point->price = $request->price;
         $earn_point->point = $request->point;
 
         $earn_point->save();
@@ -83,9 +85,8 @@ class EarnPointController extends Controller
         $earn_point->unit = $request->unit;
         $earn_point->title = $request->title;
         $earn_point->point = $request->point;
-        
+        $earn_point->price = $request->price;
         $earn_point->image = $request->image;
-
         $earn_point->save();
 
         return redirect()->route('admin.earn_point.edit',['id' => $earn_point->id])->with('success','Cập nhật thành công');

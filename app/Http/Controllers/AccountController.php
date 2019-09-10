@@ -13,7 +13,9 @@ use App\Model\Reward;
 use App\Model\Option;
 use App\Model\UserTier;
 use App\Model\Tier;
-
+use App\Model\Get_reward;
+use App\Model\Earn_point;
+use App\Model\History_reward;
 use Auth;
 use Validator;
 use Mail;
@@ -232,6 +234,97 @@ class AccountController extends Controller
 
         $user->save();
         return redirect('account/profile')->with('success','Cập nhật thành công');
+    }
+
+    public function getProfile()
+    {
+        $user = Auth::user();
+        return view('client.account.profile',compact('user'));
+    }
+
+    public function postProfile(Request $rq)
+    {
+        $validator = Validator::make($rq->all(), [
+            'birth_day' => 'required',
+            'name' => 'required',
+        ],[
+            'birth_day.required' => 'Chưa nhập ngày sinh',
+
+            'name.required' => 'Chưa nhập họ tên',
+            
+
+        ]);
+
+
+        if ($validator->fails()) {
+            return redirect('account/profile')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $user = User::find(Auth::user()->id);
+        $user->name = $rq->name;
+        $user->birthday = $rq->birth_day;
+        $user->name = $rq->name;
+        $user->avatar = $rq->avatar;
+        if($rq->password != "");
+        $user->password = Hash::make($rq->password);
+
+        $user->save();
+        return redirect('account/profile')->with('success','Cập nhật thành công');
+    }
+
+    public function getReward()
+    {
+        $history = History_reward::where('user_id',Auth::user()->id)->get();
+        $earn_point = Earn_point::all();
+        $rewards = Get_reward::orderBy('reward','asc')->get();
+        return view('client.account.getreward',compact('rewards','earn_point','history'));
+    }
+    public function postReward(Request $rq)
+    {
+       $user = User::find(Auth::user()->id);
+       $reward = Get_reward::find($rq->id);
+
+       if($user->point_reward >= $reward->point)
+       {
+            $user->point_reward -= $reward->point;
+            $user->save();
+
+            //luu lai lich su
+            $ht = new History_reward;
+            $ht->user_id = $user->id;
+            $ht->point = -$reward->point;
+            $ht->action = "Đổi quà tặng";
+            $ht->status = "approved";
+            $ht->save();
+            $json_data = [
+                'status' => 1,
+                'msg' => 'Đổi thưởng thành công'
+            ];
+            echo json_encode($json_data); 
+       }
+       else
+       {
+            $json_data = [
+                'status' => 0,
+                'msg' => 'Đổi thưởng không thành công'
+            ];
+            echo json_encode($json_data); 
+       }
+    }
+
+
+    public function postDataEarn(Request $rq)
+    {
+        $er = Earn_point::find($rq->id);
+
+        $json_data = [
+                
+                'data' => $er
+            ];
+        echo json_encode($json_data); 
+
+
     }
 
 }

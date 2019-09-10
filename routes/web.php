@@ -105,7 +105,6 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 
 		Route::get('/check_slug','ArticleController@check_slug')->name('admin.articles.check_slug');
 	});
-
 	Route::group(['prefix' => 'forms'],function(){
 		Route::get('/','FormController@index')->name('admin.forms.index');
 	});
@@ -174,6 +173,11 @@ Route::group(['prefix' => 'account'],function(){
 
 	Route::get('/profile','AccountController@getProfile')->name('client.account.profile');
 	Route::post('/profile','AccountController@postProfile')->name('client.account.profile');
+
+	Route::get('rewards-account','AccountController@getReward')->name('client.account.getreward');
+	Route::post('getreward.json','AccountController@postReward')->name('client.account.getreward');
+
+	Route::post('model.json','AccountController@postDataEarn')->name('client.account.modelearn');
 });
 
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');

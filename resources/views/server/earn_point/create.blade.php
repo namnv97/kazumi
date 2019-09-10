@@ -69,6 +69,10 @@ Thêm mới điểm
 						<input type="number" name="point" class="form-control" placeholder="Số điểm" value="{{old('point')}}">
 					</div>
 					<div class="form-group">
+						<label>Số tiền</label>
+						<input type="number" name="price" class="form-control" placeholder="Dơn vị" value="{{old('price')}}">
+					</div>
+					<div class="form-group">
 						<label>Đơn vị</label>
 						<input type="text" name="unit" class="form-control" placeholder="Dơn vị" value="{{old('unit')}}">
 					</div>
