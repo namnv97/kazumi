@@ -236,42 +236,7 @@ class AccountController extends Controller
         return redirect('account/profile')->with('success','Cập nhật thành công');
     }
 
-    public function getProfile()
-    {
-        $user = Auth::user();
-        return view('client.account.profile',compact('user'));
-    }
-
-    public function postProfile(Request $rq)
-    {
-        $validator = Validator::make($rq->all(), [
-            'birth_day' => 'required',
-            'name' => 'required',
-        ],[
-            'birth_day.required' => 'Chưa nhập ngày sinh',
-
-            'name.required' => 'Chưa nhập họ tên',
-            
-
-        ]);
-
-
-        if ($validator->fails()) {
-            return redirect('account/profile')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-        $user = User::find(Auth::user()->id);
-        $user->name = $rq->name;
-        $user->birthday = $rq->birth_day;
-        $user->name = $rq->name;
-        $user->avatar = $rq->avatar;
-        if($rq->password != "");
-        $user->password = Hash::make($rq->password);
-
-        $user->save();
-        return redirect('account/profile')->with('success','Cập nhật thành công');
-    }
+    
 
     public function getReward()
     {
