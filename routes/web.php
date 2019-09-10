@@ -172,9 +172,6 @@ Route::group(['prefix' => 'account'],function(){
 		Route::get('/reward','AccountController@reward')->name('client.account.reward');
 	});
 
-	Route::get('/forgot_password','AccountController@getForgot')->name('client.account.forgot_password');
-	Route::post('/forgot_password','AccountController@postForgot')->name('client.account.forgot_password');
-
 	Route::get('/profile','AccountController@getProfile')->name('client.account.profile');
 	Route::post('/profile','AccountController@postProfile')->name('client.account.profile');
 });
