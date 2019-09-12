@@ -196,6 +196,10 @@ Route::delete('/cart_remove','CartController@cart_remove')->name('client.cart.re
 
 Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 
+Route::post('/add-order','CartController@order')->name('client.checkout.order');
+
+Route::get('/discount','CartController@discount')->name('client.cart.discount');
+
 Route::get('collection/{slug}','HomeController@getCollection')->name('client.collection.index');
 
 Route::get('search','HomeController@getSearch')->name('client.search');

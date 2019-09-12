@@ -82,7 +82,7 @@ Tin tức
 @section('script')
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery('')
+		// jQuery('')
 	})
 </script>
 @endsection

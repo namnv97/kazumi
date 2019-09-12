@@ -23,6 +23,9 @@ Trang chủ
 	</div>
 	<div class="best-sellers p-35">
 		<div class="container-fluid">
+			@if(session('msg'))
+			<div class="alert alert-success">{{session('msg')}}</div>
+			@endif
 			<div class="title-home">
 				<!-- <h3 class="title-small">FEATURING</h3> -->
 				<h2 class="title-large">BÁN CHẠY NHẤT</h2>
@@ -226,5 +229,4 @@ Trang chủ
 
 @endsection
 @section('script')
-
 @endsection

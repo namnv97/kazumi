@@ -19,8 +19,8 @@ class CreatePacksTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->enum('type',['single','multi'])->default('single');
             $table->string('name');
-            $table->float('price');
-            $table->float('sale')->nullable();
+            $table->double('price',10,2);
+            $table->double('sale',10,2)->nullable();
             $table->timestamps();
         });
     }

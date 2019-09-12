@@ -23,9 +23,8 @@ class CreateCartsTable extends Migration
             $table->string('address1');
             $table->string('address2');
             $table->string('city');
-            $table->string('country_code');
             $table->integer('zip_code');
-            $table->float('total');
+            $table->double('total',12,2);
             $table->tinyInteger('status')->default(1)->comment('1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy');
             $table->timestamps();
         });

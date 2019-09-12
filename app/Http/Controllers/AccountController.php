@@ -16,9 +16,13 @@ use App\Model\Tier;
 use App\Model\Get_reward;
 use App\Model\Earn_point;
 use App\Model\History_reward;
+use App\Model\Cart;
+
+
 use Auth;
 use Validator;
 use Mail;
+use DB;
 
 class AccountController extends Controller
 {
@@ -184,7 +188,10 @@ class AccountController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('client.account.index',compact('user'));
+
+        $cart = Cart::where('user_id',$user->id)->select(DB::raw("CONCAT(first_name,' ',last_name) as fullname,CONCAT(address1,', ',address2,', ',city) as address"),'carts.*')->get();
+
+        return view('client.account.index',compact('user','cart'));
     }
 
     public function reward()

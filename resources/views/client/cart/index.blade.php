@@ -357,7 +357,7 @@ Giỏ hàng
 						<p>Phí vận chuyển và thuế sẽ được tính khi thanh toán</p>
 					</div>
 					<div class="action_checkout">
-						<a href="{{route('client.checkout')}}" class="btn-checkout">THANH TOÁN</button>
+						<a href="{{route('client.checkout')}}" class="btn-checkout" title="{{(Auth::check())?'Thanh toán đơn hàng':'Vui lòng đăng nhập trước khi thanh toán'}}">THANH TOÁN</a>
 					</div>
 				</div>
 			</div>

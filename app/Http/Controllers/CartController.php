@@ -8,6 +8,14 @@ use App\Model\Pack;
 use App\Model\Product;
 use App\Model\Color;
 use App\Model\Option;
+use App\Model\Discount;
+use App\Model\UserDiscount;
+use App\Model\Cart;
+use App\Model\CartItem;
+use App\Model\Reward;
+use App\Model\User;
+
+use Auth;
 
 class CartController extends Controller
 {
@@ -154,10 +162,134 @@ class CartController extends Controller
         endif;
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
         $logo = Option::where('meta_key','logo')->first();
-        return view('client.cart.checkout',compact('logo'));
+        $items = $request->cookie('cart_item');
+        if(empty($items)) return redirect()->route('home');
+        $items = json_decode($items,true);
+        foreach($items as $ca):
+            $pack = Pack::find($ca['pack_id']);
+            $color = Color::find($ca['color_id']);
+            $item = array(
+                'product' => $pack->product()->name,
+                'slug' => $pack->product()->slug,
+                'pack_id' => $pack->id,
+                'pack_name' => $pack->name,
+                'image' => $pack->product()->gallery[0]->url,
+                'price' => $pack->price,
+                'sale' => $pack->sale,
+                'quantity' => $ca['quantity']
+            );
+            if(!empty($color)){
+                $item['color'] = $color->name;
+                $item['color_id'] = $color->id;
+            }
+            $arr[] = $item;
+        endforeach;
+
+        if(empty($request->step))
+        {
+            return view('client.cart.checkout',compact('logo','arr'));
+        }
+        else
+        {
+            if($request->step == 'order_review')
+            {
+                return view('client.cart.order_review',compact('logo','arr'));
+            }
+            if($request->step == 'payment')
+            {
+                if(!isset($_SERVER['HTTP_REFERER']) || ($_SERVER['HTTP_REFERER'] != route('client.checkout',['step' => 'order_review']))) return redirect()->route('client.checkout',['step' => 'order_review']);
+                $trade = 23110;
+                return view('client.cart.payment',compact('logo','arr','trade'));
+            }
+        }
+        
+    }
+
+    public function discount(Request $request)
+    {
+        $code = $request->discount;
+        
+        $discount = Discount::where('code',$code)->first();
+
+        if(empty($discount)) return response()->json(['status' => 'errors','msg' => 'Mã giảm giá sai. Vui lòng kiểm tra lại']);
+
+        $userdiscount = UserDiscount::where([
+            ['user_id',Auth::user()->id],
+            ['discount_id',$discount->id]
+        ])
+        ->first();
+
+        if(!empty($userdiscount)) return response()->json(['status' => 'errors','msg' => 'Mã giảm giá đã được sử dụng']);
+        return response()->json(['status' => 'success','code' => $discount->code,'type' => $discount->type,'value' => $discount->discount_value]);
+
+    }
+
+    public function order(Request $request)
+    {
+
+        $req = $request->only(['first_name','last_name','company','address1','address2','city','phone','payment_method','total']);
+
+        if($request->payment_method == 'online')
+        {
+            $req['paypal_order_id'] = $request->order_id;
+            $req['payment_status'] = '1';
+        }
+        else
+        {
+            $req['payment_status'] = '0';
+        }
+        if(!empty($request->discount)):
+            $dc = Discount::where('code',$request->discount)->first();
+            $req['discount_id'] = $dc->id;
+            $userdiscount = new UserDiscount();
+            $userdiscount->user_id = Auth::user()->id;
+            $userdiscount->discount_id = $dc->id;
+            $userdiscount->save();
+        endif;
+
+
+
+        $cart = new Cart();
+
+        foreach($req as $field => $value):
+            $cart->$field = $value;
+        endforeach;
+        $cart->user_id = Auth::user()->id;
+
+        $cart->save();
+
+        $reward = new Reward();
+        $reward->user_id = Auth::user()->id;
+        $reward->action = 'Hoàn tất đơn hàng #'.$cart->id;
+        $reward->point = floor($request->total/10000);
+        $reward->status = 'approved';
+        $reward->save();
+
+        $user = User::find(Auth::user()->id);
+        $user->point_reward += floor($request->total/10000);
+        $user->save();
+
+
+        $cart_item = $request->cookie('cart_item');
+
+        $items = json_decode($cart_item,true);
+
+        foreach($items as $item):
+            $cart_item = new CartItem();
+            $cart_item->cart_id = $cart->id;
+            $cart_item->pack_id = $item['pack_id'];
+            $cart_item->color_id = $item['color_id'];
+            $cart_item->quantity = $item['quantity'];
+            $cart_item->save();
+            unset($cart_item);
+        endforeach;
+
+        $cookie = cookie('cart_item','',-1);
+
+        return response()->json(['status' => 'success','msg' => 'Đặt hàng thành công'])->withCookie($cookie);
     }
 
 }
