@@ -119,6 +119,17 @@
                     <li class="{{(request()->is('admin/products/create'))?'active':FALSE}}"><a href="{{route('admin.products.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a></li>
                 </ul>
             </li>
+            <li class="{{(request()->is('admin/orders*'))?'active':FALSE}}">
+                <a href="{{route('admin.orders.index')}}">
+                    <i class="fa fa-list-alt"></i>
+                    <span>Đơn hàng</span>
+                    @if($order_pending > 0)
+                    <span class="pull-right-container">
+                        <span class="label label-primary pull-right">{{$order_pending}}</span>
+                  </span>
+                  @endif
+                </a>
+            </li>
             <li class="treeview {{(request()->is('admin/articles*'))?'active':FALSE}}">
                 <a href="{{route('admin.articles.index')}}">
                     <i class="fa fa-paste"></i>

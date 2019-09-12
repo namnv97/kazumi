@@ -8,6 +8,7 @@ use App\Model\Option;
 use App\Model\Product;
 use App\Model\Pack;
 use App\Model\Color;
+use App\Model\Cart;
 
 class ViewComposer
 {
@@ -126,6 +127,13 @@ class ViewComposer
         $view->with('footer',$footer);
     }
 
+
+    public function order_pending(View $view)
+    {
+        $carts = Cart::where('status',0)->get();
+        $order_pending = count($carts);
+        $view->with('order_pending',$order_pending);
+    }
 
 
 

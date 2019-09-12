@@ -47,5 +47,10 @@ class ComposerServiceProvider extends ServiceProvider
             'layouts.client.footer',
             'App\Http\ViewComposers\ViewComposer@footer'
         );
+
+        view()->composer(
+            'layouts.server',
+            'App\Http\ViewComposers\ViewComposer@order_pending'
+        );
     }
 }

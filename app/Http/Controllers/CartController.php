@@ -283,6 +283,10 @@ class CartController extends Controller
             $cart_item->pack_id = $item['pack_id'];
             $cart_item->color_id = $item['color_id'];
             $cart_item->quantity = $item['quantity'];
+            $pack = Pack::find($item['pack_id']);
+            if(!empty($pack->sale)) $cart_item->price = $pack->sale;
+            else $cart_item->price = $pack->price;
+            unset($pack);
             $cart_item->save();
             unset($cart_item);
         endforeach;

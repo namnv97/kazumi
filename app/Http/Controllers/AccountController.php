@@ -17,7 +17,7 @@ use App\Model\Get_reward;
 use App\Model\Earn_point;
 use App\Model\History_reward;
 use App\Model\Cart;
-
+use App\Model\CartItem;
 
 use Auth;
 use Validator;
@@ -189,7 +189,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
 
-        $cart = Cart::where('user_id',$user->id)->select(DB::raw("CONCAT(first_name,' ',last_name) as fullname,CONCAT(address1,', ',address2,', ',city) as address"),'carts.*')->get();
+        $cart = Cart::where('user_id',$user->id)->select(DB::raw("CONCAT(first_name,' ',last_name) as fullname,CONCAT(address1,', ',address2,', ',city) as address"),'carts.*')->orderBy('created_at','desc')->get();
 
         return view('client.account.index',compact('user','cart'));
     }
@@ -297,6 +297,17 @@ class AccountController extends Controller
         echo json_encode($json_data); 
 
 
+    }
+
+    public function get_order_detail(Request $request)
+    {
+        $id =$request->id;
+
+        $carts = CartItem::where('cart_id',$id)->get();
+
+        $total = Cart::find($id)->total;
+
+        return view('client.account.order_detail',compact('carts','total'));
     }
 
 }

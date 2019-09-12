@@ -21,6 +21,7 @@ class CreateCartItemsTable extends Migration
             $table->foreign('pack_id')->references('id')->on('packs')->onDelete('set null');
             $table->unsignedBigInteger('color_id')->nullable();
             $table->foreign('color_id')->references('id')->on('colors')->onDelete('set null');
+            $table->double('price',12,2);
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });

@@ -109,6 +109,12 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/','FormController@index')->name('admin.forms.index');
 	});
 
+	Route::group(['prefix' => 'orders'],function(){
+		Route::get('/','OrderController@index')->name('admin.orders.index');
+		Route::get('/edit/{id?}','OrderController@edit')->name('admin.orders.edit');
+		Route::post('/edit/{id?}','OrderController@postEdit')->name('admin.orders.edit');
+	});
+
 	Route::group(['prefix' => 'tier'],function(){
 		Route::get('/','TierController@index')->name('admin.tier.index');
 
@@ -197,6 +203,8 @@ Route::delete('/cart_remove','CartController@cart_remove')->name('client.cart.re
 Route::get('/gio-hang','CartController@index')->name('client.cart.index');
 
 Route::post('/add-order','CartController@order')->name('client.checkout.order');
+
+Route::get('/order_detail','AccountController@get_order_detail')->name('client.order.order_detail');
 
 Route::get('/discount','CartController@discount')->name('client.cart.discount');
 
