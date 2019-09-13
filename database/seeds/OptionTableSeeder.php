@@ -82,7 +82,7 @@ class OptionTableSeeder extends Seeder
         );
         $options = [
             [
-                'meta_key' => 'menu',
+                'meta_key' => 'menus',
                 'meta_value' => json_encode($menu)
             ],
             [

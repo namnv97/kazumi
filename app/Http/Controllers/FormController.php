@@ -36,6 +36,8 @@ class FormController extends Controller
 
    		$form->form_value = json_encode($req);
 
+         $form->ip = $req['ip'];
+
    		$form->save();
 
    		return response()->json(['status' => 'success','msg' => 'Form đã được gửi thành công. Xin cảm ơn']);

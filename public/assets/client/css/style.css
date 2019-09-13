@@ -4354,3 +4354,9 @@ footer{
     height: 35px;
     margin-left: 3%;
 }
+
+.errors
+{
+    color: red;
+    padding-left: 10px;
+}

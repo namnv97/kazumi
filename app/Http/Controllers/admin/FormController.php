@@ -16,13 +16,14 @@ class FormController extends Controller
 
     	if(empty($form_name)) return view('server.form.index');
 
-        if($form_name = 'register'):
+        if($form_name == 'register'):
             $forms = RegisterMail::orderBy('created_at','desc')->paginate(10);
         else:
         	$forms = FormData::where('form_name',$form_name)->orderBy('created_at','desc')->paginate(10);
         endif;
         $forms->withPath('?form_name='.$form_name);
     	$head_title = 'Form Data';
+
 
     	switch ($form_name) {
     		case 'contact':
