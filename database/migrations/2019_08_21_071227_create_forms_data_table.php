@@ -17,6 +17,7 @@ class CreateFormsDataTable extends Migration
             $table->bigIncrements('id');
             $table->string('form_name');
             $table->text('form_value');
+            $table->ipAddress('ip');
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ class CreateRatingTable extends Migration
             $table->integer('rate_star');
             $table->string('title');
             $table->mediumText('comment');
+            $table->enum('status',['pending','publish'])->default('pending');
             $table->timestamps();
         });
     }

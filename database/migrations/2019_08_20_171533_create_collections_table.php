@@ -18,6 +18,7 @@ class CreateCollectionsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->mediumText('description')->nullable();
+            $table->string('banner')->nullable();
             $table->unsignedBigInteger('parent')->nullable();
             $table->foreign('parent')->references('id')->on('collections')->onDelete('set null');
             $table->timestamps();

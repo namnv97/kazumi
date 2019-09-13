@@ -23,7 +23,14 @@ class CreateCartsTable extends Migration
             $table->string('address1');
             $table->string('address2');
             $table->string('city');
-            $table->integer('zip_code');
+            $table->string('paypal_order_id',20)->nullable();
+
+            $table->enum('payment_method',['online','atm','cod']);
+
+            $table->enum('payment_status',[0,1])->comment('0: Chưa thanh toán, 1: Đã thanh toán')->default(0);
+            $table->unsignedBigInteger('discount_id')->after('payment_method')->nullable();
+            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
+            $table->string('phone',12)->after('city');
             $table->double('total',12,2);
             $table->tinyInteger('status')->default(1)->comment('1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy');
             $table->timestamps();
