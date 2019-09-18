@@ -6,12 +6,17 @@ Thông Tin Tài Khoản
 	<style type="text/css">
 		.gallery .img
 		{
-			display: inline-block;
-			width: 70%;
+			display: none;
+			width: 50%;
 			padding: 5px;
 			margin-bottom: 10px;
 			float: left;
 			position: relative;
+		}
+
+		.gallery .img.active
+		{
+			display: block;
 		}
 
 		.gallery .img i
@@ -31,6 +36,7 @@ Thông Tin Tài Khoản
 		.gallery .img img
 		{
 			max-width: 100%;
+			width: 100%;
 		}
 
 		.gallery::after
@@ -73,7 +79,6 @@ Thông Tin Tài Khoản
 						<div class="form-group">
 							<label>Mật khẩu (để trống nếu không muốn thay đổi)</label>
 							<input type="password" name="password" placeholder="Mật khẩu" class="form-control">
-							
 						</div>
 						<div class="form-group">
 							<label>Họ tên</label>
@@ -102,7 +107,7 @@ Thông Tin Tài Khoản
 						<div class="form-group">
 							<label>Ảnh đại diện</label>
 							<div class="gallery">
-								<div class="img">
+								<div class="img {{(!empty($user->avatar))?'active':FALSE}}">
 									<img src="{{$user->avatar}}" alt="image">
 									<input type="hidden" name="avatar" value="{{$user->avatar}}">
 									<i class="fa fa-times delete"></i>
@@ -133,7 +138,9 @@ Thông Tin Tài Khoản
 				
 				if(confirm('Chắc chắc muốn xóa ?'))
 				{
-					jQuery(this).parent().remove();
+					jQuery(this).parent().removeClass('active');
+					jQuery(this).parent().find('img').removeAttr('src');
+					jQuery(this).parent().find('input').val('');
 				}
 			});
 
@@ -146,13 +153,9 @@ Thông Tin Tài Khoản
 							var file = evt.data.files;
 							file.forEach(function(e){
 								var url = e.getUrl();
-								jQuery('.gallery').html(`
-								<div class="img">
-									<img src="`+url+`" alt="image">
-									<input type="hidden" name="avatar" value="`+url+`">
-									<i class="fa fa-times"></i>
-								</div>
-								`)
+								jQuery('.gallery .img img').attr('src',url);
+								jQuery('.gallery .img').addClass('active');
+								jQuery('.gallery .img input').val(url);
 							});
 						} );
 					}

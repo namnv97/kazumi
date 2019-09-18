@@ -1,0 +1,1 @@
+@include('client.account.part.'.$earn->key_code)

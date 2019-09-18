@@ -222,7 +222,7 @@ class CartController extends Controller
         ])
         ->first();
 
-        $end = \Carbon\Carbon::parse($userdiscount->date_end)->format('U');
+        $end = \Carbon\Carbon::parse($discount->date_end)->format('U');
         $time = time();
 
         if($time > $end) return response()->json(['status' => 'errors','msg' => 'Mã giảm giá đã hết hạn. Vui lòng sử dụng mã hợp lệ']);

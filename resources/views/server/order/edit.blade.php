@@ -58,7 +58,7 @@ Quản lý đơn hàng
 					@if(!empty($cart->discount_id))
 					<tr>
 						<td colspan="2" class="text-right"><strong>Giảm giá</strong></td>
-						<td colspan="4">-{{$cart->discount()->discount_value}}{{($cart->discount()->type == 'percent')?'%':'VNĐ'}}</td>
+						<td colspan="4">-{{number_format($cart->discount()->discount_value)}}{{($cart->discount()->type == 'percent')?'%':'VNĐ'}}</td>
 					</tr>
 					@endif
 					<tr>

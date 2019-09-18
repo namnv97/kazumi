@@ -1,0 +1,1 @@
+<p>Nhận {{$earn->point}} điểm {{$earn->unit}} khi mua hàng</p>

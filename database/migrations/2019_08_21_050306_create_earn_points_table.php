@@ -16,10 +16,11 @@ class CreateEarnPointsTable extends Migration
         Schema::create('earn_points', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
+            $table->string('key_code')->unique();
             $table->string('image');
             $table->integer('point');
             $table->string('unit')->nullable();
-            $table->string('price');
+            $table->string('price')->nullable();
             $table->timestamps();
         });
     }

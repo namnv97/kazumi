@@ -25,7 +25,17 @@
 	<tfoot>
 		<tr>
 			<td colspan="6" class="text-center">
-				Tổng cộng : <strong>{{number_format($total)}}VNĐ</strong>
+				Giao hàng : <strong>30.000VND</strong>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="text-center">
+				Giảm giá : <strong>-{{number_format($cart->discount()->discount_value)}}{{($cart->discount()->type == 'percent')?'%':'VNĐ'}}</strong>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="text-center">
+				Tổng cộng : <strong>{{number_format($cart->total)}}VNĐ</strong>
 			</td>
 		</tr>
 	</tfoot>

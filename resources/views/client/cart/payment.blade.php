@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="{{asset('/assets/client/css/owl.theme.default.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/assets/client/css/jquery.fancybox.min.css')}}">
 	<link rel="stylesheet" href="{{asset('/assets/client/css/style.css')}}">
-	<script src="https://www.paypal.com/sdk/js?client-id=AXopyAw5fe0E6h4serCVoN4a36941VlYImnTwpvDLMZGlpZMu4Y990cwlYrFlrwawgoykjCmD_YLtOmw"></script>
+	<script src="https://www.paypal.com/sdk/js?client-id={{config('app.client_id')}}"></script>
 	<style>
 		.info_acc
 		{
@@ -249,6 +249,7 @@
 	<script type="text/javascript" src="{{asset('/assets/client/js/owl.carousel.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-scrolltofixed-min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery.fancybox.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/assets/client/js/sweet.alert.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/custom.js')}}"></script>
 	<script>
 		var trade = '{{$trade}}';
@@ -269,6 +270,11 @@
 				return actions.order.capture().then(function(details) {
 					localStorage.setItem('order_id',details.id);
 					localStorage.setItem('status','complete');
+					Swal.fire(
+						'Thanh toán thành công',
+						'',
+						'success'
+						);
 				});
 			},
 			onError: function(error){

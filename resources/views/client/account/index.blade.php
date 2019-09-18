@@ -14,7 +14,7 @@ Tài khoản
 				@csrf
 			</form>
 			<h1 class="title-large">TÀI KHOẢN CỦA TÔI</h1>
-			<p>Chào mừng quay lại, {{$user->name}}!</p>
+			<p>Chào mừng quay lại, <a href="{{route('client.account.profile')}}">{{$user->name}}!</a></p>
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-sm-12 col-xs-12">

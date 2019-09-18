@@ -90,55 +90,18 @@ Tài khoản
 					      	<div class="lion-loyalty-panel-content">
 					      		<div class="lion-loyalty-panel-content__header">Thêm điểm</div>
 					      		<div class="row">
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item" data-toggle="modal" data-target="#myModal-account">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-shopping-bag.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">Make a purchase</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item" data-toggle="modal" data-target="#myModal-account">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-refer-friend.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">REFER A FRIEND</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item" data-toggle="modal" data-target="#myModal-account">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-birthday.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">HAPPY BIRTHDAY</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item" data-toggle="modal" data-target="#myModal-account">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-newsletter.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">Make a purchase</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
+					      			@if(!empty($earn_point))
+					      			@foreach($earn_point as $point)
 						      		<div class="col-md-6 col-sm-6 col-xs-12">
 						      			<div class="lion-loyalty-panel-rule-item">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-shopping-bag.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">Make a purchase</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
+						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url('{{$point->image}}') center/30px no-repeat #fff;"></div>
+						      				<div class="lion-loyalty-panel-rule-item__title" data-key="{{$point->key_code}}">{{$point->title}}</div>
+						      				<div class="lion-loyalty-panel-rule-item__points">
+						      					<span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">{{$point->point}}</span>&nbsp;<span class="text">điểm <span class="lion-currency"><span class="lion-currency__value">{{$point->unit}}</span></span></span></span></div>
 						      			</div>
 						      		</div>
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-shopping-bag.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">Make a purchase</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
-						      		<div class="col-md-6 col-sm-6 col-xs-12">
-						      			<div class="lion-loyalty-panel-rule-item">
-						      				<div class="lion-loyalty-panel-rule-item__icon" style="background: url(https://cdn.shopify.com/s/files/1/0250/1519/files/esq-rewards-program-icons-shopping-bag.svg) center/30px no-repeat #fff;"></div>
-						      				<div class="lion-loyalty-panel-rule-item__title">Make a purchase</div>
-						      				<div class="lion-loyalty-panel-rule-item__points"><span data-i18n-key="ui.dashboard.earn_points.points_per"><span class="value">30</span> <span class="text">points per <span class="lion-currency"><span class="lion-currency__value">$1</span></span></span></span></div>
-						      			</div>
-						      		</div>
+						      		@endforeach
+						      		@endif
 						      	</div>
 					      	</div>
 					      	
@@ -314,11 +277,10 @@ Tài khoản
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">MAKE A PURCHASE</h4>
+        <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
-        	<p>Earn 3,000 points every time you refer a friend who spends over $15</p>
-        	<a href="#">REFER FRIENDS</a>
+        	
       </div>
     </div>
 
@@ -326,5 +288,29 @@ Tài khoản
 </div>
 @endsection
 @section('script')
-
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('#earn-points .lion-loyalty-panel-rule-item').on('click',function(){
+			var title = jQuery(this).find('.lion-loyalty-panel-rule-item__title').text();
+			var key_code = jQuery(this).find('.lion-loyalty-panel-rule-item__title').data('key');
+			jQuery('#myModal-account .modal-title').text(title);
+			jQuery.ajax({
+				url: '{{route('client.account.earn_point_part')}}',
+				type: 'get',
+				dataType: 'html',
+				data: {
+					key_code: key_code
+				},
+				success: function(res){
+					jQuery('#myModal-account .modal-body').html(res);
+					jQuery('#myModal-account').modal('show');
+				},
+				errors: function(errors){
+					console.log(errors);
+				}
+			});
+			
+		});
+	});
+</script>
 @endsection

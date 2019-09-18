@@ -222,4 +222,9 @@ Route::get('/lien-he',function(){
 
 Route::post('/formdata','FormController@formdata')->name('client.form.data');
 
+Route::get('/get_part_point','AccountController@get_earn_point_part')->middleware('auth')->name('client.account.earn_point_part');
+Route::post('/update_birthday','AccountController@update_birthday')->middleware('auth')->name('client.account.birthday');
+Route::get('/signup_point','AccountController@signup_point')->middleware('auth')->name('client.account.signup');
+Route::get('/likefacebook','AccountController@likefacebook')->middleware('auth')->name('client.account.likefacebook');
+
 Route::get('/','HomeController@index')->name('home');

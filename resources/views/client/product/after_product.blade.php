@@ -1,5 +1,5 @@
 <div class="shipping">
-	<img src="img/shipping-icon-1-3.png" alt="">
+	<img src="{{asset('assets/client/img/shipping-icon-1-3.png')}}" alt="">
 	<p>Free shipping for orders over <strong>50 USD</strong> to <strong>Ho Chi Minh City, Viet Nam</strong></p>
 </div>
 <div class="product-guarantees">

@@ -1,4 +1,4 @@
-<form>
+<div class="form-program">
 	<div class="form-group">
 		<span>Họ tên</span>
 		<input type="text" name="review_name" class="form-control" placeholder="Họ tên">
@@ -27,4 +27,4 @@
 		<textarea class="form-control" name="review_content" placeholder="Viết đánh giá"></textarea>
 	</div>
 	<button type="submit" class="btn">Gửi đánh giá</button>
-</form>
+</div>

@@ -1,0 +1,1 @@
+<p>Nhận {{$earn->point}} điểm cho mỗi đánh giá</p>

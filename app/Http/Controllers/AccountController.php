@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use \Carbon\Carbon;
 
 
 use App\Model\User;
@@ -18,6 +19,7 @@ use App\Model\Earn_point;
 use App\Model\History_reward;
 use App\Model\Cart;
 use App\Model\CartItem;
+use App\Model\RegisterMail;
 
 use Auth;
 use Validator;
@@ -57,7 +59,7 @@ class AccountController extends Controller
                         ->withInput();
         }
 
-    	if (Auth::attempt(['email' => $rq->email, 'password'=>$rq->password])) 
+    	if (Auth::attempt(['email' => $rq->email, 'password'=>$rq->password],true)) 
     	{
             return $this->redirect();
         }
@@ -204,7 +206,9 @@ class AccountController extends Controller
 
         $user_tier = UserTier::where('user_id',Auth::user()->id)->first();
 
-        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier'));
+        $earn_point = Earn_point::all();
+
+        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point'));
     }
 
     public function getProfile()
@@ -305,9 +309,84 @@ class AccountController extends Controller
 
         $carts = CartItem::where('cart_id',$id)->get();
 
-        $total = Cart::find($id)->total;
+        $cart = Cart::find($id);
 
-        return view('client.account.order_detail',compact('carts','total'));
+        return view('client.account.order_detail',compact('carts','cart'));
     }
+
+
+    public function get_earn_point_part(Request $request)
+    {
+        $key_code = $request->key_code;
+
+        $earn = Earn_point::where('key_code',$key_code)->first();
+
+        return view('client.account.earn_part',compact('earn'));
+    }
+
+    public function update_birthday(Request $request)
+    {
+        $birthday = $request->birthday;
+        $user = User::find(Auth::user()->id);
+        $user->birthday = $birthday;
+        $user->save();
+
+
+        $earn = Earn_point::where('key_code','birthday')->first();
+
+        $now = Carbon::now();
+
+        $curyear_bd = Carbon::createFromFormat('Y-m-d', $birthday)->setYear($now->year);
+        $now > $curyear_bd->endOfDay() ? $next_bd = $curyear_bd->addYear(1) : $next_bd = $curyear_bd;
+
+        $date = $now->diffInDays($next_bd);
+
+        return response()->json(['status' => 'success','msg' => '<p>Saved! Bạn sẽ nhận được '.$earn->point.' điểm sau '.$date.' ngày</p>']);
+    }
+
+
+    public function signup_point()
+    {
+        $earn = Earn_point::where('key_code','signup')->first();
+        $reward = new History_reward();
+        $reward->user_id = Auth::user()->id;
+        $reward->point = $earn->point;
+        $reward->action = "Đăng ký Email";
+        $reward->status = 'approved';
+        $reward->save();
+
+        $user = User::find(Auth::user()->id);
+        $user->point_reward += $earn->point;
+        $user->save();
+
+        $reg = RegisterMail::where('email',Auth::user()->email)->first();
+
+        if(empty($reg)):
+            $reg = new RegisterMail();
+            $reg->email = Auth::user()->email;
+            $reg->ip = $_SERVER['REMOTE_ADDR'];
+            $reg->save();
+        endif;
+
+        return response()->json(['status' => 'success','msg' => '<p>Đăng ký thành công. Email của bạn đã được thêm vào danh sách ưu tiên thông báo</p>']);
+    }
+
+    public function likefacebook()
+    {
+        $earn = Earn_point::where('key_code','facebook')->first();
+        $reward = new Reward();
+        $reward->user_id = Auth::user()->id;
+        $reward->point = $earn->point;
+        $reward->action = 'Like trang Facebook';
+        $reward->status = 'approved';
+        $reward->save();
+
+        $user = User::find(Auth::user()->id);
+        $user->point_reward += $earn->point;
+        $user->save();
+
+        return response()->json(['status' => 'success','msg' => 'Thành công']);
+    }
+
 
 }
