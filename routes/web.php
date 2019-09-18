@@ -157,6 +157,22 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		//Route::get('/get_product','ProductController@get_product')->name('admin.tier.get_product');
 	});
 
+	Route::group(['prefix' => 'discount'],function(){
+		Route::get('/','DiscountController@index')->name('admin.discount.index');
+		Route::post('/create','DiscountController@create')->name('admin.discount.create');
+		Route::get('/edit','DiscountController@edit')->name('admin.discount.edit');
+		Route::post('/edit','DiscountController@postEdit')->name('admin.discount.edit');
+		Route::delete('/delete','DiscountController@delete')->name('admin.discount.delete');
+	});
+
+	Route::group(['prefix' => 'voucher'],function(){
+		Route::get('/','VoucherController@index')->name('admin.voucher.index');
+		Route::post('/create','VoucherController@create')->name('admin.voucher.create');
+		Route::get('/edit','VoucherController@edit')->name('admin.voucher.edit');
+		Route::post('/edit','VoucherController@postEdit')->name('admin.voucher.edit');
+		Route::delete('/delete','VoucherController@delete')->name('admin.voucher.delete');
+	});
+
 });
 
 

@@ -15,10 +15,10 @@
 		<div class="lion-referral-widget-main__share-controls">
 			<div class="lion-referral-widget-main__share-buttons">
 				<a href="https://twitter.com/intent/tweet?url={{route('home',['ref' => Auth::user()->refferal_code])}}&text=Tham gia ngay với tôi&via={{route('home')}}&hashtags=Kazumi" target="_blank" class="lion-referral-share-button lion-referral-share-button--twitter"><i class="fa fa-twitter" aria-hidden="true"></i> TWEET </a>
-				<a href="#" class="lion-referral-share-button lion-referral-share-button--whatsapp" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i> whatsapp </a>
+				<a href="https://api.whatsapp.com/send?text='{{route('home',['ref' => Auth::user()->refferal_code])}}'" class="lion-referral-share-button lion-referral-share-button--whatsapp" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i> whatsapp </a>
 				<a href="http://www.facebook.com/dialog/send?app_id=381461119271778&amp;link={{route('home',['ref' => Auth::user()->refferal_code])}}&amp;redirect_uri={{route('home')}}&amp;display=popup" class="lion-referral-share-button lion-referral-share-button--facebook-messenger">messenger </a>
 				<a href="https://www.facebook.com/sharer.php?u={{route('home',['ref' => Auth::user()->refferal_code])}}" class="lion-referral-share-button lion-referral-share-button--facebook" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i> SHARE </a>
-				<a href="#" class="lion-referral-share-button lion-referral-share-button--email" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i> email </a>
+				<a href="mailto:?subject=Tham gia cùng tôi&amp;body=Đăng ký ngay tại {{route('home',['ref' => Auth::user()->refferal_code])}}." class="lion-referral-share-button lion-referral-share-button--email" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i> email </a>
 			</div>
 			<div class="lion-referral-widget-main__share-link">
 				<div class="lion-referral-widget-main__share-link-text">Or copy your link and share it anywhere</div>

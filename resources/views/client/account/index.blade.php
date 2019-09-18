@@ -90,7 +90,7 @@ Tài khoản
 					<div class="Segment">
 						<h2 class="Segment__Title Heading u-h7">Điểm thưởng</h2>
 						<div class="account-loyalty-points">
-							<span class="account-loyalty-points-value" data-lion-points="">{{$user->point_reward}}</span>
+							<span class="account-loyalty-points-value" data-lion-points="">{{$user->point()->point}}</span>
 							<span class="account-loyalty-points-label Heading">Điểm</span>
 						</div>
 						<a href="{{route('client.account.reward')}}" class="Button Button--primary">Thêm điểm</a>

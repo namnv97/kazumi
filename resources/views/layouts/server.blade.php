@@ -119,6 +119,24 @@
                     <li class="{{(request()->is('admin/products/create'))?'active':FALSE}}"><a href="{{route('admin.products.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a></li>
                 </ul>
             </li>
+            <li class="treeview {{(request()->is('admin/discount*') || request()->is('admin/voucher*'))?'active':FALSE}}">
+                <a href="{{route('admin.tier.index')}}">
+                    <i class="fa fa-leaf"></i>
+                    <span>Giảm giá</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/discount'))?'active':FALSE}}">
+                        <a href="{{route('admin.discount.index')}}"><i class="fa fa-circle-o"></i> Mã giảm giá</a>
+                    </li>
+                    <li class="{{(request()->is('admin/voucher'))?'active':FALSE}}">
+                        <a href="{{route('admin.voucher.index')}}"><i class="fa fa-circle-o"></i> Voucher giảm giá</a>
+                    </li>
+                   
+                </ul>
+            </li>
             <li class="{{(request()->is('admin/orders*'))?'active':FALSE}}">
                 <a href="{{route('admin.orders.index')}}">
                     <i class="fa fa-list-alt"></i>

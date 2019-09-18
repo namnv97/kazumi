@@ -17,7 +17,7 @@ Tài khoản
 					<div class="lion-loyalty-panel-sidebar">
 						<div class="lion-loyalty-panel-sidebar__points">
 							<span class="lion-loyalty-panel-sidebar__points-value">
-								<lionpoints>{{Auth::user()->point_reward}}</lionpoints>
+								<lionpoints>{{Auth::user()->point()->point}}</lionpoints>
 							</span>
 							<span class="lion-loyalty-panel-sidebar__points-text">điểm</span>
 						</div>

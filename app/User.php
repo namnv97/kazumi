@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -43,5 +45,10 @@ class User extends Authenticatable
         $slug = $role->belongsTo('App\Model\Roles','role_id')->first();
         if(empty($slug)) return false;
         return ($slug->slug == $has)?true:false;
+    }
+
+    public function point()
+    {
+        return 'App\Model\Reward'::select(DB::raw('SUM(point) as point'))->where('user_id',$this->id)->first();
     }
 }
