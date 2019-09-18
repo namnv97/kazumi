@@ -28,7 +28,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $slides = Option::where('meta_key','slide')->get();
@@ -55,6 +55,7 @@ class HomeController extends Controller
         }
         endif;
 
+        
 
         //$collections = $collections->get();
         $collections = isset($collections) ? $collections->get() : [];
@@ -94,7 +95,14 @@ class HomeController extends Controller
 
         $view_best_seller = Option::where('meta_key','view_best_seller')->first();
 
-        return view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1','view_best_seller'));
+        if(!empty($request->ref)):
+
+            $cookie = cookie('kzref',$request->ref,60*24);
+
+            return response()->view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1','view_best_seller'))->withCookie($cookie);
+        else:
+            return view('client.home',compact('slides','products','collections','collection_gallery','collection_title','about_gallery','about_content','about_title2','about_title1','video_title1','video_title2','video_gallery','video','products_look','products_look_gallery','look_title2','look_title1','view_best_seller'));
+        endif;
 
 
     }

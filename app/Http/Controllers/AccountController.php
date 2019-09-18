@@ -41,20 +41,19 @@ class AccountController extends Controller
     {
     	$validator = Validator::make($rq->all(), [
             'email' => 'required|email|max:255',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ],[
-    		'email.required' => 'Chưa nhập email',
-
-    		'email.email' => 'Không đúng định dạng',
-    		'email.max' => 'Email phải nhỏ hơn 255 ký tự',
-    		'password.required' => 'Chưa nhập mật khẩu',
-    		'password.required' => 'Mật khẩu không nhỏ hơn 6 ký tự',
+    		'email.required' => 'Email không được để trống',
+    		'email.email' => 'Sai định dạng Email',
+    		'email.max' => 'Email tối đa 255 ký tự',
+    		'password.required' => 'Mật khẩu không được để trống',
+    		'password.min' => 'Mật khẩu tối thiểu :min ký tự',
 
         ]);
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('client.account.login')
+                        ->route('login')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -67,7 +66,8 @@ class AccountController extends Controller
         {
             return redirect()
                         ->route('login')
-                        ->withErrors(['email hoặc mật khẩu không đúng']);
+                        ->withErrors(['Email hoặc Mật khẩu không đúng'])
+                        ->withInput();
         }
     }
 

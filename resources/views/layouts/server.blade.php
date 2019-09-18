@@ -32,8 +32,8 @@
 
       <header class="main-header">
         <a href="{{route('home')}}" class="logo" target="_blank">
-          <span class="logo-mini"><b>ESQIDO</b></span>
-          <span class="logo-lg"><b>ESQIDO</b></span>
+          <span class="logo-mini"><b>KAZUMI</b></span>
+          <span class="logo-lg"><b>KAZUMI</b></span>
       </a>
       <nav class="navbar navbar-static-top">
           <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -62,7 +62,7 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat" target="_blank">Cá nhân</a>
+                                <a href="{{route('client.account.profile')}}" class="btn btn-default btn-flat" target="_blank">Cá nhân</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{route('logout')}}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>

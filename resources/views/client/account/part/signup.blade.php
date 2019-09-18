@@ -37,5 +37,5 @@
 	});
 </script>
 @else
-<p>Bạn đã đăng ký. Email của bạn nằm trong danh sách ưu tiên của chúng tôi</p>
+<p>Cảm ơn bạn đã đăng ký Email nhận thông tin từ chúng tôi !</p>
 @endif

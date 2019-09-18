@@ -29,10 +29,10 @@
 		<form action="{{route('login')}}" method="post">
 			@csrf
 			<div class="form-group">
-				<input type="email" name="email" placeholder="Email" class="form-control">
+				<input type="email" name="email" placeholder="Email" class="form-control" value="{{old('email')}}">
 			</div>
 			<div class="form-group">
-				<input type="password" name="password" placeholder="Password" class="form-control">
+				<input type="password" name="password" placeholder="Password" class="form-control" value="{{old('password')}}">
 				<a href="{{route('forgot_password')}}">Quên mật khẩu?</a>
 			</div>
 			<div class="SectionHeader__ButtonWrapper">
