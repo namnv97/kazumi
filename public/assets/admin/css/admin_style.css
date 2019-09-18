@@ -304,3 +304,17 @@ table tfoot th.total
 	padding-bottom: 0 !important;
 	margin-bottom: 8px !important;
 }
+
+.alert
+{
+	position: relative;
+}
+
+.alert>i.fa-times
+{
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	cursor: pointer;
+	color: #fff;
+}

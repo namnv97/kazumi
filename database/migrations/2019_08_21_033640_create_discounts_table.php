@@ -20,6 +20,7 @@ class CreateDiscountsTable extends Migration
             $table->enum('type',['percent','total'])->default('total');
             $table->string('discount_value');
             $table->timestamp('date_end')->nullable();
+            $table->enum('status',[0,1])->default(1);
             $table->timestamps();
         });
     }

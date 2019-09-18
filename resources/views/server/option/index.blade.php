@@ -59,6 +59,7 @@ Thiết lập chung
 	<h1>Thiết lập chung</h1>
 	@if(session('errors'))
 	<div class="alert alert-warning">
+		<i class="fa fa-times"></i>
 		@foreach(session('errors')->all() as $msg)
 		<p>{{$msg}}</p>
 		@endforeach
@@ -66,6 +67,7 @@ Thiết lập chung
 	@endif
 	@if(session('msg'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg')}}</p>
 	</div>
 	@endif

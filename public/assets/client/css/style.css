@@ -3593,6 +3593,15 @@ footer{
     height: 38px;
     margin-top: 15px;
 }
+
+#get-rewards .lion-loyalty-panel-rule-item 
+.lion-loyalty-panel-reward-item__content 
+.lion-loyalty-panel-reward-item__redeem-button--disabled.active:hover
+{
+    cursor: pointer;
+    color: #fff;
+    background: #000;
+}
 #get-rewards .lion-loyalty-panel-rule-item .lion-loyalty-panel-reward-item__content .lion-loyalty-panel-reward-item__links a{
 	font-size: 12px;
 	display: inline-block;

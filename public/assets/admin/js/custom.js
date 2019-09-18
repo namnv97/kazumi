@@ -23,6 +23,10 @@ jQuery(document).ready(function(){
         } );
     });
 
+    jQuery('.alert>i.fa-times').on('click',function(){
+        jQuery(this).parents('.alert').first().remove();
+    });
+
 });
 
 

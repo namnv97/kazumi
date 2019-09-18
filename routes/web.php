@@ -163,6 +163,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/edit','DiscountController@edit')->name('admin.discount.edit');
 		Route::post('/edit','DiscountController@postEdit')->name('admin.discount.edit');
 		Route::delete('/delete','DiscountController@delete')->name('admin.discount.delete');
+		Route::get('/check_code','DiscountController@checkcode')->name('admin.discount.check_code');
 	});
 
 	Route::group(['prefix' => 'voucher'],function(){

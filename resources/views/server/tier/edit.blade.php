@@ -12,6 +12,7 @@ Cập nhật bậc thưởng
 	<div class="dashboard_home">
 		@if(session('errors'))
 		<div class="alert alert-warning">
+			<i class="fa fa-times"></i>
 			@foreach(session('errors')->all() as $msg)
 			<p>{{$msg}}</p>
 			@endforeach
@@ -19,7 +20,7 @@ Cập nhật bậc thưởng
 		@endif
 		@if(session('success'))
 		<div class="alert alert-success">
-			
+			<i class="fa fa-times"></i>
 			<p>{{session('success')}}</p>
 			
 		</div>

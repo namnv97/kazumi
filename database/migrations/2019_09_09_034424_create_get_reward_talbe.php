@@ -17,10 +17,7 @@ class CreateGetRewardTalbe extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('point');
-            $table->integer('reward');
-            $table->string('unit');
-            
-         
+            $table->enum('status',[0,1])->default(1);
             $table->timestamps();
         });
     }

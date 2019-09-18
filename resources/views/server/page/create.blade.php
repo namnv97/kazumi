@@ -64,6 +64,7 @@ Thêm mới
 	<h1>Thêm mới</h1>
 	@if(session('errors'))
 	<div class="alert alert-warning">
+		<i class="fa fa-times"></i>
 		@foreach(session('errors')->all() as $msg)
 		<p>{{$msg}}</p>
 		@endforeach

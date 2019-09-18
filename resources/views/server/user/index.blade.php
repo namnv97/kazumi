@@ -56,6 +56,7 @@ Người dùng
 			<h3>Thêm mới</h3>
 			@if(session('errors'))
 			<div class="alert alert-warning">
+				<i class="fa fa-times"></i>
 				@foreach(session('errors')->all() as $msg)
 				<p>{{$msg}}</p>
 				@endforeach
@@ -63,6 +64,7 @@ Người dùng
 			@endif
 			@if(session('msg_add'))
 			<div class="alert alert-success">
+				<i class="fa fa-times"></i>
 				<p>{{session('msg_add')}}</p>
 			</div>
 			@endif

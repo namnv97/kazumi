@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('slug')->unique();
             $table->text('description');
             $table->text('product_content')->after('description')->nullable();
+            $table->enum('status',[0,1])->default(1);
             $table->timestamps();
         });
     }

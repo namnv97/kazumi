@@ -21,6 +21,7 @@ Quản lý đơn hàng
 	<h1>Cập nhật đơn hàng : #{{$cart->id}}</h1>
 	@if(session('msg'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg')}}</p>
 	</div>
 	@endif

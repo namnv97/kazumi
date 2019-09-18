@@ -32,16 +32,19 @@ Danh sách điểm
 	<a href="{{route('admin.earn_point.create')}}" class="btn btn-md btn-primary">Thêm mới</a>
 	@if(session('msg_del'))
 	<div class="alert alert-warning">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg_del')}}</p>
 	</div>
 	@endif
 	@if(session('msg_add'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg_add')}}</p>
 	</div>
 	@endif
 	@if(session('msg'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg')}}</p>
 	</div>
 	@endif

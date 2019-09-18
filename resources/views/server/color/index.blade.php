@@ -24,6 +24,7 @@ Màu sắc
 		<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 			@if(session('msg_add'))
 			<div class="alert alert-success">
+				<i class="fa fa-times"></i>
 				<p>{{session('msg_add')}}</p>
 			</div>
 			@endif

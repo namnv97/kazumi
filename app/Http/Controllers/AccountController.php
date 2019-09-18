@@ -209,7 +209,9 @@ class AccountController extends Controller
 
         $earn_point = Earn_point::all();
 
-        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point'));
+        $get_reward = Get_reward::orderBy('created_at','desc')->get();
+
+        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point','get_reward'));
     }
 
     public function getProfile()
