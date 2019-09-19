@@ -20,6 +20,7 @@ use App\Model\History_reward;
 use App\Model\Cart;
 use App\Model\CartItem;
 use App\Model\RegisterMail;
+use App\Model\Voucher;
 
 use Auth;
 use Validator;
@@ -28,7 +29,10 @@ use DB;
 
 class AccountController extends Controller
 {
-    //
+    public function __construct()
+    {
+        \Carbon\Carbon::setLocale('vi_VN');
+    }
 
     public function getLogin()
     {
@@ -109,7 +113,9 @@ class AccountController extends Controller
         $user->name = $rq->name;
         $user->email = $rq->email;
         $user->point_reward = 100;
-        $user->refferal_code = strtoupper(str_random(10));
+        $ref = strtoupper(str_random(10));
+        $user->refferal_code = $ref;
+        $user->link = $this->bitly(route('home',['ref' => $ref]));
         $user->password = Hash::make($rq->password);
         $user->save();
 
@@ -130,9 +136,23 @@ class AccountController extends Controller
         $tier->tier_id = 1;
         $tier->save();
 
-
         return redirect()->route('login')->with('success','Đăng ký thàng công!');
 
+    }
+
+    public function bitly($link){
+        $url = 'https://api-ssl.bitly.com/v4/bitlinks';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['long_url' => '$link'])); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer b84b3e4ce2ed626fb6bc787775114fc1a17cf5d2",
+            "Content-Type: application/json"
+        ]);
+
+        $arr_result = json_decode(curl_exec($ch));
+        return $arr_result->link;
     }
 
     public function getForgot()
@@ -211,7 +231,9 @@ class AccountController extends Controller
 
         $get_reward = Get_reward::orderBy('created_at','desc')->get();
 
-        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point','get_reward'));
+        $vouchers = Voucher::orderBy('created_at','desc')->get();
+
+        return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point','get_reward','vouchers'));
     }
 
     public function getProfile()
@@ -389,6 +411,11 @@ class AccountController extends Controller
         $user->save();
 
         return response()->json(['status' => 'success','msg' => 'Thành công']);
+    }
+
+    public function generate_voucher(Request $request)
+    {
+
     }
 
 

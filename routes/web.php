@@ -233,6 +233,8 @@ Route::get('/news','ArticleCOntroller@archive')->name('client.articles.archive')
 
 Route::get('/post/{slug?}','ArticleController@article')->name('client.articles.single');
 
+Route::post('/account/voucher/create','VoucherController@create')->name('client.voucher.create');
+
 Route::get('/lien-he',function(){
 	return view('client.page.contact');
 })->name('client.page.contact');

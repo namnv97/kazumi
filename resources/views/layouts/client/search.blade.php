@@ -19,37 +19,6 @@
 						</div>
 						<div class="Segment__Content">
 							<div class="row result_search" >
-								<!-- @foreach($pros as $key => $value)
-								<div class="col-md-4 col-sm-4 col-xs-12">
-									<div class="product-item">
-										<div class="pro-img">
-											<a href="#">
-												<img src="{{$value->gallery[0]->url}}" alt="">
-												<div class="img-hide">
-													<?php $a = 0; ?>
-													<img src="{{$a}}" alt="">
-												</div>
-											</a>
-										</div>
-										<div class="info-product">
-											<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
-											<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
-											@if($sale != "")
-											<span class="price"><span class="price-sale">${{$value->price()->sale}} VND</span> 
-											<span class="old-price"> ${{$value->price()->price}} VND</span></span>
-											@else
-											<span class="price">FROM <span>${{$value->price()->price}} VND</span></span>
-											
-											@endif
-										</div>
-										@if($sale != "")
-										<div class="tag-stt">
-											<span>On sale</span>
-										</div>
-										@endif
-									</div>
-								</div>
-								@endforeach -->
 								
 							</div>
 						</div>

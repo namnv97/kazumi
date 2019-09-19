@@ -13,8 +13,8 @@
 							{{$reward->point}} điểm
 						</div>
 					</div>
-					<div class="lion-action-button lion-loyalty-panel-reward-item__redeem-button lion-loyalty-panel-reward-item__redeem-button--disabled {{(Auth::user()->point()->point > $reward->point)?'active':FALSE}}">
-						<span class="lion-loyalty-panel-reward-item__redeem-button-text">{{(Auth::user()->point()->point > $reward->point)?'ĐỔI NGAY':'CHƯA ĐỦ ĐIỂM'}}</span>
+					<div class="item {{(Auth::user()->point()->point > $reward->point)?'active':FALSE}}">
+						<span class="lion-loyalty-panel-reward-item__redeem-button-text" data-value="{{$reward->id}}" data-point="{{$reward->point}}">{{(Auth::user()->point()->point > $reward->point)?'ĐỔI NGAY':'CHƯA ĐỦ ĐIỂM'}}</span>
 					</div>
 				</div>
 			</div>
@@ -32,19 +32,49 @@
 					<h4 class="modal-title">ĐỔI ĐIỂM THƯỞNG</h4>
 				</div>
 				<div class="modal-body">
-					<p>Sử dụng <span class="point_lost">500</span> điểm</p>
-					<p>Để nhận <span class="title_lost">Voucher giảm giá 100.000 VNĐ</span></p>
-					<div class="action text-center">
-						<span class="btn btn-md btn-primary btn-access">Xác nhận</span>
-						&ensp;
-						<span class="btn btn-md btn-info btn-cancel">Hủy bỏ</span>
+					<div class="text-center">
+						<p>Sử dụng <span class="point_lost">500</span> điểm</p>
+						<p>Để nhận <span class="title_lost">Voucher giảm giá 100.000 VNĐ</span></p>
+						<div class="action">
+							<span class="btn btn-md btn-primary btn-access">Xác nhận</span>
+							&ensp;
+							<span class="btn btn-md btn-info btn-cancel">Hủy bỏ</span>
+						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 
 		</div>
 	</div>
+	@if(count($vouchers) > 0)
+	<div class="my-voucher">
+		<h3>Voucher đã đổi</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Mô tả</th>
+					<th>Code</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($vouchers as $key => $voucher)
+				<tr>
+					<td>{{$key + 1}}</td>
+					<td>{{$voucher->name}}</td>
+					<td>
+						<span class="voucher_code">{{$voucher->code}}</span>
+						<span class="fa fa-copy"></span>
+						<span class="fa fa-check"></span>
+					</td>
+					<td>
+						{{\Carbon\Carbon::parse($voucher->created_at)->diffForHumans(\Carbon\Carbon::now())}}
+					</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
+	@endif
 </div>

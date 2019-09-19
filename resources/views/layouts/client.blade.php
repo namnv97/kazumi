@@ -33,6 +33,7 @@
 	<script type="text/javascript" src="{{asset('/assets/client/js/owl.carousel.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-scrolltofixed-min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery.fancybox.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/assets/client/js/sweet.alert.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/custom.js')}}"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function(){

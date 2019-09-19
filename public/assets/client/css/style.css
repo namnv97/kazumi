@@ -3387,13 +3387,14 @@ footer{
 }
 .lion-loyalty-panel-sidebar .nav-tabs{
 	border: none;
+    position: relative;
 }
 .lion-loyalty-panel-sidebar .nav-tabs>li{
 	float: none;
 	display: block;
 	border: none;
 }
-.lion-loyalty-panel-sidebar .nav-tabs>li>a{
+.lion-loyalty-panel-sidebar .nav-tabs li>a{
 	border: none;
 	color: #1c1b1b;
     font-weight: 500;
@@ -3405,25 +3406,44 @@ footer{
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+.lion-loyalty-panel-sidebar .nav-tabs>span.muchmore
+{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    font-size: 20px;
+    transition: 0.5 ease-in-out;
+}
+
+.lion-loyalty-panel-sidebar .nav-tabs>span.muchmore.active
+{
+    transform: rotateZ(180deg);
+}
+
+
 .lion-loyalty-panel-sidebar .nav-tabs>li.active>a{
 	background-color: #fff;
 	border-radius: 4px;
 	border: none;
 }
-.lion-loyalty-panel-sidebar .nav-tabs>li.active.diamond>a{
+.lion-loyalty-panel-sidebar div.diamond>span{
 	background-color: transparent;
+    padding: 10px 0;
+    cursor: pointer;
 }
-.lion-loyalty-panel-sidebar .nav-tabs>li.diamond>a{
-	padding: 10px 0;
-}
-.lion-loyalty-panel-sidebar .nav-tabs>li.diamond{
+
+
+.lion-loyalty-panel-sidebar div.diamond{
 	border-bottom: 1px solid #d2d2d2;
     padding-bottom: 2rem;
     margin-bottom: 15px;
+    display: block;
 }
 #graded .lion-loyalty-panel-content .row{
 	margin: 0;
-	    -js-display: flex;
+	-js-display: flex;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-flow: row wrap;
@@ -3581,7 +3601,7 @@ footer{
 #get-rewards .lion-loyalty-panel-rule-item .lion-loyalty-panel-reward-item__content .lion-loyalty-panel-reward-item__meta{
 	margin:15px 0
 }
-#get-rewards .lion-loyalty-panel-rule-item .lion-loyalty-panel-reward-item__content .lion-loyalty-panel-reward-item__redeem-button--disabled{
+#get-rewards .item{
 	background: #f2f2f2;
 	font-family: "Montserrat", sans-serif !important;
     font-weight: 600 !important;
@@ -3594,9 +3614,7 @@ footer{
     margin-top: 15px;
 }
 
-#get-rewards .lion-loyalty-panel-rule-item 
-.lion-loyalty-panel-reward-item__content 
-.lion-loyalty-panel-reward-item__redeem-button--disabled.active:hover
+#get-rewards .item.active:hover
 {
     cursor: pointer;
     color: #fff;
@@ -3992,7 +4010,11 @@ footer{
         float: unset;
         margin-bottom: 10px;
     }
-	    
+
+    .modal-dialog
+    {
+        width: 100% !important;
+    }	    
   
 } 
 @media screen and (min-width: 768px) and (max-width: 991px){
@@ -4368,4 +4390,10 @@ footer{
 {
     color: red;
     padding-left: 10px;
+}
+
+.point-lost,
+.title_lost
+{
+    font-weight: bolder;
 }

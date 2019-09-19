@@ -3,7 +3,26 @@
 Tài khoản
 @endsection
 @section('css')
-
+<style>
+	.fa-copy
+	{
+		font-size: 20px;
+		display: inline-block;
+		padding-left: 10px;
+		color: red;
+		cursor: pointer;
+	}
+	.my-voucher h3
+	{
+		border-bottom: thin #ddd solid;
+		font-size: 20px;
+	}
+	.my-voucher .fa-check
+	{
+		color: #41d683;
+		opacity: 0;
+	}
+</style>
 @endsection
 @section('content')
 <div class="contact bg-grey account rewards-account">
@@ -21,12 +40,14 @@ Tài khoản
 							</span>
 							<span class="lion-loyalty-panel-sidebar__points-text">điểm</span>
 						</div>
+						<div class="diamond">
+							<span>
+								<i class="fa fa-diamond" aria-hidden="true"></i> Bạc
+							</span>
+						</div>
 						<ul class="nav nav-tabs">
-    						<li class="active diamond">
-    							<a data-toggle="tab" href="#graded"><i class="fa fa-diamond" aria-hidden="true"></i> Bạc</a>
-    						</li>
     						<li><a data-toggle="tab" href="#earn-points">Thêm điểm</a></li>
-    						<li><a data-toggle="tab" href="#get-rewards">Đổi điểm</a></li>
+    						<li class="active"><a data-toggle="tab" href="#get-rewards">Đổi điểm</a></li>
     						<li><a data-toggle="tab" href="#refer-friends">Giới thiệu bạn bè</a></li>
     						<li><a data-toggle="tab" href="#graded">Cấp bậc</a></li>
     						<li><a data-toggle="tab" href="#account">Hoạt động</a></li>
@@ -36,13 +57,13 @@ Tài khoản
 				</div>
 				<div class="col-md-9 col-xs-12 col-sm-12">
 					<div class="tab-content">
-					    <div id="graded" class="tab-pane fade in active">
+					    <div id="graded" class="tab-pane fade">
 					      	@include('client.account.reward.grade')
 					    </div>
 					    <div id="earn-points" class="tab-pane fade">
 					      	@include('client.account.reward.earn_point')					      	
 					    </div>
-					    <div id="get-rewards" class="tab-pane fade">
+					    <div id="get-rewards" class="tab-pane fade in active">
 					      	@include('client.account.reward.get_reward')					      	
 					    </div>
 					    <div id="refer-friends" class="tab-pane fade">
@@ -104,6 +125,101 @@ Tài khoản
 			});
 			
 		});
+
+		jQuery('#get-rewards .item.active').on('click',function(){
+			jQuery('#getModal #rgid').remove();
+			var txt = jQuery(this).parents('.lion-loyalty-panel-reward-item__content').find('.lion-loyalty-panel-reward-item__title').text();
+			var point = jQuery(this).find('span').data('point');
+			var id = jQuery(this).find('span').data('value');
+			jQuery('#getModal span.title_lost').text(txt);
+			jQuery('#getModal span.point_lost').text(point);
+			jQuery('#getModal .modal-body').prepend('<input type="hidden" id="rgid" value="'+id+'">');
+			jQuery('#getModal').modal('show');
+		});
+
+		jQuery('#getModal .action .btn-cancel').on('click',function(){
+			jQuery('#getModal').modal('hide');
+		})
+
+		jQuery('#getModal .action .btn-access').on('click',function(){
+			Swal.fire({
+				title: 'Bạn muốn đổi Voucher này?',
+				text: "",
+				type: 'info',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Đổi ngay',
+				cancelButtonText: "Hủy"
+			}).then((result) => {
+				if (result.value) {
+					var id = jQuery('#rgid').val();
+					jQuery.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}',
+						},
+						url: '{{route('client.voucher.create')}}',
+						type: 'post',
+						dataType: 'json',
+						data:{
+							id: id
+						},
+						beforeSend: function(){
+
+						},
+						success: function(res){
+							if(res.status == 'success') location.reload();
+						},
+						errors: function(errors){
+							console.log(errors);
+						}
+					});
+				}
+				else
+				{
+					jQuery('#getModal').modal('hide');
+				}
+			})
+		})
+
+		jQuery('.lion-loyalty-panel-sidebar div.diamond>span').on('click',function(){
+			jQuery('.lion-loyalty-panel-sidebar .nav-tabs>li a[href=#graded]').trigger('click');
+		});
+
+		if(jQuery(window).width() < 992)
+		{
+			jQuery('.lion-loyalty-panel-sidebar .nav-tabs>li').not('.active').hide();
+			jQuery('.lion-loyalty-panel-sidebar .nav-tabs').prepend('<span class="fa fa-caret-down muchmore"></span>');
+			jQuery('.lion-loyalty-panel-sidebar .nav-tabs').on('click','span.muchmore',function(){
+				jQuery(this).toggleClass('active');
+				jQuery('.lion-loyalty-panel-sidebar .nav-tabs>li').not('.active').slideToggle(400);
+			})
+		}
+
+		jQuery('.my-voucher span.fa-copy').on('click',function(){
+			var $this = jQuery(this);
+			var copyText = $this.prev();
+			var textArea = document.createElement("textarea");
+			textArea.value = copyText.text();
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand("Copy");
+			textArea.remove();
+			$this.next().css('opacity',1);
+			setTimeout(function(){
+				$this.next().css('opacity',0);
+			},1000);
+		})
+
+		function copy_password() {
+			var copyText = document.getElementById("pwd_spn");
+			var textArea = document.createElement("textarea");
+			textArea.value = copyText.textContent;
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand("Copy");
+			textArea.remove();
+		}
 	});
 </script>
 @endsection
