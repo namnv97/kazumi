@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 19, 2019 lúc 02:55 PM
+-- Thời gian đã tạo: Th9 20, 2019 lúc 02:42 PM
 -- Phiên bản máy phục vụ: 10.1.30-MariaDB
 -- Phiên bản PHP: 7.2.1
 
@@ -64,13 +64,14 @@ CREATE TABLE `carts` (
   `address1` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `paypal_order_id` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_method` enum('online','atm','cod') COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_status` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '0: Chưa thanh toán, 1: Đã thanh toán',
   `discount_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `voucher_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `phone` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total` double(12,2) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -79,12 +80,15 @@ CREATE TABLE `carts` (
 -- Đang đổ dữ liệu cho bảng `carts`
 --
 
-INSERT INTO `carts` (`id`, `user_id`, `first_name`, `last_name`, `company`, `address1`, `address2`, `city`, `phone`, `paypal_order_id`, `payment_method`, `payment_status`, `discount_id`, `total`, `status`, `created_at`, `updated_at`) VALUES
-(14, 3, 'Lê', 'Loan', 'Pveser', 'Triều Khúc', 'Tân Triều', 'Hà Nội', '0356982147', NULL, 'atm', '0', NULL, 345000.00, 2, '2019-09-12 09:27:02', '2019-09-15 18:25:46'),
-(15, 3, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Cầu Giấy', 'Hà Nội', '0365289417', NULL, 'cod', '0', 3, 742500.00, 1, '2019-09-12 09:31:45', '2019-09-12 20:50:50'),
-(16, 1, 'Lê', 'Loan', 'Pveser', 'Triều Khúc', 'Tân Triều', 'Hà Nội', '0356982147', '7D352759EG771994M', 'online', '1', 2, 1715000.00, 1, '2019-09-12 22:01:10', '2019-09-12 22:01:10'),
-(17, 2, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', '0263598417', '83553060D0300991J', 'online', '1', 1, 1528000.00, 1, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(18, 2, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', '0263598417', NULL, 'cod', '0', 2, 1990000.00, 1, '2019-09-17 00:16:45', '2019-09-17 00:16:45');
+INSERT INTO `carts` (`id`, `user_id`, `first_name`, `last_name`, `company`, `address1`, `address2`, `city`, `paypal_order_id`, `payment_method`, `payment_status`, `discount_id`, `voucher_id`, `phone`, `total`, `status`, `created_at`, `updated_at`) VALUES
+(14, 3, 'Lê', 'Loan', 'Pveser', 'Triều Khúc', 'Tân Triều', 'Hà Nội', NULL, 'atm', '0', NULL, NULL, '0356982147', 345000.00, 2, '2019-09-12 02:27:02', '2019-09-15 11:25:46'),
+(15, 3, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Cầu Giấy', 'Hà Nội', NULL, 'cod', '0', 3, NULL, '0365289417', 742500.00, 1, '2019-09-12 02:31:45', '2019-09-12 13:50:50'),
+(16, 1, 'Lê', 'Loan', 'Pveser', 'Triều Khúc', 'Tân Triều', 'Hà Nội', '7D352759EG771994M', 'online', '1', 2, NULL, '0356982147', 1715000.00, 1, '2019-09-12 15:01:10', '2019-09-12 15:01:10'),
+(17, 2, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', '83553060D0300991J', 'online', '1', 1, NULL, '0263598417', 1528000.00, 1, '2019-09-16 17:11:20', '2019-09-16 17:11:20'),
+(18, 2, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', NULL, 'cod', '0', 2, NULL, '0263598417', 1990000.00, 1, '2019-09-16 17:16:45', '2019-09-16 17:16:45'),
+(19, 1, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', NULL, 'cod', '0', 1, NULL, '0263598417', 1904000.00, 0, '2019-09-19 23:32:21', '2019-09-19 23:34:30'),
+(20, 1, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', '12H678287N008084G', 'online', '1', NULL, NULL, '0263598417', 2565000.00, 1, '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(21, 1, 'Nguyễn', 'Nam', 'Pveser', 'Số 225A Nguyễn Ngọc Vũ', 'Trung Kính, Cầu Giấy', 'Hà Nội', '15R38383PJ3863921', 'online', '1', NULL, NULL, '0263598417', 110000.00, 1, '2019-09-20 00:49:31', '2019-09-20 00:49:31');
 
 -- --------------------------------------------------------
 
@@ -108,21 +112,29 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `pack_id`, `color_id`, `price`, `quantity`, `created_at`, `updated_at`) VALUES
-(21, 14, 6, 2, 105000.00, 3, '2019-09-12 09:27:02', '2019-09-12 09:27:02'),
-(22, 15, 6, 1, 105000.00, 2, '2019-09-12 09:31:45', '2019-09-12 09:31:45'),
-(23, 15, 5, 3, 55000.00, 3, '2019-09-12 09:31:46', '2019-09-12 09:31:46'),
-(24, 15, 11, NULL, 105000.00, 4, '2019-09-12 09:31:46', '2019-09-12 09:31:46'),
-(25, 16, 6, 2, 105000.00, 10, '2019-09-12 22:01:11', '2019-09-12 22:01:11'),
-(26, 16, 6, 1, 105000.00, 7, '2019-09-12 22:01:11', '2019-09-12 22:01:11'),
-(27, 17, 6, 2, 105000.00, 8, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(28, 17, 3, 5, 80000.00, 5, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(29, 17, 3, 4, 80000.00, 3, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(30, 17, 3, 2, 80000.00, 5, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(31, 18, 6, 1, 105000.00, 4, '2019-09-17 00:16:45', '2019-09-17 00:16:45'),
-(32, 18, 6, 2, 105000.00, 3, '2019-09-17 00:16:46', '2019-09-17 00:16:46'),
-(33, 18, 6, 4, 105000.00, 5, '2019-09-17 00:16:46', '2019-09-17 00:16:46'),
-(34, 18, 4, 5, 60000.00, 6, '2019-09-17 00:16:46', '2019-09-17 00:16:46'),
-(35, 18, 1, NULL, 55000.00, 8, '2019-09-17 00:16:46', '2019-09-17 00:16:46');
+(21, 14, 6, 2, 105000.00, 3, '2019-09-12 02:27:02', '2019-09-12 02:27:02'),
+(22, 15, 6, 1, 105000.00, 2, '2019-09-12 02:31:45', '2019-09-12 02:31:45'),
+(23, 15, 5, 3, 55000.00, 3, '2019-09-12 02:31:46', '2019-09-12 02:31:46'),
+(24, 15, 11, NULL, 105000.00, 4, '2019-09-12 02:31:46', '2019-09-12 02:31:46'),
+(25, 16, 6, 2, 105000.00, 10, '2019-09-12 15:01:11', '2019-09-12 15:01:11'),
+(26, 16, 6, 1, 105000.00, 7, '2019-09-12 15:01:11', '2019-09-12 15:01:11'),
+(27, 17, 6, 2, 105000.00, 8, '2019-09-16 17:11:20', '2019-09-16 17:11:20'),
+(28, 17, 3, 5, 80000.00, 5, '2019-09-16 17:11:20', '2019-09-16 17:11:20'),
+(29, 17, 3, 4, 80000.00, 3, '2019-09-16 17:11:20', '2019-09-16 17:11:20'),
+(30, 17, 3, 2, 80000.00, 5, '2019-09-16 17:11:20', '2019-09-16 17:11:20'),
+(31, 18, 6, 1, 105000.00, 4, '2019-09-16 17:16:45', '2019-09-16 17:16:45'),
+(32, 18, 6, 2, 105000.00, 3, '2019-09-16 17:16:46', '2019-09-16 17:16:46'),
+(33, 18, 6, 4, 105000.00, 5, '2019-09-16 17:16:46', '2019-09-16 17:16:46'),
+(34, 18, 4, 5, 60000.00, 6, '2019-09-16 17:16:46', '2019-09-16 17:16:46'),
+(35, 18, 1, NULL, 55000.00, 8, '2019-09-16 17:16:46', '2019-09-16 17:16:46'),
+(36, 19, 4, 5, 60000.00, 10, '2019-09-19 23:32:21', '2019-09-19 23:32:21'),
+(37, 19, 1, NULL, 55000.00, 10, '2019-09-19 23:32:21', '2019-09-19 23:32:21'),
+(38, 19, 3, NULL, 80000.00, 15, '2019-09-19 23:32:21', '2019-09-19 23:32:21'),
+(39, 20, 6, 2, 105000.00, 10, '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(40, 20, 6, 1, 105000.00, 5, '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(41, 20, 6, 4, 105000.00, 8, '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(42, 20, 4, 5, 60000.00, 2, '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(43, 21, 3, 5, 80000.00, 1, '2019-09-20 00:49:31', '2019-09-20 00:49:31');
 
 -- --------------------------------------------------------
 
@@ -219,7 +231,7 @@ CREATE TABLE `earn_points` (
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `point` int(11) NOT NULL,
-  `price` int(11) DEFAULT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT '1',
   `unit` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -229,14 +241,14 @@ CREATE TABLE `earn_points` (
 -- Đang đổ dữ liệu cho bảng `earn_points`
 --
 
-INSERT INTO `earn_points` (`id`, `key_code`, `title`, `image`, `point`, `price`, `unit`, `created_at`, `updated_at`) VALUES
-(1, 'purchase', 'Nhận điểm khi mua hàng', '/assets/uploads/images/esq-rewards-program-icons-shopping-bag.svg', 10, NULL, 'mỗi 100.000VNĐ', '2019-09-17 00:32:40', '2019-09-17 00:32:40'),
-(2, 'referral', 'Giới thiệu bạn bè', '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 3000, NULL, '1 lần', '2019-09-08 21:43:41', '2019-09-17 00:30:18'),
-(3, 'birthday', 'Sinh nhật', '/assets/uploads/images/esq-rewards-program-icons-birthday.svg', 500, NULL, '1 lần', '2019-09-09 20:05:07', '2019-09-17 00:30:07'),
-(4, 'signup', 'Đăng ký Email', '/assets/uploads/images/esq-rewards-program-icons-newsletter.svg', 700, NULL, '1 lần', '2019-09-17 00:34:04', '2019-09-17 00:34:04'),
-(5, 'instagram', 'Theo dõi trên Instagram', '/assets/uploads/images/esq-rewards-program-icons-instagram.svg', 200, NULL, '1 lần', '2019-09-17 00:35:35', '2019-09-17 00:35:35'),
-(6, 'facebook', 'Like trang Facebook', '/assets/uploads/images/esq-rewards-program-icons-facebook.svg', 200, NULL, '1 lần', '2019-09-17 00:36:34', '2019-09-17 00:36:34'),
-(7, 'review', 'Viết đánh giá', '/assets/uploads/images/write_review.jpg', 100, NULL, 'mỗi đánh giá', '2019-09-17 00:40:04', '2019-09-17 00:40:04');
+INSERT INTO `earn_points` (`id`, `key_code`, `title`, `image`, `point`, `status`, `unit`, `created_at`, `updated_at`) VALUES
+(1, 'purchase', 'Nhận điểm khi mua hàng', '/assets/uploads/images/esq-rewards-program-icons-shopping-bag.svg', 10, 0, 'mỗi 20.000VNĐ', '2019-09-17 00:32:40', '2019-09-17 00:32:40'),
+(2, 'referral', 'Giới thiệu bạn bè', '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 3000, 1, '1 lần', '2019-09-08 21:43:41', '2019-09-17 00:30:18'),
+(3, 'birthday', 'Sinh nhật', '/assets/uploads/images/esq-rewards-program-icons-birthday.svg', 500, 1, '1 lần', '2019-09-09 20:05:07', '2019-09-17 00:30:07'),
+(4, 'signup', 'Đăng ký Email', '/assets/uploads/images/esq-rewards-program-icons-newsletter.svg', 700, 1, '1 lần', '2019-09-17 00:34:04', '2019-09-17 00:34:04'),
+(5, 'instagram', 'Theo dõi trên Instagram', '/assets/uploads/images/esq-rewards-program-icons-instagram.svg', 200, 1, '1 lần', '2019-09-17 00:35:35', '2019-09-17 00:35:35'),
+(6, 'facebook', 'Like trang Facebook', '/assets/uploads/images/esq-rewards-program-icons-facebook.svg', 200, 1, '1 lần', '2019-09-17 00:36:34', '2019-09-17 00:36:34'),
+(7, 'review', 'Viết đánh giá', '/assets/uploads/images/write_review.jpg', 100, 1, 'mỗi đánh giá', '2019-09-17 00:40:04', '2019-09-17 00:40:04');
 
 -- --------------------------------------------------------
 
@@ -257,9 +269,9 @@ CREATE TABLE `essentials` (
 --
 
 INSERT INTO `essentials` (`id`, `product_id`, `essential_product_id`, `created_at`, `updated_at`) VALUES
-(12, 3, 1, '2019-09-04 19:09:22', '2019-09-04 19:09:22'),
-(13, 3, 2, '2019-09-04 19:09:23', '2019-09-04 19:09:23'),
-(14, 3, 4, '2019-09-04 19:09:23', '2019-09-04 19:09:23');
+(15, 3, 1, '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(16, 3, 2, '2019-09-19 23:28:55', '2019-09-19 23:28:55'),
+(17, 3, 4, '2019-09-19 23:28:55', '2019-09-19 23:28:55');
 
 -- --------------------------------------------------------
 
@@ -330,10 +342,6 @@ INSERT INTO `galleries` (`id`, `product_id`, `type`, `url`, `created_at`, `updat
 (62, 1, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-04 02:10:50', '2019-09-04 02:10:50'),
 (67, 4, 'image', '/assets/uploads/images/products/keo-dan-tao-mat-2-mi-848x900.jpg', '2019-09-04 03:01:52', '2019-09-04 03:01:52'),
 (68, 4, 'image', '/assets/uploads/images/products/keo-gan-mi.jpg', '2019-09-04 03:01:52', '2019-09-04 03:01:52'),
-(73, 3, 'image', '/assets/uploads/images/products/longmi1.jpg', '2019-09-04 19:09:22', '2019-09-04 19:09:22'),
-(74, 3, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-04 19:09:22', '2019-09-04 19:09:22'),
-(75, 3, 'image', '/assets/uploads/images/products/longmi4.jpg', '2019-09-04 19:09:22', '2019-09-04 19:09:22'),
-(76, 3, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-04 19:09:22', '2019-09-04 19:09:22'),
 (89, 9, 'image', '/assets/uploads/images/products/longmi1.jpg', '2019-09-07 18:38:29', '2019-09-07 18:38:29'),
 (90, 9, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-07 18:38:29', '2019-09-07 18:38:29'),
 (91, 9, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-07 18:38:29', '2019-09-07 18:38:29'),
@@ -344,7 +352,16 @@ INSERT INTO `galleries` (`id`, `product_id`, `type`, `url`, `created_at`, `updat
 (96, 10, 'image', '/assets/uploads/images/products/longmi2.jpg', '2019-09-07 18:46:55', '2019-09-07 18:46:55'),
 (103, 13, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-07 19:08:43', '2019-09-07 19:08:43'),
 (104, 13, 'image', '/assets/uploads/images/products/longmi4.jpg', '2019-09-07 19:08:43', '2019-09-07 19:08:43'),
-(105, 13, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-07 19:08:43', '2019-09-07 19:08:43');
+(105, 13, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-07 19:08:43', '2019-09-07 19:08:43'),
+(106, 3, 'image', '/assets/uploads/images/products/longmi1.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(107, 3, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(108, 3, 'image', '/assets/uploads/images/products/longmi4.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(109, 3, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(110, 3, 'image', '/assets/uploads/images/products/longmi5.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(111, 3, 'image', '/assets/uploads/images/products/longmi4.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(112, 3, 'image', '/assets/uploads/images/products/longmi3.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(113, 3, 'image', '/assets/uploads/images/products/longmi2.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54'),
+(114, 3, 'image', '/assets/uploads/images/products/longmi1.jpg', '2019-09-19 23:28:54', '2019-09-19 23:28:54');
 
 -- --------------------------------------------------------
 
@@ -357,6 +374,7 @@ CREATE TABLE `get_reward` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `point` int(11) NOT NULL,
   `discount_value` bigint(20) NOT NULL,
+  `image` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -366,11 +384,11 @@ CREATE TABLE `get_reward` (
 -- Đang đổ dữ liệu cho bảng `get_reward`
 --
 
-INSERT INTO `get_reward` (`id`, `name`, `point`, `discount_value`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Voucher giảm giá 100.000 VNĐ', 500, 100000, 1, '2019-09-18 00:01:13', '2019-09-18 00:20:13'),
-(2, 'Voucher giảm giá 150.000 VNĐ', 750, 150000, 1, '2019-09-18 00:15:14', '2019-09-18 00:20:52'),
-(3, 'Voucher giảm giá 200.000 VNĐ', 1000, 200000, 1, '2019-09-18 00:15:37', '2019-09-18 00:27:40'),
-(4, 'Voucher giảm giá 50.000 VNĐ', 250, 50000, 1, '2019-09-18 01:35:32', '2019-09-18 01:35:32');
+INSERT INTO `get_reward` (`id`, `name`, `point`, `discount_value`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Voucher giảm giá 100.000 VNĐ', 500, 100000, '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 1, '2019-09-18 00:01:13', '2019-09-18 00:20:13'),
+(2, 'Voucher giảm giá 150.000 VNĐ', 750, 150000, '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 1, '2019-09-18 00:15:14', '2019-09-18 00:20:52'),
+(3, 'Voucher giảm giá 200.000 VNĐ', 1000, 200000, '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 1, '2019-09-18 00:15:37', '2019-09-18 00:27:40'),
+(4, 'Voucher giảm giá 50.000 VNĐ', 250, 50000, '/assets/uploads/images/esq-rewards-program-icons-refer-friend.svg', 1, '2019-09-18 01:35:32', '2019-09-18 01:35:32');
 
 -- --------------------------------------------------------
 
@@ -408,7 +426,10 @@ INSERT INTO `history_reward` (`id`, `user_id`, `point`, `action`, `status`, `cre
 (18, 1, 200, 'Like trang Facebook', 'approved', '2019-09-17 03:24:48', '2019-09-17 03:24:48'),
 (19, 1, -250, 'Đổi Voucher giảm giá 50.000 VNĐ', 'approved', '2019-09-18 21:31:04', '2019-09-18 21:31:04'),
 (20, 1, -1000, 'Đổi Voucher giảm giá 200.000 VNĐ', 'approved', '2019-09-18 21:34:10', '2019-09-18 21:34:10'),
-(21, 1, -500, 'Đổi Voucher giảm giá 100.000 VNĐ', 'approved', '2019-09-18 23:33:41', '2019-09-18 23:33:41');
+(21, 1, -500, 'Đổi Voucher giảm giá 100.000 VNĐ', 'approved', '2019-09-18 23:33:41', '2019-09-18 23:33:41'),
+(22, 1, 190, 'Hoàn tất đơn hàng #19', 'approved', '2019-09-19 23:32:21', '2019-09-19 23:32:21'),
+(23, 1, 256, 'Hoàn tất đơn hàng #20', 'approved', '2019-09-19 23:42:11', '2019-09-19 23:42:11'),
+(24, 1, 40, 'Hoàn tất đơn hàng #21', 'approved', '2019-09-20 00:49:31', '2019-09-20 00:49:31');
 
 -- --------------------------------------------------------
 
@@ -523,8 +544,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2019_08_21_032508_create_pages_table', 1),
 (17, '2019_08_21_032727_create_page_custom_field_table', 1),
 (18, '2019_08_21_033256_create_options_table', 1),
-(19, '2019_08_21_033510_create_carts_table', 1),
-(20, '2019_08_21_033539_create_cart_items_table', 1),
 (22, '2019_08_21_035316_create_regions_table', 1),
 (23, '2019_08_21_041944_create_shipping_address_user_table', 1),
 (24, '2019_08_21_043852_create_tiers_table', 1),
@@ -550,7 +569,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (46, '2019_09_12_033721_create_user_discount_table', 12),
 (49, '2019_09_12_081606_alter_add_paypal_order_id_and_shipping_method_carts_table', 13),
 (51, '2019_09_18_044420_create_user_voucher_table', 14),
-(52, '2019_09_18_101633_create_vouchers_table', 15);
+(52, '2019_09_18_101633_create_vouchers_table', 15),
+(53, '2019_08_21_033510_create_carts_table', 16),
+(54, '2019_08_21_033539_create_cart_items_table', 17);
 
 -- --------------------------------------------------------
 
@@ -684,7 +705,7 @@ INSERT INTO `packs_colors` (`id`, `pack_id`, `color_id`, `created_at`, `updated_
 (41, 6, 4, '2019-09-04 03:01:52', '2019-09-04 03:01:52'),
 (42, 6, 2, '2019-09-04 03:01:52', '2019-09-04 03:01:52'),
 (43, 6, 1, '2019-09-04 03:01:52', '2019-09-04 03:01:52'),
-(45, 4, 5, '2019-09-04 19:09:22', '2019-09-04 19:09:22');
+(46, 4, 5, '2019-09-19 23:28:53', '2019-09-19 23:28:53');
 
 -- --------------------------------------------------------
 
@@ -1345,7 +1366,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `birthday`, `point_reward`, `refferal_code`, `short_link`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', 'admin@127.0.0.1', '$2y$10$IlNZEyYmt1.2EkXoL03Sx.2IWLQKdh/dVCvHghJoIW3cwQC2pfIsu', '1997-05-14', 1184, 'ebJRM68boy', 'http://bit.ly/2AwSg1f', '/assets/uploads/files/avatar.jpg', 'NB9J5z5UVIfEvniXNUTnWE8I2gi0OwtOOGpzSx2TCABRZG16d5VEJTvqAZir', NULL, '2019-09-17 19:16:30'),
+(1, 'Administrator', 'admin@127.0.0.1', '$2y$10$IlNZEyYmt1.2EkXoL03Sx.2IWLQKdh/dVCvHghJoIW3cwQC2pfIsu', '1997-05-14', 1685, 'ebJRM68boy', 'http://bit.ly/2AwSg1f', '/assets/uploads/files/avatar.jpg', 'NB9J5z5UVIfEvniXNUTnWE8I2gi0OwtOOGpzSx2TCABRZG16d5VEJTvqAZir', NULL, '2019-09-20 00:49:31'),
 (2, 'Nam Nguyễn', 'n4m.nv.1997@gmail.com', '$2y$10$IlNZEyYmt1.2EkXoL03Sx.2IWLQKdh/dVCvHghJoIW3cwQC2pfIsu', '1997-05-14', 1151, 'JrIzOBMxV5', '', NULL, 'iPpbVbJrDGZD2Fgn37Tv4QiaDzgcfpxJlztXCA731UKU2naENTdDmqz0mAUe', NULL, '2019-09-17 02:23:47'),
 (3, 'Lê Loan', 'info@pveser.com', '$2y$10$WR9XOCmsafG9HtwSat3hoObDgC/H72GAA5y0W9dssjvitz.moFi1C', '1995-06-20', 208, 'ADFLO52LO8', '', NULL, '6LYJ0RD19pQaO98gMbs6RfRChzFCNpFTeavOYgCAoRBdMGhfOMH1DMkSQMki', NULL, '2019-09-12 09:31:45'),
 (4, 'Hải Long', 'hailongnguyen@gmail.com', '$2y$10$V9ozsolTpVLnzjYkJiALROHZbLP2qIGPZYw16896QUkXtgYYGoJFe', '1997-09-15', 100, 'O8UU0X20PW', '', NULL, NULL, '2019-08-25 03:04:35', '2019-08-28 23:38:23'),
@@ -1402,7 +1423,8 @@ INSERT INTO `user_discount` (`id`, `user_id`, `discount_id`, `created_at`, `upda
 (8, 3, 3, '2019-09-12 09:31:45', '2019-09-12 09:31:45'),
 (9, 1, 2, '2019-09-12 22:01:10', '2019-09-12 22:01:10'),
 (10, 2, 1, '2019-09-17 00:11:20', '2019-09-17 00:11:20'),
-(11, 2, 2, '2019-09-17 00:16:45', '2019-09-17 00:16:45');
+(11, 2, 2, '2019-09-17 00:16:45', '2019-09-17 00:16:45'),
+(12, 1, 1, '2019-09-19 23:32:21', '2019-09-19 23:32:21');
 
 -- --------------------------------------------------------
 
@@ -1440,6 +1462,7 @@ CREATE TABLE `vouchers` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'total',
   `discount_value` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1448,10 +1471,10 @@ CREATE TABLE `vouchers` (
 -- Đang đổ dữ liệu cho bảng `vouchers`
 --
 
-INSERT INTO `vouchers` (`id`, `user_id`, `code`, `name`, `type`, `discount_value`, `created_at`, `updated_at`) VALUES
-(3, 1, 'C8n6AP6s7m', 'Voucher giảm giá 50.000 VNĐ', 'total', 50000, '2019-09-18 21:31:04', '2019-09-18 21:31:04'),
-(4, 1, 'KjGDSCbn3S', 'Voucher giảm giá 200.000 VNĐ', 'total', 200000, '2019-09-18 21:34:10', '2019-09-18 21:34:10'),
-(5, 1, 'seZhdBTujK', 'Voucher giảm giá 100.000 VNĐ', 'total', 100000, '2019-09-18 23:33:41', '2019-09-18 23:33:41');
+INSERT INTO `vouchers` (`id`, `user_id`, `code`, `name`, `type`, `discount_value`, `status`, `created_at`, `updated_at`) VALUES
+(3, 1, 'C8n6AP6s7m', 'Voucher giảm giá 50.000 VNĐ', 'total', 50000, 1, '2019-09-18 21:31:04', '2019-09-18 21:31:04'),
+(4, 1, 'KjGDSCbn3S', 'Voucher giảm giá 200.000 VNĐ', 'total', 200000, 1, '2019-09-18 21:34:10', '2019-09-18 21:34:10'),
+(5, 1, 'seZhdBTujK', 'Voucher giảm giá 100.000 VNĐ', 'total', 100000, 1, '2019-09-18 23:33:41', '2019-09-18 23:33:41');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1471,7 +1494,8 @@ ALTER TABLE `articles`
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `carts_user_id_foreign` (`user_id`),
-  ADD KEY `carts_discount_id_foreign` (`discount_id`);
+  ADD KEY `carts_discount_id_foreign` (`discount_id`),
+  ADD KEY `carts_voucher_id_foreign` (`voucher_id`);
 
 --
 -- Chỉ mục cho bảng `cart_items`
@@ -1743,13 +1767,13 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT cho bảng `collections`
@@ -1779,7 +1803,7 @@ ALTER TABLE `earn_points`
 -- AUTO_INCREMENT cho bảng `essentials`
 --
 ALTER TABLE `essentials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `forms_data`
@@ -1791,7 +1815,7 @@ ALTER TABLE `forms_data`
 -- AUTO_INCREMENT cho bảng `galleries`
 --
 ALTER TABLE `galleries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT cho bảng `get_reward`
@@ -1803,7 +1827,7 @@ ALTER TABLE `get_reward`
 -- AUTO_INCREMENT cho bảng `history_reward`
 --
 ALTER TABLE `history_reward`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `jobs`
@@ -1833,7 +1857,7 @@ ALTER TABLE `layouts`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT cho bảng `options`
@@ -1851,7 +1875,7 @@ ALTER TABLE `packs`
 -- AUTO_INCREMENT cho bảng `packs_colors`
 --
 ALTER TABLE `packs_colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT cho bảng `pages`
@@ -1947,7 +1971,7 @@ ALTER TABLE `users_meta_field`
 -- AUTO_INCREMENT cho bảng `user_discount`
 --
 ALTER TABLE `user_discount`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `user_tier`
@@ -1976,7 +2000,8 @@ ALTER TABLE `articles`
 --
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts_discount_id_foreign` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carts_voucher_id_foreign` FOREIGN KEY (`voucher_id`) REFERENCES `vouchers` (`id`) ON DELETE SET NULL;
 
 --
 -- Các ràng buộc cho bảng `cart_items`
