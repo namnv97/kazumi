@@ -21,10 +21,13 @@
 				<a href="mailto:?subject=Tham gia cùng tôi&amp;body=Đăng ký ngay tại {{Auth::user()->short_link}}." class="lion-referral-share-button lion-referral-share-button--email" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i> email </a>
 			</div>
 			<div class="lion-referral-widget-main__share-link">
-				<div class="lion-referral-widget-main__share-link-text">Or copy your link and share it anywhere</div>
+				<div class="lion-referral-widget-main__share-link-text">Hoặc Sao chép link bên dưới và chia sẻ nó ở bất cứ đâu</div>
 				<div class="lion-referral-widget-main__share-link-container">
-					<div class="lion-referral-widget-main__share-link-url" style="text-transform: none;">https://prz.io/DxyLJPf1</div>
-					<button class="lion-copy-to-clipboard-button btn" data-clipboard-text="https://prz.io/DxyLJPf1" title="Copy to clipboard"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
+					<div class="lion-referral-widget-main__share-link-url" style="text-transform: none;">{{Auth::user()->short_link}}</div>
+					<button class="lion-copy-to-clipboard-button btn" data-clipboard-text="{{Auth::user()->short_link}}" title="Copy to clipboard">
+						<i class="fa fa-clipboard" aria-hidden="true"></i>
+						<i class="fa fa-check" aria-hidden="true"></i>
+					</button>
 				</div>
 			</div>
 		</div>

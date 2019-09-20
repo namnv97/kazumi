@@ -143,6 +143,28 @@
 			display: block;
 		}
 
+		.vouchers
+		{
+			padding: 10px 0;
+		}
+		
+		.voucher_list
+		{
+			display: flex;
+			align-items: center;
+		}
+
+		.voucher_list select
+		{
+			width: 70%;
+			height: 35px;
+		}
+
+		.voucher_list button
+		{
+			width: 27%;
+			margin-left: 3%;
+		}
 	</style>
 </head>
 <body>
@@ -328,6 +350,7 @@
 
 
 		jQuery('.discount button').on('click',function(){
+			jQuery('#voucher').val('');
 			var discount = jQuery(this).prev().val();
 			if(discount.length > 0)
 			{
@@ -363,6 +386,49 @@
 			else
 			{
 				alert("Vui lòng nhập mã giảm giá");
+			}
+		});
+
+		jQuery('.vouchers .voucher_list button').on('click',function(){
+			jQuery('.discount input').val('');
+			var code = jQuery('#voucher').val();
+			if(code.length > 0)
+			{
+				jQuery.ajax({
+					url: '{{route('client.cart.voucher')}}',
+					type: 'get',
+					dataType: 'json',
+					data: {
+						code: code
+					},
+					beforeSend: function(){
+						jQuery('.info-right .errors').remove();
+						jQuery('.field-discount-payment').remove();
+						cal_discount();
+					},
+					success: function(res)
+					{
+						if(res.status == 'errors')
+						{
+							jQuery('.discount').after('<p class="errors">'+res.msg+'</p>');
+						}
+						else
+						{
+							jQuery('tr.total-line--shipping').after('<tr class="field-discount-payment"><td>Giảm giá</td><td style="font-weight: bold;"><span class="field_discount__value" data-value="'+res.value+'" data-type="'+res.type+'"> -'+numberWithCommas(res.value)+'</span>'+((res.type == 'percent')?'%':'VND')+'</td></tr>');
+							cal_discount();
+						}
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				});
+			}
+			else
+			{
+				jQuery('.info-right .errors').remove();
+				jQuery('.field-discount-payment').remove();
+				cal_discount();
+				alert("Vui lòng chọn Voucher giảm giá");
 			}
 		});
 
@@ -438,6 +504,8 @@
 			{
 				total = parseInt(subtotal) + parseInt(ship);
 			}
+
+			if(total < 0) total = 0;
 			jQuery('.payment-due').html('<span class="payment-due__price" data-checkout-payment-due-target="'+total+'">'+numberWithCommas(total)+'VND</span>');
 		}
 
@@ -453,6 +521,8 @@
 			data.order_id = localStorage.getItem('order_id');
 			data.discount = jQuery('.info-right input[name=discount]').val();
 			data.payment_method = jQuery('input[name=payment_method]:checked').val();
+			data.subtotal = jQuery('.total-line__price span').data('checkout-subtotal-price-target');
+			data.voucher_code = jQuery('#voucher').val();
 			data.total = jQuery('.payment-due__price').data('checkout-payment-due-target');
 			jQuery.ajax({
 				headers: {
@@ -468,7 +538,7 @@
 				success: function(res){
 					if(res.status == 'success')
 					{
-						window.location.href = '{{route('home')}}';
+						window.location.href = '{{route('client.account.index')}}';
 					}
 					localStorage.removeItem('status');
 					localStorage.removeItem('order_id');

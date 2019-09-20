@@ -120,10 +120,6 @@ class HomeController extends Controller
 
         $products = $products->select(DB::raw('(CASE WHEN packs.sale IS NOT NULL THEN packs.sale   ELSE packs.price END) AS ninh'),'products.*','packs.price','packs.sale');
 
-        // echo "<pre>";
-        // print_r($products->toArray());
-        // die();
-
 
         if(isset($rq->sort_by) && $rq->sort_by == 'name_asc')
         $products = $products->orderBy('products.name');
@@ -143,17 +139,10 @@ class HomeController extends Controller
 
         $products = $products->get();
 
-        // $ninh = CartItem::select( DB::raw('SUM(quantity) as total'),'cart_items.*')
-        //         ->groupBy('pack_id')
-                
-        //         ->get();
         $ninh = Product::join('packs', 'products.id', '=', 'packs.product_id')
                         ->join('cart_items', 'cart_items.pack_id', '=', 'packs.id')
                         ->select('products.*', DB::raw('SUM(quantity) as total'))->groupBy('pack_id');
 
-        // $ninh = CartItem::selectRaw('select SUM(quantity) as total, `cart_items`.* from `cart_items` group by `pack_id`');
-                  
-        //$ninh = CartItem::all();
         
         if(isset($rq->sort_by) && $rq->sort_by == 'best-selling')
         $products = $ninh->orderBy('total','DESC')->get();
@@ -170,38 +159,29 @@ class HomeController extends Controller
 
         $products = $data = Product::where('name','like',$key)->orWhere('description','like',$key)->orWhere('product_content','like',$key)->get();
 
-         $pages = Page::where('name','like',$key)->get();
+        $pages = Page::where('name','like',$key)->get();
         $articles = Article::where('title','like',$key)->get();
 
+        $s = $rq->key;
 
-        foreach ($products as $key => $value) {
-            $a = isset($value->gallery[1]->url)?$value->gallery[1]->url:$value->gallery[0]->url;
-            $data[$key]['img'] = $value->gallery[0]->url;
-            $data[$key]['img1'] = $a;
-            $sale = $value->price()->sale ? $value->price()->sale : 0;
-            $data[$key]['sale'] = $sale;
-            $data[$key]['price'] = $value->price()->price;
+        return view('client.search.search',compact('articles','products','pages','s'));
+    }
+
+    public function search(Request $request)
+    {
+        $key = $request->s;
+        $type = $request->type;
+        switch ($type) {
+            case 'product':
+                $products = Product::where('name','like',"%$key%")->orWhere('description','like',"%$key%")->orWhere('product_content','like',"%$key%")->get();
+                return view('client.search.product',compact('products'));
+                break;
             
+            case 'post':
+                $pages = Page::where('name','like',"%$key%")->get();
+                $articles = Article::where('title','like',"%$key%")->get();
+                return view('client.search.post',compact('pages','articles'));
+                break;
         }
-
-
-        // $a = DB::table(DB::raw('pages, articles'))->where('pages.name','like',$key)->orWhere('articles.title','like',$key)->select('pages.id as pages_id','pages.name as pages_name','articles.*')->groupBy('articles.title','pages_name')->get();
-
-       
-
-        $respone = [
-            'articles' => $articles ,
-            'data' => $data ,
-            'pages' => $pages ,
-            
-            'total' => count($products)
-        ];
-        echo json_encode($respone);
-
-
-
-
-
-
     }
 }

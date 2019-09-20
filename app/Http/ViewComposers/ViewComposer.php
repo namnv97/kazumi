@@ -136,6 +136,13 @@ class ViewComposer
     }
 
 
+    public function search_page(View $view)
+    {
+        $logo = Option::where('meta_key','logo')->first();
+        $view->with('logo',$logo->meta_value);
+
+    }
+
 
 
 
@@ -143,20 +150,4 @@ class ViewComposer
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  ?>

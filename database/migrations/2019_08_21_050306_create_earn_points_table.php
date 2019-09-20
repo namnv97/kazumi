@@ -20,7 +20,7 @@ class CreateEarnPointsTable extends Migration
             $table->string('image');
             $table->integer('point');
             $table->string('unit')->nullable();
-            $table->string('price')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

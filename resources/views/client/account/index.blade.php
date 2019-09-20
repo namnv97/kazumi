@@ -3,7 +3,34 @@
 Tài khoản
 @endsection
 @section('css')
+<style>
+	.table tbody td>strong
+	{
+		display: none;
+	}
+	@media(max-width: 991px)
+	{
+		.table thead
+		{
+			display: none;
+		}
 
+		.table td
+		{
+			display: block;
+		}
+
+		.table tbody td>strong
+		{
+			display: inline-block;
+		}
+
+		.modal-content
+		{
+			padding-top: 30vh;
+		}
+	}
+</style>
 @endsection
 @section('content')
 <div class="contact bg-grey account">
@@ -36,11 +63,11 @@ Tài khoản
 							<tbody>
 								@foreach($cart as $key => $cartitem)
 								<tr>
-									<td>{{$key + 1}}</td>
-									<td>{{$cartitem->fullname}}</td>
-									<td>{{$cartitem->address}}</td>
-									<td>{{number_format($cartitem->total)}}VND</td>
-									<td>
+									<td><strong>STT :&ensp;</strong>{{$key + 1}}</td>
+									<td><strong>Họ tên :&ensp;</strong>{{$cartitem->fullname}}</td>
+									<td><strong>Địa chỉ :&ensp;</strong>{{$cartitem->address}}</td>
+									<td><strong>Tổng :&ensp;</strong>{{number_format($cartitem->total)}}VND</td>
+									<td><strong>Trạng thái :&ensp;</strong>
 										@php
 										$arr = [
 										0 => 'Chờ duyệt',

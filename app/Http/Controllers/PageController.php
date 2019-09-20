@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Model\Page;
 use App\Model\PageCustomField;
 use App\Model\Regions;
-
+use App\Model\Earn_point;
+use App\Model\Get_reward;
 class PageController extends Controller
 {
     public function index($slug = null)
@@ -72,6 +73,10 @@ class PageController extends Controller
     {
     	$page = Page::find($page_id);
 
+        $earn_point = Earn_point::where('status',1)->get();
+
+        $getrewards = Get_reward::all();
+
     	$arr = ['banner','banner_title','earn_title','earn_description','earn_img'];
     	foreach($arr as $ar):
     		$$ar = PageCustomField::where([
@@ -81,7 +86,7 @@ class PageController extends Controller
     		->first();
     	endforeach;
 
-    	return view('client.page.reward',compact('page','banner','banner_title','earn_title','earn_description','earn_img'));
+    	return view('client.page.reward',compact('page','banner','banner_title','earn_title','earn_description','earn_img','earn_point','getrewards'));
     }
 
     public function press($page_id)

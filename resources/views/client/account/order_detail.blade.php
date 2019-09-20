@@ -13,12 +13,12 @@
 	<tbody>
 		@foreach($carts as $key => $item)
 		<tr>
-			<td>{{$key + 1}}</td>
-			<td>{{$item->packs()->product()->name}} / {{$item->packs()->name}}</td>
-			<td>{{(!empty($item->color_id))?$item->color()->name:FALSE}}</td>
-			<td>{{number_format($item->price)}}VND</td>
-			<td>{{$item->quantity}}</td>
-			<td>{{number_format($item->quantity*$item->price)}}VND</td>
+			<td><strong>STT :&ensp;</strong>{{$key + 1}}</td>
+			<td><strong>Tên sản phẩm :&ensp;</strong>{{$item->packs()->product()->name}} / {{$item->packs()->name}}</td>
+			<td><strong>Màu sắc :&ensp;</strong>{{(!empty($item->color_id))?$item->color()->name:FALSE}}</td>
+			<td><strong>Đơn giá :&ensp;</strong>{{number_format($item->price)}}VND</td>
+			<td><strong>Số lượng :&ensp;</strong>{{$item->quantity}}</td>
+			<td><strong>Thành tiền :&ensp;</strong>{{number_format($item->quantity*$item->price)}}VND</td>
 		</tr>
 		@endforeach
 	</tbody>
@@ -28,11 +28,13 @@
 				Giao hàng : <strong>30.000VND</strong>
 			</td>
 		</tr>
+		@if(!empty($cart->discount_id))
 		<tr>
 			<td colspan="6" class="text-center">
 				Giảm giá : <strong>-{{number_format($cart->discount()->discount_value)}}{{($cart->discount()->type == 'percent')?'%':'VNĐ'}}</strong>
 			</td>
 		</tr>
+		@endif
 		<tr>
 			<td colspan="6" class="text-center">
 				Tổng cộng : <strong>{{number_format($cart->total)}}VNĐ</strong>

@@ -52,5 +52,10 @@ class ComposerServiceProvider extends ServiceProvider
             'layouts.server',
             'App\Http\ViewComposers\ViewComposer@order_pending'
         );
+
+        view()->composer(
+            'client.search.post',
+            'App\Http\ViewComposers\ViewComposer@search_page'
+        );
     }
 }

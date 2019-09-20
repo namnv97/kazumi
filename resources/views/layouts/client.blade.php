@@ -176,74 +176,17 @@
 
 				timeout = setTimeout(function (){
 					$.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}',
+						},
 						url : "{{route('client.search')}}",
-						method : 'get',
-						dataType : 'json',
+						method : 'post',
+						dataType : 'html',
 						cache: false,
 						data :  {key : jQuery('.Search__Input').val()},
 						success(results){
-							let html = ``;
-							let html1 = ``;
-							$.each(results.data, function(key,val) { 
-								var p = 0;
-								if(val.sale == 0)
-								{
-									p = val.price;
-								}
-								else
-									p = val.sale;            
-					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
-		    								<div class="product-item">
-												<div class="pro-img">
-													<a href="#">
-														<img src="`+val.img+`" alt="">
-														<div class="img-hide">
-															<img src="`+val.img1+`" alt="">
-														</div>
-													</a>
-												</div>
-												
-												`
-
-								if(val.sale != 0)
-									html += `<div class="info-product">
-													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
-													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
-													<span class="old-price"> $`+val.price+` USD</span></span>
-												</div>
-												<div class="tag-stt">
-													<span>On sale</span>
-												</div>
-											</div>
-		    							</div>`
-		    					else
-		    						html += `<div class="info-product">
-													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
-													<span class="price">FROM <span>$`+val.price+` USD</span></span>
-												</div>
-											</div>
-		    							</div>`
-					        });  
-					        $.each(results.articles, function(key,val) { 
-
-								html1 += `<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">`+val.title+`</a>
-								</li>`;
-							});
-							$.each(results.pages, function(key,val) { 
-
-								html1 += `<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">`+val.name+`</a>
-								</li>`;
-							});
-							
-
-							$('.Linklist').html(html1);
-
-					        $('.result_search').html(html) 
-							$('.total_result_search').html(results.total+ ' results')
-							
-							
+							console.log('keyup');
+							jQuery('.Search__Results').html(results);
 						}
 
 					})
@@ -257,78 +200,19 @@
 
 				timeout = setTimeout(function (){
 					$.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}',
+						},
 						url : "{{route('client.search')}}",
-						method : 'get',
-						dataType : 'json',
+						method : 'post',
+						dataType : 'html',
 						cache: false,
-						data :  {key : jQuery('.Search__Input').val()},
+						data :  {
+							key : jQuery('.Search__Input').val()
+						},
 						success(results){
-							let html = ``;
-							let html1 = ``;
-							$.each(results.data, function(key,val) { 
-								var p = 0;
-								if(val.sale == 0)
-								{
-									p = val.price;
-								}
-								else
-									p = val.sale;            
-					            html += `<div class="col-md-4 col-sm-4 col-xs-12">
-		    								<div class="product-item">
-												<div class="pro-img">
-													<a href="#">
-														<img src="`+val.img+`" alt="">
-														<div class="img-hide">
-															<img src="`+val.img1+`" alt="">
-														</div>
-													</a>
-												</div>
-												
-												`
-
-								if(val.sale != 0)
-									html += `<div class="info-product">
-													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
-													<span class="price"><span class="price-sale">$`+val.sale+` USD</span> 
-													<span class="old-price"> $`+val.price+` USD</span></span>
-												</div>
-												<div class="tag-stt">
-													<span>On sale</span>
-												</div>
-											</div>
-		    							</div>`
-		    					else
-		    						html += `<div class="info-product">
-													<h3 class="title-pro"><a href="#">`+val.name+`</a></h3>
-													<span class="price">FROM <span>$`+val.price+` USD</span></span>
-												</div>
-											</div>
-		    							</div>`
-
-
-		    					
-					        });  
-							$.each(results.articles, function(key,val) { 
-
-								html1 += `<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">`+val.title+`</a>
-								</li>`;
-							});
-							$.each(results.pages, function(key,val) { 
-
-								html1 += `<li class="Linklist__Item">
-									<a href="#" class="Link Link--secondary">`+val.name+`</a>
-								</li>`;
-							});
-							
-
-							$('.Linklist').html(html1);
-					        $('.result_search').html(html) 
-							$('.total_result_search').html(results.total+ ' sản phẩm')
-							
-
-
-							
+							console.log('keydown');
+							jQuery('.Search__Results').html(results);							
 						}
 
 					})

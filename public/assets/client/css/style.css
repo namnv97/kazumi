@@ -4397,3 +4397,13 @@ footer{
 {
     font-weight: bolder;
 }
+
+.search.bg-grey
+{
+    overflow-y: auto;
+}
+
+.result_search .col-md-4:nth-child(3n+1)
+{
+    clear: both;
+}

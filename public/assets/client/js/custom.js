@@ -193,6 +193,7 @@ jQuery(document).ready(function() {
             visibility: 'hidden',
             opacity: '0'
         });
+        jQuery('body').css('overflow-y','auto');
     });
     jQuery('.search-btn-head>a').click(function(e) {
         e.preventDefault();
@@ -200,6 +201,7 @@ jQuery(document).ready(function() {
           visibility: 'visible',
           opacity: '1'
         });
+        jQuery('body').css('overflow-y','hidden');
     });
   
 });

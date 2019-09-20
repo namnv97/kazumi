@@ -14,6 +14,7 @@ use App\Model\Cart;
 use App\Model\CartItem;
 use App\Model\Reward;
 use App\Model\User;
+use App\Model\Voucher;
 
 use Auth;
 
@@ -200,9 +201,14 @@ class CartController extends Controller
             }
             if($request->step == 'payment')
             {
+                $vlist = Voucher::where([
+                    ['user_id',Auth::user()->id],
+                    ['status',1]
+                ])
+                ->get();
                 if(!isset($_SERVER['HTTP_REFERER']) || ($_SERVER['HTTP_REFERER'] != route('client.checkout',['step' => 'order_review']))) return redirect()->route('client.checkout',['step' => 'order_review']);
                 $trade = 23110;
-                return view('client.cart.payment',compact('logo','arr','trade'));
+                return view('client.cart.payment',compact('logo','arr','trade','vlist'));
             }
         }
         
@@ -232,6 +238,23 @@ class CartController extends Controller
 
     }
 
+    public function voucher(Request $request)
+    {
+        $code = $request->code;
+        
+        $discount = Voucher::where([
+            ['code',$code],
+            ['status',1]
+        ])->first();
+
+        if(empty($discount)):
+            return response()->json(['status' => 'error','msg' => 'Voucher này đã được sử dụng']);
+        endif;
+
+        return response()->json(['status' => 'success','code' => $discount->code,'type' => 'total','value' => $discount->discount_value]);
+
+    }
+
     public function order(Request $request)
     {
 
@@ -241,6 +264,7 @@ class CartController extends Controller
         {
             $req['paypal_order_id'] = $request->order_id;
             $req['payment_status'] = '1';
+            $req['status'] = 1;
         }
         else
         {
@@ -253,6 +277,12 @@ class CartController extends Controller
             $userdiscount->user_id = Auth::user()->id;
             $userdiscount->discount_id = $dc->id;
             $userdiscount->save();
+        endif;
+
+        if(!empty($request->voucher_code)):
+            $vc = Voucher::where(['code',$request->voucher_code])->first();
+            $vc->status = 0;
+            $vc->save();
         endif;
 
 
@@ -269,12 +299,12 @@ class CartController extends Controller
         $reward = new Reward();
         $reward->user_id = Auth::user()->id;
         $reward->action = 'Hoàn tất đơn hàng #'.$cart->id;
-        $reward->point = floor($request->total/10000);
+        $reward->point = floor($request->subtotal/2000);
         $reward->status = 'approved';
         $reward->save();
 
         $user = User::find(Auth::user()->id);
-        $user->point_reward += floor($request->total/10000);
+        $user->point_reward += floor($request->total/2000);
         $user->save();
 
 

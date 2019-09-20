@@ -27,80 +27,55 @@
 					<span><i class="fa fa-star" aria-hidden="true"></i></span>
 				</div>
 			</div>
+			@if(count($earn_point) > 0)
 			<div class="rewards-box">
 				<div class="rewards-title">
-					<h3 class="title-large">MORE WAYS TO EARN</h3>
-					<p>Get rewarded sooner by completing the bonus objectives below!</p>
+					<h3 class="title-large">NHIỀU CÁCH HƠN ĐỂ NHẬN ĐIỂM</h3>
+					<p>Nhận thưởng sớm hơn bằng cách hoàn thành các mục tiêu thưởng dưới đây!</p>
 				</div>
 				<div class="rewards-box-info">
 					<div class="row">
+						@foreach($earn_point as $item)
 						<div class="col-md-4 col-xs-12 col-sm-6">
 							<div class="rewards-item">
 								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreferfriendsvg-1550720094253.svg" alt="">
+									<img src="{{asset($item->image)}}" alt="{{$item->title}}">
 								</div>
 								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
+									<h4>{{$item->title}}</h4>
+									<p>{{number_format($item->point)}} điểm</p>
 								</div>
 							</div>
 						</div>
+						@endforeach
+					</div>
+				</div>
+				<div class="rewards-line">
+					<span><i class="fa fa-star" aria-hidden="true"></i></span>
+				</div>
+			</div>
+			@endif
+			@if(count($getrewards) > 0)
+			<div class="rewards-box">
+				<div class="rewards-title">
+					<h3 class="title-large">PHẦN THƯỞNG</h3>
+					<p>Sử dụng điểm của bạn để đổi những phần thưởng sau</p>
+				</div>
+				<div class="rewards-box-info">
+					<div class="row">
+						@foreach($getrewards as $item)
 						<div class="col-md-4 col-xs-12 col-sm-6">
 							<div class="rewards-item">
 								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsbirthdaysvg-1550720140175.svg" alt="">
+									<img src="{{asset($item->image)}}" alt="{{$item->name}}">
 								</div>
 								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
+									<h4>{{$item->name}}</h4>
+									<p>{{number_format($item->point)}} điểm</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsnewslettersvg-1550720145710.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreviewsvg-1550720540303.svg" alt="">
-								</div>
-
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsfacebooksvg-1550720543429.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsinstagramsvg-1550720547519.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 
 				</div>
@@ -108,95 +83,15 @@
 					<span><i class="fa fa-star" aria-hidden="true"></i></span>
 				</div>
 			</div>
+			@endif
 			<div class="rewards-box">
 				<div class="rewards-title">
-					<h3 class="title-large">REWARDS</h3>
-					<p>Redeem your points for these great rewards!</p>
+					<h3 class="title-large">NHẬN ĐIỂM NGAY HÔM NAY</h3>
+					<p>Tạo tài khoản miễn phí để nhận điêm ngay hôm nay</p>
 				</div>
 				<div class="rewards-box-info">
-					<div class="row">
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsrewardcompaniongluesvg-1550720805497.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>FREE COMPANION LASH GLUE</h4>
-									<p>1,500 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreward5vouchersvg-1550720832941.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>$5 VOUCHER</h4>
-									<p>1,000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreward8vouchersvg-1550720864995.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>$10 VOUCHER</h4>
-									<p>2,000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreward25vouchersvg-1550720886828.svg" alt="">
-								</div>
-
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreward50vouchersvg-1550720897490.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12 col-sm-6">
-							<div class="rewards-item">
-								<div class="rewards-img">
-									<img src="https://media.pagefly.io/file/get/esqrewardsprogramiconsreward100vouchersvg-1550720899527.svg" alt="">
-								</div>
-								<div class="rewards-item-content">
-									<h4>REFER A FRIEND</h4>
-									<p>3000 Points</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<div class="rewards-line">
-					<span><i class="fa fa-star" aria-hidden="true"></i></span>
-				</div>
-			</div>
-			<div class="rewards-box">
-				<div class="rewards-title">
-					<h3 class="title-large">START EARNING TODAY</h3>
-					<p>Create a free account and start earning points with every purchase!</p>
-				</div>
-				<div class="rewards-box-info">
-					<a href="#" class="login-btn">LOGIN</a>
-					<a href="#">SIGN UP</a>
+					<a href="{{route('login')}}" class="login-btn" target="_blank">ĐĂNG NHẬP</a>
+					<a href="{{route('register')}}" target="_blank">ĐĂNG KÝ</a>
 				</div>
 			</div>
 		</div>

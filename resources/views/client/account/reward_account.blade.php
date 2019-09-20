@@ -22,6 +22,55 @@ Tài khoản
 		color: #41d683;
 		opacity: 0;
 	}
+
+	.lion-copy-to-clipboard-button .fa-check
+	{
+		display: none;
+	}
+
+	.lion-copy-to-clipboard-button.active .fa-check
+	{
+		display: block !important;
+	}
+
+	.lion-copy-to-clipboard-button.active .fa-clipboard
+	{
+		display: none !important;
+	}
+
+	.lion-copy-to-clipboard-button.active
+	{
+		background: #52b740;
+		color: #fff;
+	}
+
+	.table tbody tr td>strong
+	{
+		display: none;
+	}
+
+	@media(max-width: 991px){
+		.table tbody tr td
+		{
+			display: block;
+		}
+		.table tbody tr td>strong
+		{
+			display: inline-block;
+		}
+
+		.table thead
+		{
+			display: none;
+		}
+
+		.table tbody tr
+		{
+			display: block;
+			margin: 15px 0;
+		}
+
+	}
 </style>
 @endsection
 @section('content')
@@ -210,6 +259,21 @@ Tài khoản
 				$this.next().css('opacity',0);
 			},1000);
 		})
+
+		jQuery('.lion-copy-to-clipboard-button').on('click',function(){
+			var $this = jQuery(this);
+			var txt = jQuery(this).data('clipboard-text');
+			var textArea = document.createElement("textarea");
+			textArea.value = txt;
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand("Copy");
+			textArea.remove();
+			$this.addClass('active')
+			setTimeout(function(){
+				$this.removeClass('active');
+			},1000);
+		});
 
 		function copy_password() {
 			var copyText = document.getElementById("pwd_spn");

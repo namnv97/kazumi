@@ -37,10 +37,25 @@
 			</table>
 		</li>
 		@endforeach
+		@if(request()->step == 'payment')
+		@if(count($vlist) > 0)
+		<li class="vouchers">
+			<div class="voucher_list">
+				<select id="voucher" class="form-control">
+					<option value="">Voucher giảm giá</option>
+					@foreach($vlist as $voucher)
+					<option value="{{$voucher->code}}">{{$voucher->code.' : '.$voucher->name}}</option>
+					@endforeach
+				</select>
+				<button class="btn">Sử dụng</button>
+			</div>
+		</li>
+		@endif
 		<li class="discount">
 			<input type="text" name="discount" placeholder="Mã giảm giá" class="form-control">
 			<button class="btn">Sử dụng</button>
 		</li>
+		@endif
 		<li>
 			<table class="total-line-table table">
 				<tbody class="total-line-table__tbody">

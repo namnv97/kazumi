@@ -224,10 +224,12 @@ Route::post('/add-order','CartController@order')->name('client.checkout.order');
 Route::get('/order_detail','AccountController@get_order_detail')->name('client.order.order_detail');
 
 Route::get('/discount','CartController@discount')->name('client.cart.discount');
+Route::get('/discount_voucher','CartController@voucher')->name('client.cart.voucher');
 
 Route::get('collection/{slug}','HomeController@getCollection')->name('client.collection.index');
 
-Route::get('search','HomeController@getSearch')->name('client.search');
+Route::post('search','HomeController@getSearch')->name('client.search');
+Route::get('search','HomeController@search')->name('client.search');
 
 Route::get('/news','ArticleCOntroller@archive')->name('client.articles.archive');
 

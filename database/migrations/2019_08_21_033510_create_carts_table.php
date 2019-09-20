@@ -28,11 +28,13 @@ class CreateCartsTable extends Migration
             $table->enum('payment_method',['online','atm','cod']);
 
             $table->enum('payment_status',[0,1])->comment('0: Chưa thanh toán, 1: Đã thanh toán')->default(0);
-            $table->unsignedBigInteger('discount_id')->after('payment_method')->nullable();
+            $table->unsignedBigInteger('discount_id')->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
-            $table->string('phone',12)->after('city');
+            $table->unsignedBigInteger('voucher_id')->nullable();
+            $table->foreign('voucher_id')->references('id')->on('vouchers')->onDelete('set null');
+            $table->string('phone',12);
             $table->double('total',12,2);
-            $table->tinyInteger('status')->default(1)->comment('1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy');
+            $table->tinyInteger('status')->default(0)->comment('0: Chờ duyệt,1: Chờ giao hàng, 2: Đang giao hàng, 3: Giao hàng thành công, 4: Đơn hàng bị hủy');
             $table->timestamps();
         });
     }

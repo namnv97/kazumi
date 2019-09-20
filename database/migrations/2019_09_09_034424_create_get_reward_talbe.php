@@ -18,6 +18,7 @@ class CreateGetRewardTalbe extends Migration
             $table->string('name');
             $table->integer('point');
             $table->enum('status',[0,1])->default(1);
+            $table->string('image');
             $table->timestamps();
         });
     }
