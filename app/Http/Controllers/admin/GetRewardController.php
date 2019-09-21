@@ -26,29 +26,29 @@ class GetRewardController extends Controller
     	$validator = Validator::make($request->all(), [
             'name' => 'required',
             'point' => 'required',
-            'unit' => 'required',
-            'reward' => 'required',
+            'discount_value' => 'required',
+            'image' => 'required'
             
         ],[
-            'name.required' => 'Chưa nhập tên phần thưởng',
-            'point.required' => 'Chưa nhập số điểm yêu cầu',
-            'unit.required' => 'Chưa nhập đơn vị',
-            'reward.required' => 'Chưa nhập phần thưởng',
+            'name.required' => 'Tiêu đề không được để trống',
+            'point.required' => 'Điểm không được để trống',
+            'discount_value.required' => 'Số tiền không được để trống',
+            'image.required' => 'Ảnh không được để trống',
             
            
         ]);
         if ($validator->fails()) {
-            return redirect('admin/get_reward/create')
-                        ->withErrors($validator)
-                        ->withInput();
+            return  back()
+                    ->withErrors($validator)
+                    ->withInput();
 
         }
 
     	$get_reward = new Get_reward();
         $get_reward->name = $request->name;
-        $get_reward->unit = $request->unit;
         $get_reward->point = $request->point;
-        $get_reward->reward = $request->reward;
+        $get_reward->discount_value = $request->discount_value;
+        $get_reward->image = $request->image;
 
         $get_reward->save();
 
@@ -67,29 +67,29 @@ class GetRewardController extends Controller
     	$validator = Validator::make($request->all(), [
             'name' => 'required',
             'point' => 'required',
-            'unit' => 'required',
-            'reward' => 'required',
+            'discount_value' => 'required',
+            'image' => 'required'
             
         ],[
-            'name.required' => 'Chưa nhập tên phần thưởng',
-            'point.required' => 'Chưa nhập số điểm yêu cầu',
-            'unit.required' => 'Chưa nhập đơn vị',
-            'reward.required' => 'Chưa nhập phần thưởng',
+            'name.required' => 'Tiêu đề không được để trống',
+            'point.required' => 'Điểm không được để trống',
+            'discount_value.required' => 'Số tiền không được để trống',
+            'image.required' => 'Ảnh không được để trống',
             
            
         ]);
         if ($validator->fails()) {
-            return redirect('admin/get_reward/edit/'.$id)
-                        ->withErrors($validator)
-                        ->withInput();
+            return  back()
+                    ->withErrors($validator)
+                    ->withInput();
 
         }
 
-    	$get_reward = Get_reward::find($id);
+        $get_reward = Get_reward::find($id);
         $get_reward->name = $request->name;
-        $get_reward->unit = $request->unit;
         $get_reward->point = $request->point;
-        $get_reward->reward = $request->reward;
+        $get_reward->discount_value = $request->discount_value;
+        $get_reward->image = $request->image;
 
         $get_reward->save();
 

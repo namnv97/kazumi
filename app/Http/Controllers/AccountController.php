@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use \Carbon\Carbon;
+use \File;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 
 use App\Model\User;
@@ -231,7 +234,7 @@ class AccountController extends Controller
 
         $get_reward = Get_reward::orderBy('created_at','desc')->get();
 
-        $vouchers = Voucher::orderBy('created_at','desc')->get();
+        $vouchers = Voucher::where('status',1)->orderBy('created_at','desc')->get();
 
         return view('client.account.reward_account',compact('rewards','reward_help','grades','user_tier','earn_point','get_reward','vouchers'));
     }
@@ -245,10 +248,10 @@ class AccountController extends Controller
     public function postProfile(Request $rq)
     {
         $validator = Validator::make($rq->all(), [
-            'birth_day' => 'required',
+            'birthday' => 'required',
             'name' => 'required',
         ],[
-            'birth_day.required' => 'Chưa nhập ngày sinh',
+            'birthday.required' => 'Chưa nhập ngày sinh',
 
             'name.required' => 'Chưa nhập họ tên',
             
@@ -262,14 +265,29 @@ class AccountController extends Controller
         }
         $user = User::find(Auth::user()->id);
         $user->name = $rq->name;
-        $user->birthday = $rq->birth_day;
+        $user->birthday = $rq->birthday;
         $user->name = $rq->name;
-        $user->avatar = $rq->avatar;
-        if($rq->password != "");
-        $user->password = Hash::make($rq->password);
+        if($rq->hasFile('avatar')):
+            if(file_exists(public_path().$user->avatar)):
+                File::delete(public_path().$user->avatar);
+            endif;
+            $file = $rq->avatar;
+            $format = $file->extension();
+            $name = $file->getClientOriginalName();
+            $name = preg_replace('/\.(.*)$/', '_' . time() . '.$1', $name);
 
-        $user->save();
-        return redirect('account/profile')->with('success','Cập nhật thành công');
+            $file->move(public_path('assets/client/img'), $name);
+            $user->avatar = '/assets/client/img/'.$name;
+        endif;
+        if(!empty($rq->password)):
+            $user->password = Hash::make($rq->password);
+            $user->save();
+            Auth::logout();
+            return redirect()->route('login');
+        else:
+            $user->save();
+            return redirect('account/profile')->with('success','Cập nhật thành công');
+        endif;
     }
 
     

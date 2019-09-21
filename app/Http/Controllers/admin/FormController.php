@@ -36,4 +36,16 @@ class FormController extends Controller
 
     	return view('server.form.index',compact('forms','head_title'));
     }
+
+
+    public function delete(Request $request)
+    {
+        $id = $request->id;
+        $form = FormData::find($id);
+        if(empty($form)) return response()->json(['status' => 'error']);
+        $form->delete();
+        return response()->json(['status' => 'success']);
+    }
+
+
 }

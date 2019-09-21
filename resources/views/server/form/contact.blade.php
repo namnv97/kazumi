@@ -26,7 +26,7 @@
 			<td>{{$item->ip}}</td>
 			<td>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s')}}</td>
 			<td>
-				<span class="btn btn-sm btn-danger" title="Xóa bản ghi"><i class="fa fa-trash"></i> Xóa</span>
+				<span class="btn btn-sm btn-danger btn-delete" title="Xóa bản ghi" data-value="{{$item->id}}"><i class="fa fa-trash"></i> Xóa</span>
 			</td>
 		</tr>
 		@endforeach

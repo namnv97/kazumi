@@ -45,7 +45,6 @@ class EarnPointController extends Controller
         $earn_point->title = $request->title;
         $earn_point->unit = $request->unit;
         $earn_point->image = $request->image;
-        $earn_point->price = $request->price;
         $earn_point->point = $request->point;
 
         $earn_point->save();
@@ -85,7 +84,6 @@ class EarnPointController extends Controller
         $earn_point->unit = $request->unit;
         $earn_point->title = $request->title;
         $earn_point->point = $request->point;
-        $earn_point->price = $request->price;
         $earn_point->image = $request->image;
         $earn_point->save();
 

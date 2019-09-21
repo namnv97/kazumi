@@ -36,5 +36,35 @@
 			jQuery(this).parents('form').submit();
 		});
 	})
+	@if(request()->form_name == 'contact')
+	jQuery('.btn-delete').on('click',function(){
+		if(confirm("Bạn muốn xóa bản ghi này ?"))
+		{
+			var id = jQuery(this).data('value');
+			jQuery.ajax({
+				headers: {
+					'X-CSRF-TOKEN': '{{ csrf_token() }}',
+				},
+				url: '{{route('admin.forms.delete')}}',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					id: id,
+					_method: 'DELETE'
+				},
+				beforeSend: function(){
+
+				},
+				success: function(res){
+					if(res.status == 'success') location.reload();
+					else alert("Có lỗi xảy ra. Vui lòng thử lại");
+				},
+				errors: function(errors){
+					console.log(errors);
+				}
+			});
+		}
+	})
+	@endif
 </script>
 @endsection

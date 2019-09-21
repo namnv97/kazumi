@@ -23,7 +23,7 @@ Bộ Sưu Tập | {{$collection->name}}
 							<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 col-pro">
 								<div class="product-item wow fadeInUp">
 									<div class="pro-img">
-										<a href="#">
+										<a href="{{route('client.product.index',['slug' => $value->slug])}}">
 											<img src="{{$value->gallery[0]->url}}" alt="">
 											<div class="img-hide">
 												<?php $a = isset($value->gallery[1]->url)?$value->gallery[1]->url:$value->gallery[0]->url; ?>
@@ -32,18 +32,18 @@ Bộ Sưu Tập | {{$collection->name}}
 										</a>
 									</div>
 									<div class="info-product">
-										<h3 class="title-pro"><a href="#">{{$value->name}}</a></h3>
-										
-										<?php $sale = $value->price()->sale ? $value->price()->sale : ""; ?>
-										@if($sale != "")
-										<span class="price"><span class="price-sale">${{$value->price()->sale}} USD</span> 
-										<span class="old-price"> ${{$value->price()->price}} USD</span></span>
+										<h3 class="title-pro"><a href="{{route('client.product.index',['slug' => $value->slug])}}">{{$value->name}}</a></h3>
+										@if(!empty($value->price()->sale))
+										<span class="price">
+											<span class="price-sale">{{number_format($value->price()->sale)}} VNĐ</span> 
+											<span class="old-price">{{number_format($value->price()->price)}} VNĐ</span>
+										</span>
 										@else
-										<span class="price">FROM <span>${{$value->price()->price}} USD</span></span>
+										<span class="price">Từ <span>{{number_format($value->price()->price)}} VNĐ</span></span>
 										
 										@endif
 									</div>
-									@if($sale != "")
+									@if(!empty($value->price()->sale))
 									<div class="tag-stt">
 										<span>Giảm giá</span>
 									</div>

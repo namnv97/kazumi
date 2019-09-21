@@ -84,6 +84,7 @@
 				</div>
 			</div>
 			@endif
+			@if(!Auth::check())
 			<div class="rewards-box">
 				<div class="rewards-title">
 					<h3 class="title-large">NHẬN ĐIỂM NGAY HÔM NAY</h3>
@@ -94,6 +95,7 @@
 					<a href="{{route('register')}}" target="_blank">ĐĂNG KÝ</a>
 				</div>
 			</div>
+			@endif
 		</div>
 	</div>
 </div>

@@ -220,7 +220,7 @@ class OptionController extends Controller
             $op->meta_value = $rq->view_best_seller;
             $op->save();
         else:
-            $op->meta_value = $request->view_best_seller;
+            $op->meta_value = $rq->view_best_seller;
             $op->save();
         endif;
         $option_slide = Option::where('meta_key','slide')->delete();
@@ -298,7 +298,7 @@ class OptionController extends Controller
 
         $option_slide = Option::where('meta_key','video_gallery')->delete();
         $option = new Option;
-        $option->name = 'ảnh đại diện video';
+        $option->name = 'Ảnh đại diện video';
         $option->meta_key = 'video_gallery';    
         $option->meta_value = $rq->video_gallery; 
         $option->save();
@@ -309,13 +309,13 @@ class OptionController extends Controller
         foreach ($rq->product_id_look as $key => $value) 
         {
             $option = new Option;
-            $option->name = 'sản phẩm hot';
+            $option->name = 'Sản phẩm hot';
             $option->meta_key = 'product_look_product';    
             $option->meta_value = $value; 
             $option->save();
 
             $option = new Option;
-            $option->name = 'ảnh sản phẩm hot';
+            $option->name = 'Ảnh sản phẩm hot';
             $option->meta_key = 'product_look_gallery';    
             $option->meta_value = $rq->gallery_look[$key]; 
             $option->save();

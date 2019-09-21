@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 	});
 	Route::group(['prefix' => 'forms'],function(){
 		Route::get('/','FormController@index')->name('admin.forms.index');
+		Route::delete('/delete','FormController@delete')->name('admin.forms.delete');
 	});
 
 	Route::group(['prefix' => 'orders'],function(){
@@ -172,6 +173,15 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/edit','VoucherController@edit')->name('admin.voucher.edit');
 		Route::post('/edit','VoucherController@postEdit')->name('admin.voucher.edit');
 		Route::delete('/delete','VoucherController@delete')->name('admin.voucher.delete');
+	});
+
+	Route::group(['prefix' => 'retailers'],function(){
+		Route::get('/','RetailerController@index')->name('admin.retailers.index');
+		Route::get('/create','RetailerController@create')->name('admin.retailers.create');
+		Route::post('/create','RetailerController@postCreate')->name('admin.retailers.create');
+		Route::get('/edit/{id?}','RetailerController@edit')->name('admin.retailers.edit');
+		Route::post('/edit','RetailerController@postEdit')->name('admin.retailers.edit');
+		Route::delete('/delete','RetailereControler@delete')->name('admin.retailers.delete');
 	});
 
 });

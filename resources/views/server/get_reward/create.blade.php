@@ -3,7 +3,39 @@
 Thêm mới đổi thưởng
 @endsection
 @section('css')
+<style>
+	.image .img
+	{
+		display: none;
+		position: relative;
+		width: 100px;
+		margin: 10px 0;
+	}
 
+	.image .img.active
+	{
+		display: block;
+
+	}
+
+	.image .img img
+	{
+		width: 100%;
+	}
+
+	.image .img i
+	{
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 5px;
+		border-radius: 100%;
+		background: #fff;
+		color: #000;
+		font-weight: bold;
+		cursor: pointer;
+	}
+</style>
 @endsection
 @section('content')
 <div class="content_container">
@@ -29,15 +61,22 @@ Thêm mới đổi thưởng
 					
 					<div class="form-group">
 						<label>Số điểm yêu cầu</label>
-						<input type="number" name="point" class="form-control" placeholder="Số điểm yêu cầu" value="{{old('title')}}">
+						<input type="number" name="point" class="form-control" placeholder="Số điểm yêu cầu" value="{{old('point')}}">
 					</div>
 					<div class="form-group">
-						<label>Giá trị phân thưởng</label>
-						<input type="number" name="reward" class="form-control" placeholder="Giá trị phân thưởng" value="{{old('reward')}}">
+						<label>Số tiền tương ứng</label>
+						<input type="number" name="discount_value" class="form-control" placeholder="Số tiền tương ứng" value="{{old('discount_value')}}">
 					</div>
 					<div class="form-group">
-						<label>Đơn vị</label>
-						<input type="text" name="unit" class="form-control" placeholder="Đơn vị" value="{{old('title')}}">
+						<label>Hình ảnh</label>
+						<div class="image">
+							<div class="img">
+								<img src="">
+								<input type="hidden" name="image">
+								<i class="fa fa-times"></i>
+							</div>
+							<span class="btn-add-image btn btn-sm btn-success">Chọn ảnh</span>
+						</div>
 					</div>
 					<button class="btn btn-primary">Thêm</button>
 				</div>
@@ -55,7 +94,29 @@ Thêm mới đổi thưởng
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		
-		CKEDITOR.replace('tier_content');
+
+		jQuery('.btn-add-image').on('click',function(){
+			var $this = jQuery(this).prev();
+			CKFinder.popup( {
+				chooseFiles: true,
+				onInit: function( finder ) {
+					finder.on( 'files:choose', function( evt ) {
+						var file = evt.data.files.first();
+						$this.find('img').attr('src',file.getUrl());
+						$this.find('input').val(file.getUrl());
+						$this.addClass('active');
+					} );
+				}
+			} );
+		});
+
+		jQuery('.image .img i').on('click',function(){
+			jQuery(this).parent().removeClass('active');
+			jQuery(this).parent().find('img').removeAttr('src');
+			jQuery(this).parent().find('input').val('');
+		});
+
+
 	});
 	
 </script>

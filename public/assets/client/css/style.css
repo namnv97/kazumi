@@ -2509,6 +2509,7 @@ footer{
 	font-size: 14px;
 	font-family: Montserrat,sans-serif;
 	margin-top: 30px;
+    text-transform: uppercase;
 
 }
 .rewards-item .rewards-item-content p{
@@ -2973,6 +2974,11 @@ footer{
 	display: block;
 	background: #333;
     border-color: #444444;
+}
+
+.program .jdgm-form-wrapper .form-program button.err
+{
+    border: 2px solid red !important;
 }
 /* Retailers */
 .maps{

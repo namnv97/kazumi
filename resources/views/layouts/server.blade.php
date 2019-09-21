@@ -186,6 +186,19 @@
                     <span>Người dùng</span>
                 </a>
             </li>
+            <li class="treeview {{(request()->is('admin/retailers*'))?'active':FALSE}}">
+                <a href="{{route('admin.retailers.index')}}">
+                    <i class="fa fa-dropbox"></i>
+                    <span>Đại lý</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/retialers'))?'active':FALSE}}"><a href="{{route('admin.retailers.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a></li>
+                    <li class="{{(request()->is('admin/retailers/create'))?'active':FALSE}}"><a href="{{route('admin.retailers.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a></li>
+                </ul>
+            </li>
             <li class="treeview {{(request()->is('admin/tier*'))?'active':FALSE}}">
                 <a href="{{route('admin.tier.index')}}">
                     <i class="fa fa-cog"></i>

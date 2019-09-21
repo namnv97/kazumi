@@ -5,7 +5,6 @@
 			<th>Email</th>
 			<th>IP</th>
 			<th>Thời gian gửi</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,9 +15,6 @@
 			<td>{{$form->email}}</td>
 			<td>{{$form->ip}}</td>
 			<td>{{\Carbon\Carbon::parse($form->created_at)->format('d/m/Y H:i:s')}}</td>
-			<td>
-				<span class="btn btn-sm btn-danger" title="Xóa bản ghi"><i class="fa fa-trash"></i> Xóa</span>
-			</td>
 		</tr>
 
 		@endforeach

@@ -52,8 +52,7 @@ Danh sách bậc thưởng
 			<tr>
 				<th>STT</th>
 				<th>Tên</th>
-				<th>Giá trị</th>
-				<th>Đơn vị</th>
+				<th>Hình ảnh</th>
 				<th>Điểm yêu cầu</th>
 				<th></th>
 				<th></th>
@@ -66,9 +65,8 @@ Danh sách bậc thưởng
 				<td>{{($get_reward->currentPage() - 1) * $get_reward->perPage() + $key + 1}}</td>
 				<td>{{$value->name}}</td>
 				<td>
-					{{$value->reward}}
+					<img src="{{asset($value->image)}}" alt="{{$value->name}}" style="width: 50px;">
 				</td>
-				<td>{{$value->unit}}</td>
 				<td>{{$value->point}}</td>
 				<td>
 					<a href="{{route('admin.get_reward.edit',['id' => $value->id])}}" class="btn btn-sm btn-warning">

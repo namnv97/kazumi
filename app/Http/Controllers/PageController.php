@@ -75,7 +75,7 @@ class PageController extends Controller
 
         $earn_point = Earn_point::where('status',1)->get();
 
-        $getrewards = Get_reward::all();
+        $getrewards = Get_reward::orderBy('created_at','desc')->get();
 
     	$arr = ['banner','banner_title','earn_title','earn_description','earn_img'];
     	foreach($arr as $ar):

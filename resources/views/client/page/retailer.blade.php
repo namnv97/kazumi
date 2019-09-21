@@ -3,7 +3,39 @@
 {{$page->name}}
 @endsection
 @section('css')
+<style>
+	.program .jdgm-form-wrapper .form-program .col-md-6:nth-child(2n)
+	{
+		clear: both;
+	}
 
+	.form-response
+	{
+		padding: 15px;
+		background: #5fea3c;
+		color: #fff;
+		position: relative;
+		font-weight: bold;
+	}
+
+	.form-response p
+	{
+		text-align: center;
+		font-size: 16px;
+	}
+
+	.form-response i
+	{
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 5px;
+		border-radius: 100%;
+		background: #fff;
+		color: #000;
+		cursor: pointer;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -44,98 +76,65 @@
 							<p>{{$become_description->meta_value}}</p>
 						</div>
 						<div class="form-program jdgm-form-wrapper">
-							<form>
+							<div class="form-program ">
 								<div class="row">
-									<div class="col-xs-12 col-md-6 col-sm-6">
+									<div class="col-xs-12 col-md-12 col-sm-12">
 										<div class="form-group">
-											<span>FIRST NAME*</span>
-											<input type="text" name="" class="form-control">
+											<span>HỌ TÊN*</span>
+											<input type="text" name="fullname" class="form-control" placeholder="Họ tên">
 										</div>
 									</div>
 									<div class="col-xs-12 col-md-6 col-sm-6">
 										<div class="form-group">
-											<span>LAST NAME*</span>
-											<input type="text" name="" class="form-control">
+											<span>EMAIL *</span>
+											<input type="email" name="email" class="form-control" placeholder="Email">
 										</div>
 									</div>
 									<div class="col-xs-12 col-md-6 col-sm-6">
 										<div class="form-group">
-											<span>EMAIL*</span>
-											<input type="email" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>CONTACT #*</span>
-											<input type="text" name="" class="form-control">
+											<span>SỐ ĐIỆN THOẠI *</span>
+											<input type="text" name="phone" class="form-control" placeholder="Số điện thoại">
 										</div>
 									</div>
 									<div class="col-xs-12 col-md-6 col-sm-6">
 										<div class="form-group">
 											<span>WEBSITE/PORTFOLIO*</span>
-											<input type="text" name="" class="form-control">
+											<input type="text" name="website" class="form-control" placeholder="Website/Portfolio">
 										</div>
 									</div>
 									<div class="col-xs-12 col-md-6 col-sm-6">
 										<div class="form-group">
-											<span>TAX ID</span>
-											<input type="text" name="" class="form-control">
+											<span>Năm hoạt động*</span>
+											<input type="number" name="year" min="1" class="form-control" placeholder="Số năm hoạt động">
 										</div>
 									</div>
+									<div class="col-xs-12 col-md-12 col-sm-12">
+										<p><strong>Địa chỉ doanh nghiệp*</strong></p>
+									</div>
+									<div class="col-xs-12 col-md-12 col-sm-12">
+										<div class="form-group">
+											<span>Địa chỉ dòng 1</span>
+											<input type="text" name="address1" class="form-control" placeholder="Địa chỉ dòng 1">
+										</div>
+									</div>
+									<div class="col-xs-12 col-md-12 col-sm-12">
+										<div class="form-group">
+											<span>Địa chỉ dòng 2</span>
+											<input type="text" name="address2" class="form-control" placeholder="Địa chỉ dòng 2">
+										</div>
+									</div>
+									<div class="col-xs-12 col-md-12 col-sm-12">
+										<div class="form-group">
+											<span>Tỉnh/Thành phố</span>
+											<input type="text" name="city" class="form-control" placeholder="Tỉnh/Thành phố">
+										</div>
+									</div>
+									@if(1 == 0)
 									<div class="col-xs-12 col-md-6 col-sm-6">
 										<div class="form-group">
-											<span>BUSINESS TYPE*</span>
+											<span>Quốc gia</span>
 											<select class="form-control">
-												<option value=""> Please Select </option>
-												<option value="Afghanistan"> Afghanistan </option>
-												<option value="Albania"> Albania </option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>YEARS IN BUSINESS*</span>
-											<input type="number" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-12 col-sm-12">
-										<p><strong>BUSINESS ADDRESS*</strong></p>
-									</div>
-									<div class="col-xs-12 col-md-12 col-sm-12">
-										<div class="form-group">
-											<span>ADDRESS LINE 1</span>
-											<input type="text" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-12 col-sm-12">
-										<div class="form-group">
-											<span>ADDRESS LINE 2</span>
-											<input type="text" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>CITY</span>
-											<input type="text" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>PROVINCE</span>
-											<input type="text" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>ZIP CODE</span>
-											<input type="text" name="" class="form-control">
-										</div>
-									</div>
-									<div class="col-xs-12 col-md-6 col-sm-6">
-										<div class="form-group">
-											<span>COUNTRY</span>
-											<select class="form-control">
-												<option value="">- Country -</option>
+												<option value="">- Quốc gia -</option>
 												@if(count($regions) > 0)
 												@foreach($regions as $reg)
 												<option value="{{$reg->country_code}}">{{$reg->country_name}}</option>
@@ -144,12 +143,11 @@
 											</select>
 										</div>
 									</div>
+									@endif
 								</div>
-								<div class="form_captcha_div" style="min-height: 95px; text-align: left;">
-									<div class="g-recaptcha" data-sitekey="6LfsfFQUAAAAAHH7cZMWqPdqf2LizZ5-rq7zd8h5" data-callback="onSubmit" style="transform: scale(1);"><div style="width: 304px; height: 78px;"><div><iframe src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LfsfFQUAAAAAHH7cZMWqPdqf2LizZ5-rq7zd8h5&amp;co=aHR0cHM6Ly9mb3JtYnVpbGRlci5odWxrYXBwcy5jb206NDQz&amp;hl=vi&amp;v=v1563777128698&amp;size=normal&amp;cb=c0zklkqy9ono" width="304" height="78" role="presentation" name="a-xjx8r97j4b8m" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div>
-								</div>
-								<button type="submit" class="btn">Gửi</button>
-							</form>
+								<div class="capcha"></div>
+								<button class="btn">Gửi</button>
+							</div>
 						</div>
 					</div>
 					
@@ -203,5 +201,123 @@
 
 @endsection
 @section('script')
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.program .jdgm-form-wrapper .form-program button').on('click',function(){
+			jQuery('.program .jdgm-form-wrapper .form-program .errors').remove();
+			jQuery('.program .jdgm-form-wrapper .form-program button').removeClass('err');
+			jQuery('.program .jdgm-form-wrapper .form-program .form-response').remove();
+			var err = 0;
 
+			var fullname = jQuery('.program .jdgm-form-wrapper .form-program input[name=fullname]').val();
+			if(fullname.length == 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program input[name=fullname]').after('<p class="errors">Họ tên không được để trống</p>');
+				err ++;
+			}
+
+			var email = jQuery('.program .jdgm-form-wrapper .form-program input[name=email]').val();
+			if(email.length == 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program input[name=email]').after('<p class="errors">Email không được để trống</p>');
+				err ++;
+			}
+			else
+			{
+				if(!ValidateEmail(email))
+				{
+					jQuery('.program .jdgm-form-wrapper .form-program input[name=email]').after('<p class="errors">Email sai định dạng. Vui lòng kiểm tra lại</p>');
+					err ++;
+				}
+			}
+
+			var phone = jQuery('.program .jdgm-form-wrapper .form-program input[name=phone]').val();
+			if(phone.length == 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program input[name=phone]').after('<p class="errors">Số điện thoại không được để trống</p>');
+				err ++;
+			}
+
+			var website = jQuery('.program .jdgm-form-wrapper .form-program input[name=website]').val();
+			if(website.length == 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program input[name=website]').after('<p class="errors">Website/Portfolio không được để trống</p>');
+				err ++;
+			}
+
+			var year = jQuery('.program .jdgm-form-wrapper .form-program input[name=year]').val();
+			if(year.length == 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program input[name=year]').after('<p class="errors">Năm hoạt động không được để trống</p>');
+				err ++;
+			}
+
+			if(err > 0)
+			{
+				jQuery('.program .jdgm-form-wrapper .form-program button').addClass('err');
+				return false;
+			}
+			else
+			{
+				var formData = new FormData();
+				formData.append('fullname',fullname);
+				formData.append('email',email);
+				formData.append('phone',phone);
+				formData.append('website',website);
+				formData.append('year',year);
+				formData.append('address1',jQuery('.program .jdgm-form-wrapper .form-program input[name=address1]').val());
+				formData.append('address2',jQuery('.program .jdgm-form-wrapper .form-program input[name=address2]').val());
+				formData.append('city',jQuery('.program .jdgm-form-wrapper .form-program input[name=city]').val());
+				formData.append('form_name','retail');
+				jQuery.ajax({
+					headers: {
+						'X-CSRF-TOKEN': '{{ csrf_token() }}',
+					},
+					url: '{{route('client.form.data')}}',
+					type: 'post',
+					dataType: 'json',
+					processData: false,
+					contentType: false,
+					data: formData,
+					beforeSend: function(){
+
+					},
+					success: function(res){
+						console.log(res);
+						if(res.status == 'success')
+						{
+							jQuery('.program .jdgm-form-wrapper .form-program button').after('<div class="form-response"><p>'+res.msg+'</p><i class="fa fa-times"></i></div>');
+							jQuery('.program .jdgm-form-wrapper .form-program input').val('');
+						}
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				});
+			}
+
+		});
+
+		jQuery('body').on('click','.form-response i',function(){
+			jQuery(this).parent().remove();
+		});
+		// jQuery('input[name=phone]').on('keydown',function(e){
+		// 	console.log(e.keyCode);
+		// 	if(e.keyCode != 8 || e.keyCode != 46)
+		// 	{
+		// 		if(parseInt(jQuery(this).val().length) > 10) return false;
+		// 	}
+			
+		// });
+		jQuery('input[name=phone]').on('keypress',function(e){
+			if(e.keyCode < 48 || e.keyCode > 57) return false;
+		});
+	});
+
+	function ValidateEmail(email)
+	{
+		pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		return pattern.test(email);
+	}
+</script>
 @endsection
