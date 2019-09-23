@@ -102,6 +102,11 @@
 		opacity: 0;
 		transition: opacity 1.3s;
 	}
+
+	.jdgm-form-wrapper .form-program button.err
+	{
+		border: 2px solid red;
+	}
 </style>
 @endsection
 @section('content')
@@ -185,18 +190,18 @@
 									</ul>
 								</div>
 								@foreach($product->pack as $key => $pack)
-									@if(count($pack->color()) > 0)
-									<div class="pack_color pack_{{$key}}">
-										<h3 class="top">Màu : <span></span></h3>
-										<ul>
-											@foreach($pack->color() as $ft => $color)
-											<li data-name="{{$color->name}}" data-id="{{$color->id}}">
-												<img src="{{asset($color->image)}}" alt="{{$color->name}}">
-											</li>
-											@endforeach
-										</ul>
-									</div>
-									@endif
+								@if(count($pack->color()) > 0)
+								<div class="pack_color pack_{{$key}}">
+									<h3 class="top">Màu : <span></span></h3>
+									<ul>
+										@foreach($pack->color() as $ft => $color)
+										<li data-name="{{$color->name}}" data-id="{{$color->id}}">
+											<img src="{{asset($color->image)}}" alt="{{$color->name}}">
+										</li>
+										@endforeach
+									</ul>
+								</div>
+								@endif
 								@endforeach
 								@include('client.product.essential')
 								<div class="SectionHeader__ButtonWrapper">
@@ -211,80 +216,7 @@
 			</div>
 			@include('client.product.description')
 			<div class="comment">
-				<h2 class="jdgm-rev-widg__title">Đánh giá khách hàng</h2>
-				<div class="box-star-view">
-					<div class="row">
-						<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-							@include('client.product.customer_review')
-						</div>
-						<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-							<div class="SectionHeader__ButtonWrapper">
-								<div class="ButtonGroup ButtonGroup--spacingSmall "><a href="#" class="ButtonGroup__Item Button">Viết đánh giá</a></div>
-							</div>
-						</div>
-					</div>
-					<!-- <div class="jdgm-rev-widg__sort-wrapper">
-						<select>
-							<option value="volvo">Most Recent</option>
-							<option value="saab">Highest Rating</option>
-							<option value="mercedes">Lowest Rating</option>
-							<option value="audi">Only Pictures</option>
-						</select>
-					</div> -->
-					<div class="jdgm-form-wrapper">
-						@include('client.product.form_rate')
-					</div>
-				</div>
-				@if(count($rating) > 0)
-				<div class="review-content">
-					@foreach($rating as $rate)
-					<div class="jdgm-rev jdgm-divider-top jdgm--done-setup"> 
-						<div class="jdgm-rev__header"> 
-							<div class="jdgm-rev__icon">
-								<img src="{{Avatar::create($rate->name)->toBase64()}}" alt="{{$rate->name}}">
-							</div> 
-							<span class="jdgm-rev__rating">
-								@for($i = 1; $i <= 5; $i ++)
-								<i class="fa {{($i <= $rate->rate_star)?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-								@endfor
-							</span> 
-							<span class="jdgm-rev__timestamp">{{Carbon\Carbon::parse($rate->created_at)->format('d/m/Y')}}</span> 
-							<div class="jdgm-rev__br"></div> 
-							<span class="jdgm-rev__buyer-badge-wrapper">  
-								<span class="jdgm-rev__buyer-badge">{{($rate->status == 'pending')?'Chờ duyệt':'Đã xác minh'}}</span>  
-							</span> 
-							<span class="jdgm-rev__author-wrapper"> 
-								<span class="jdgm-rev__author">{{$rate->name}}</span> 
-								<span class="jdgm-rev__location"></span> 
-							</span> 
-						</div> 
-						<div class="jdgm-rev__content"> 
-							<div class="jdgm-rev__custom-form">  </div> 
-							<b class="jdgm-rev__title">{{$rate->title}}</b> 
-							<div class="jdgm-rev__body">
-								<p>{{$rate->comment}}</p>
-							</div> 
-						</div> 
-					</div>
-					@endforeach
-				</div>
-				<div class="paginate">
-					@php
-					$total = $rating->lastPage();
-					@endphp
-					@if($total > 5)
-					<span class="page prev"><i class="fa fa-angle-left"></i></span>
-					@for($i = 1; $i <= $total; $i ++)
-					<span class="page {{($i == 1)?'current':FALSE}}" data-page="{{$i}}">{{$i}}</span>
-					@endfor
-					<span class="page next"><i class="fa fa-angle-right"></i></span>
-					@else
-					@for($i = 1; $i <= $total; $i ++)
-					<span data-page="{{$i}}" class="page {{($i ==1)?'current':FALSE}}">{{$i}}</span>
-					@endfor
-					@endif
-				</div>
-				@endif
+				@include('client.product.comment')
 			</div>
 		</div>
 	</div>
@@ -385,121 +317,240 @@
 	});
 
 	jQuery('body').on('click','.paginate span.page.prev',function(){
-      var num = jQuery('.paginate span.page.current').text();
-      var cur = jQuery('.paginate span.page.current').addClass('del');
-      if(parseInt(num) == 1) return false;
+		var num = jQuery('.paginate span.page.current').text();
+		var cur = jQuery('.paginate span.page.current').addClass('del');
+		if(parseInt(num) == 1) return false;
 
-      jQuery('.paginate span.page.current').prev().trigger('click');
-      jQuery('.paginate span.page.current.del').removeClass('current');
-      jQuery('.paginate span.page.del').removeClass('del');
-    });
+		jQuery('.paginate span.page.current').prev().trigger('click');
+		jQuery('.paginate span.page.current.del').removeClass('current');
+		jQuery('.paginate span.page.del').removeClass('del');
+	});
 
-    jQuery('body').on('click','.paginate span.page.next',function(){
-      var num = jQuery('.paginate span.page.current').text();
-      var cur = jQuery('.paginate span.page.current').addClass('del');
-      if(parseInt(num) == pagi) return false;
+	jQuery('body').on('click','.paginate span.page.next',function(){
+		var num = jQuery('.paginate span.page.current').text();
+		var cur = jQuery('.paginate span.page.current').addClass('del');
+		if(parseInt(num) == pagi) return false;
 
-      jQuery('.paginate span.page.current').next().trigger('click');
-      jQuery('.paginate span.page.current.del').removeClass('current');
-      jQuery('.paginate span.page.del').removeClass('del');
-    });
+		jQuery('.paginate span.page.current').next().trigger('click');
+		jQuery('.paginate span.page.current.del').removeClass('current');
+		jQuery('.paginate span.page.del').removeClass('del');
+	});
 
-    jQuery('.pack_color ul li').on('click',function(){
-    	jQuery(this).parent().find('li').removeClass('active');
-    	jQuery(this).addClass('active');
-    	var name = jQuery(this).data('name');
-    	jQuery(this).parents('.pack_color').find('h3.top').find('span').text(name);
-    	var id = jQuery(this).data('id');
-    	jQuery('#color_id').val(id);
-    })
+	jQuery(document).ready(function(){
+		jQuery('.pack_color ul li').on('click',function(){
+			jQuery(this).parent().find('li').removeClass('active');
+			jQuery(this).addClass('active');
+			var name = jQuery(this).data('name');
+			jQuery(this).parents('.pack_color').find('h3.top').find('span').text(name);
+			var id = jQuery(this).data('id');
+			jQuery('#color_id').val(id);
+		})
 
-    jQuery('.pack li').on('click',function(){
-    	if(jQuery(this).hasClass('active')) return false;
-    	jQuery(this).parent().find('li').removeClass('active');
-    	jQuery(this).addClass('active');
-    	
-    	var href = jQuery(this).data('href');
-    	var id = jQuery(this).data('pack');
-    	jQuery('#pack_id').val(id);
+		jQuery('.pack li').on('click',function(){
+			if(jQuery(this).hasClass('active')) return false;
+			jQuery(this).parent().find('li').removeClass('active');
+			jQuery(this).addClass('active');
 
-    	jQuery('#color_id').remove();
+			var href = jQuery(this).data('href');
+			var id = jQuery(this).data('pack');
+			jQuery('#pack_id').val(id);
+
+			jQuery('#color_id').remove();
 
 
 
-    	if(jQuery('*').hasClass(href))
-    	{
-    		jQuery('.pack_color').removeClass('active');
-    		jQuery('.'+href).addClass('active');
-    		jQuery('.pack_color ul li').removeClass('active');
-    		jQuery('.pack_color h3.top span').text('');
-    		jQuery('#pack_id').after('<input type="hidden" id="color_id">');
-    	}
-    });
+			if(jQuery('*').hasClass(href))
+			{
+				jQuery('.pack_color').removeClass('active');
+				jQuery('.'+href).addClass('active');
+				jQuery('.pack_color ul li').removeClass('active');
+				jQuery('.pack_color h3.top span').text('');
+				jQuery('#pack_id').after('<input type="hidden" id="color_id">');
+			}
+		});
 
-    jQuery('.add-to-cart').on('click',function(){
-    	var data = {};
-    	var pack_id = jQuery('#pack_id').val();
-    	if(pack_id.length == 0)
-    	{
-    		alert("Vui lòng chọn sản phẩm");
-    		return false;
-    	}
-    	else data.pack_id = pack_id;
-    	var color_id = jQuery('#color_id').val();
+		jQuery('.add-to-cart').on('click',function(){
+			var data = {};
+			var pack_id = jQuery('#pack_id').val();
+			if(pack_id.length == 0)
+			{
+				alert("Vui lòng chọn sản phẩm");
+				return false;
+			}
+			else data.pack_id = pack_id;
+			var color_id = jQuery('#color_id').val();
 
-    	if(color_id != null)
-    	{
-    		if(color_id.length == 0)
-    		{
-    			alert("Vui lòng chọn màu sản phẩm");
-    			return false;
-    		}
-    		else data.color_id = color_id;
-    	}
+			if(color_id != null)
+			{
+				if(color_id.length == 0)
+				{
+					alert("Vui lòng chọn màu sản phẩm");
+					return false;
+				}
+				else data.color_id = color_id;
+			}
 
-    	var essential = [];
+			var essential = [];
 
-    	jQuery('input[type=checkbox]').each(function(){
-    		if(jQuery(this).prop('checked') == true)
-    		{
-    			var es = jQuery(this).val();
-    			essential.push(es);
-    		}
-    	})
+			jQuery('input[type=checkbox]').each(function(){
+				if(jQuery(this).prop('checked') == true)
+				{
+					var es = jQuery(this).val();
+					essential.push(es);
+				}
+			})
 
-    	data.essential = essential;
+			data.essential = essential;
 
-    	var xd;
+			var xd;
 
-    	jQuery.ajax({
-    		url: '{{route('client.add_to_cart')}}',
-    		type: 'get',
-    		dataType: 'html',
-    		data: data,
-    		beforeSend: function(){
-    			jQuery('.progress_bar').css('opacity',1);
-    			var i = 0;
-    			xd = setInterval(function(){
-    				jQuery('.progress_bar').css('width',parseInt(i)+'%');
-    				console.log(i);
-    				i++;
-    				if(i > 90) clearInterval(xd);
-    			},10);
-    		},
-    		success: function(res){
-    			jQuery('#sidebar-cart').html(res);
-    			calculator();
-    			clearInterval(xd);
-    			jQuery('.progress_bar').css('width','100%');
-    			setTimeout(function(){
-    				jQuery('.progress_bar').css('width','0');
-    				jQuery('.progress_bar').css('opacity',0);
-    			},500);
-    		},
-    		errors: function(errors){
-    			console.log(errors);
-    		}
-    	});
-    })
+			jQuery.ajax({
+				url: '{{route('client.add_to_cart')}}',
+				type: 'get',
+				dataType: 'html',
+				data: data,
+				beforeSend: function(){
+					jQuery('.progress_bar').css('opacity',1);
+					var i = 0;
+					xd = setInterval(function(){
+						jQuery('.progress_bar').css('width',parseInt(i)+'%');
+						console.log(i);
+						i++;
+						if(i > 90) clearInterval(xd);
+					},10);
+				},
+				success: function(res){
+					jQuery('#sidebar-cart').html(res);
+					calculator();
+					clearInterval(xd);
+					jQuery('.progress_bar').css('width','100%');
+					setTimeout(function(){
+						jQuery('.progress_bar').css('width','0');
+						jQuery('.progress_bar').css('opacity',0);
+					},500);
+				},
+				errors: function(errors){
+					console.log(errors);
+				}
+			});
+
+		})
+		jQuery('.box-star-view .SectionHeader__ButtonWrapper .ButtonGroup__Item').click(function(e) {
+			@if(!Auth::check())
+			Swal.fire({
+				title: 'Bạn muốn đăng nhập ngay bây giờ ?',
+				text: "Để đánh giá giá sản phẩm bạn cần phải đăng nhập",
+				type: 'info',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Đăng nhập',
+				cancelButtonText: "Hủy"
+			}).then((result) => {
+				if (result.value) {
+					window.location.href = '{{route('login',['href' => url()->current()])}}'
+				}
+			})
+			@else
+			jQuery('.jdgm-form-wrapper').slideToggle('slow');
+			jQuery('.jdgm-form__rating i').removeClass('active');
+			jQuery('.jdgm-form-wrapper input').val('');
+			jQuery('.jdgm-form-wrapper textarea').val('');
+			@endif
+		});
+
+		jQuery('.jdgm-form__rating i').on('mouseenter',function(){
+			var i = jQuery(this).data('num');
+			jQuery('.jdgm-form__rating i').each(function(){
+				var ch = jQuery(this).data('num');
+				if(parseInt(ch) <= parseInt(i)) jQuery(this).addClass('hover');
+				else jQuery(this).removeClass('hover');
+			})
+		});
+
+		jQuery('.jdgm-form__rating i').on('mouseleave',function(){
+			jQuery('.jdgm-form__rating i').removeClass('hover');
+		})
+
+		jQuery('.jdgm-form__rating i').on('click',function(){
+			var i = jQuery(this).data('num');
+			jQuery('.jdgm-form__rating i').each(function(){
+				var vh = jQuery(this).data('num');
+				if(parseInt(vh) <= parseInt(i)) jQuery(this).addClass('active');
+				else jQuery(this).removeClass('active');
+			});
+		});
+
+		jQuery('.jdgm-form-wrapper .form-program button').on('click',function(){
+			jQuery('.jdgm-form-wrapper .errors').remove();
+			jQuery(this).removeClass('err');
+			var err = 0;
+
+			var rate_star = jQuery('.jdgm-form-wrapper .form-program .jdgm-form__rating i.active').last().data('num');
+			if(rate_star == null)
+			{
+				jQuery('.jdgm-form__rating').after('<p class="errors">Đánh giá sao không được để trống</p>');
+				err ++;
+			}
+
+			var review_title = jQuery('.jdgm-form-wrapper input[name=review_title]').val();
+			if(review_title.length == 0)
+			{
+				jQuery('.jdgm-form-wrapper input[name=review_title]').after('<p class="errors">Tiêu đề không được để trống</p>');
+				err ++;
+			}
+
+			var review_content = jQuery('.jdgm-form-wrapper textarea[name=review_content]').val();
+			if(review_content.length == 0)
+			{
+				jQuery('.jdgm-form-wrapper textarea[name=review_content]').after('<p class="errors">Nội dung không được để trống</p>');
+				err ++;
+			}
+
+			if(err > 0)
+			{
+				jQuery(this).addClass('err');
+			}
+			else
+			{
+				jQuery.ajax({
+					headers: {
+						'X-CSRF-TOKEN': '{{ csrf_token() }}',
+					},
+					url: '{{route('client.product.rate')}}',
+					type: 'post',
+					dataType: 'html',
+					data: {
+						id: '{{$product->id}}',
+						rate_star: rate_star,
+						review_title: review_title,
+						review_content: review_content
+					},
+					beforeSend: function(){
+
+					},
+					success: function(res){
+						Swal.fire({
+							position: 'center',
+							type: 'success',
+							title: 'Cảm ơn bạn đã đánh giá sản phẩm',
+							showConfirmButton: false,
+							timer: 1000
+						});
+						jQuery('.comment').html(res);
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				});
+			}
+		})
+	})
+
+function ValidateEmail(email)
+{
+	pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+	return pattern.test(email);
+}
 </script>
 @endsection

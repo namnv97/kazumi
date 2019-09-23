@@ -17,6 +17,8 @@ use App\Http\Requests\StoreAddRetailer;
 use App\Http\Requests\StoreEditRetailer;
 use App\Http\Requests\StoreAddFAQ;
 use App\Http\Requests\StoreEditFAQ;
+use App\Http\Requests\StoreCreateLashGuide;
+use App\Http\Requests\StoreEditLashGuide;
 
 use DB;
 
@@ -43,6 +45,7 @@ class PageController extends Controller
     {
         $page = Page::find($id);
         if(empty($page)) return redirect()->route('admin.pages.index');
+        
         switch ($page->template) {
             case 'apply_care':
                 return $this->edit_apply_care($page->id);
@@ -61,6 +64,9 @@ class PageController extends Controller
                 break;
             case 'faq':
                 return $this->edit_faq($page->id);
+                break;
+            case 'lashguide':
+                return $this->edit_lashguide($page->id);
                 break;
         }
     }
@@ -876,6 +882,68 @@ class PageController extends Controller
         return redirect()->route('admin.pages.edit',['id' => $id])->with('msg',"Cập nhật thành công");
     }
 
+
+    public function lashguide(StoreCreateLashGuide $request)
+    {
+        $page = new Page();
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->template = $request->template;
+        $page->save();
+
+        $req = $request->only(['sub_title','description','background']);
+
+        foreach($req as $field => $value):
+            $op = new PageCustomField();
+            $op->page_id = $page->id;
+            $op->meta_field = $field;
+            $op->meta_value = $value;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+    }
+
+    public function edit_lashguide($page_id)
+    {
+        $page = Page::find($page_id);
+        $arr = ['sub_title','description','background'];
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        return view('server.layout_edit.lashguide',compact('page','sub_title','description','background'));
+    }
+
+    public function post_edit_lashguide(StoreEditLashGuide $request)
+    {
+        $page = Page::find($request->id);
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $req = $request->only(['sub_title','description','background']);
+
+        foreach($req as $field => $value):
+            $op = PageCustomField::where([
+                ['page_id',$request->id],
+                ['meta_field',$field]
+            ])
+            ->first();
+            $op->meta_value = $value;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id])->with('msg','Cập nhật thành công');
+    }
 
 
 

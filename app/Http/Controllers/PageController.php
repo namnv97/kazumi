@@ -41,6 +41,9 @@ class PageController extends Controller
     		case 'faq':
     			return $this->faq($page->id);
     			break;
+            case 'lashguide':
+                return $this->lashguide($page->id);
+                break;
     	}
     }
 
@@ -187,6 +190,22 @@ class PageController extends Controller
     	endforeach;
 
     	return view('client.page.faq',compact('page','shipping_title','returnex_title','product_title','payment_title','contact_title','shipping','returnex','product','payment','contact'));
+    }
+
+    public function lashguide($page_id)
+    {
+        $page = Page::find($page_id);
+        $arr = ['sub_title','background','description'];
+
+        foreach($arr as $ar):
+            $$ar = PageCustomField::where([
+                ['meta_field',$ar],
+                ['page_id',$page_id]
+            ])
+            ->first();
+        endforeach;
+
+        return view('client.page.lashguide',compact('page','sub_title','background','description'));
     }
 
 

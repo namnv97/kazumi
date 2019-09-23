@@ -26,7 +26,7 @@
 			
 		</div>
 		@endif
-		<form action="{{route('login')}}" method="post">
+		<form action="{{route('login',['href' => request()->href])}}" method="post">
 			@csrf
 			<div class="form-group">
 				<input type="email" name="email" placeholder="Email" class="form-control" value="{{old('email')}}">
@@ -39,7 +39,7 @@
 	            <div class="ButtonGroup ButtonGroup--spacingSmall "><button type="submit" class="ButtonGroup__Item Button">Đăng nhập</button></div>
 	        </div>
 		</form>
-		<p>Chưa có tài khoản? <a href="{{route('register')}}">Đăng ký</a></p>
+		<p>Chưa có tài khoản? <a href="{{route('register',['href' => request()->href])}}">Đăng ký</a></p>
 	</div>
 </div>
 @endsection

@@ -92,6 +92,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('faq','PageController@faq')->name('admin.pages.faq');
 		Route::post('post_edit_faq','PageController@post_edit_faq')->name('admin.pages.post_edit_faq');
 
+		Route::post('lashguide','PageController@lashguide')->name('admin.pages.lashguide');
+		Route::post('post_edit_lashguide','PageController@post_edit_lashguide')->name('admin.pages.post_edit_lashguide');
+
 
 	});
 
@@ -184,6 +187,26 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::delete('/delete','RetailereControler@delete')->name('admin.retailers.delete');
 	});
 
+	Route::group(['prefix' => 'lashguide'],function(){
+		Route::group(['prefix' => 'step'],function(){
+			Route::get('/','LashGuideController@step_index')->name('admin.lashguide.step.index');
+			Route::post('/create','LashGuideController@step_create')->name('admin.lashguide.step.create');
+			Route::get('/edit','LashGuideController@step_edit')->name('admin.lashguide.step.edit');
+			Route::post('/edit','LashGuideController@step_post_edit')->name('admin.lashguide.step.edit');
+			Route::delete('/delete','LashGuideController@step_delete')->name('admin.lashguide.step.delete');
+		});
+
+		Route::group(['prefix' => 'result'],function(){
+			Route::get('/','LashGuideController@result_index')->name('admin.lashguide.result.index');
+		});
+
+		Route::get('/','LashGuideController@index')->name('admin.lashguide.index');
+		Route::post('/create','LashGuideController@create')->name('admin.lashguide.create');
+		Route::get('/edit','LashGuideController@edit')->name('admin.lashguide.edit');
+		Route::post('/edit','LashGuideController@postEdit')->name('admin.lashguide.edit');
+		Route::delete('/delete','LashGuideController@delete')->name('admin.lashguide.delete');
+	});
+
 });
 
 
@@ -220,6 +243,8 @@ Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
 Route::get('/product/get_rate','ProductController@get_rate')->name('client.product.get_rate');
 
 Route::get('/product/{slug?}','ProductController@index')->name('client.product.index');
+
+Route::post('/product/rate','ProductController@create_rate')->name('client.product.rate');
 
 Route::get('/add-to-cart','CartController@add_to_cart')->name('client.add_to_cart');
 

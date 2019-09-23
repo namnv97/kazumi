@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLashGuidesTable extends Migration
+class CreateStepItemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateLashGuidesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lash_guides', function (Blueprint $table) {
+        Schema::create('step_item', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('lash_key',['type_eye','placement','size','length','style','experience','event']);
+            $table->unsignedBigInteger('step_id');
+            $table->foreign('step_id')->references('id')->on('step_lash')->onUpdate('cascade')->onDelete('cascade');
             $table->string('image');
             $table->string('title');
             $table->mediumText('description');
@@ -30,6 +31,6 @@ class CreateLashGuidesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lash_guides');
+        Schema::dropIfExists('step_item');
     }
 }

@@ -21,7 +21,7 @@
 		@endif
 		
 
-		<form action="{{route('register')}}" method="post">
+		<form action="{{route('register',['href' => request()->href])}}" method="post">
 			@csrf
 			<div class="form-group">
 				<input type="email" name="email" placeholder="Email" class="form-control">

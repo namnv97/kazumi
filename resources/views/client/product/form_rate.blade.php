@@ -1,21 +1,20 @@
+@if(Auth::check() && $is_rate)
 <div class="form-program">
 	<div class="form-group">
 		<span>Họ tên</span>
-		<input type="text" name="review_name" class="form-control" placeholder="Họ tên">
+		<span class="form-control">{{Auth::user()->name}}</span>
 	</div>
 	<div class="form-group">
 		<span>Email</span>
-		<input type="email" name="review_email" class="form-control" placeholder="Email">
+		<span class="form-control">{{Auth::user()->email}}</span>
 	</div>
 	<div class="form-group">
 		<span>Đánh giá</span>
 		<input type="hidden" name="rating">
 		<p class="jdgm-form__rating" style="cursor: pointer;">
-			<i class="fa fa-star" aria-hidden="true"></i>
-			<i class="fa fa-star" aria-hidden="true"></i>
-			<i class="fa fa-star" aria-hidden="true"></i>
-			<i class="fa fa-star" aria-hidden="true"></i>
-			<i class="fa fa-star" aria-hidden="true"></i>
+			@for($i = 1; $i <= 5; $i++)
+			<i class="fa fa-star" data-num="{{$i}}" aria-hidden="true"></i>
+			@endfor
 		</p>
 	</div>
 	<div class="form-group">
@@ -28,3 +27,4 @@
 	</div>
 	<button type="submit" class="btn">Gửi đánh giá</button>
 </div>
+@endif

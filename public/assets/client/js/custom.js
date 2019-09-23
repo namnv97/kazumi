@@ -164,12 +164,6 @@ $(document).ready(function() {
 });
 
 jQuery(document).ready(function() {
-    jQuery('.box-star-view .SectionHeader__ButtonWrapper .ButtonGroup__Item').click(function(e) {
-      e.preventDefault();
-      jQuery('.jdgm-form-wrapper').slideToggle('slow');
-      
-    });
-
     jQuery('.CollectionToolbar .CollectionToolbar__LayoutType.two').click(function() {
         jQuery('.shop-content .list-pro .row .col-pro').removeClass('col-md-4');
         jQuery('.shop-content .list-pro .row .col-pro').removeClass('col-lg-4');

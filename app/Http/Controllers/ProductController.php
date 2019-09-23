@@ -12,6 +12,7 @@ use App\Model\Option;
 use App\Model\Essential;
 
 use DB;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -23,7 +24,12 @@ class ProductController extends Controller
 
     	$rating = Rating::leftJoin('users','users.id','rating.user_id')->select('rating.*','users.name as name')->where('product_id',$product->id)->orderBy('rating.created_at','desc')->paginate(10);
 
-    	$rate_num = Rating::select(DB::raw("COUNT(id) as num,rate_star"))->groupBy('rate_star')->orderBy('rate_star','desc')->get()->toArray();
+    	$rate_num = Rating::where('product_id',$product->id)
+        ->select(DB::raw("COUNT(id) as num,rate_star"))
+        ->groupBy('rate_star')
+        ->orderBy('rate_star','desc')
+        ->get()
+        ->toArray();
 
     	$relates = Product::where([
     		['id','<>',$product->id]
@@ -53,8 +59,19 @@ class ProductController extends Controller
 
         $essentials = Essential::leftJoin('products','essentials.essential_product_id','products.id')->where('essentials.product_id',$product->id)->get();
 
+        if(Auth::check()):
+            $cur = Rating::where([
+                ['user_id', Auth::user()->id],
+                ['product_id',$product->id]
+            ])
+            ->first();
+            $is_rate = (empty($cur))?true:false;
+        else:
+            $is_rate = true;
+        endif;
 
-    	return response(view('client.product.index',compact('product','rating','rate_num','essentials','relates','recents','product_shipping')))->withCookie($cookie);
+
+    	return response(view('client.product.index',compact('product','rating','rate_num','essentials','relates','recents','product_shipping','is_rate')))->withCookie($cookie);
 
     }
 
@@ -68,5 +85,43 @@ class ProductController extends Controller
     	
 
     	return view('client.product.rating',compact('rating'));
+    }
+
+    public function create_rate(Request $request)
+    {
+        $req = $request->except('_token');
+
+        $rate = new Rating();
+        $rate->user_id = Auth::user()->id;
+        $rate->product_id =  $request->id;
+        $rate->title = $request->review_title;
+        $rate->comment = $request->review_content;
+        $rate->rate_star = $request->rate_star;
+        $rate->save();
+
+        $rating = Rating::leftJoin('users','users.id','rating.user_id')
+        ->select('rating.*','users.name as name')
+        ->where('product_id',$request->id)
+        ->orderBy('rating.created_at','desc')
+        ->paginate(10);
+
+        $rate_num = Rating::where('product_id',$request->id)
+        ->select(DB::raw("COUNT(id) as num,rate_star"))
+        ->groupBy('rate_star')
+        ->orderBy('rate_star','desc')
+        ->get()
+        ->toArray();
+        if(Auth::check()):
+            $cur = Rating::where([
+                ['user_id', Auth::user()->id],
+                ['product_id',$request->id]
+            ])
+            ->first();
+            $is_rate = (empty($cur))?true:false;
+        else:
+            $is_rate = true;
+        endif;
+        return view('client.product.comment',compact('rating','rate_num','is_rate'));
+
     }
 }

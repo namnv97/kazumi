@@ -45,7 +45,7 @@
 	@foreach($city->retailer() as $retailer)
 	list.push({
 		address: '{{$retailer->address}}',
-		content: create_content('{{$retailer->address}}','{{$city->name}}','{{$retailer->phone}}','{{$retailer->website}}')
+		content: create_content('{{$retailer->name}}','{{$city->name}}','{{$retailer->phone}}','{{$retailer->website}}')
 	});
 	@endforeach
 	@endif
@@ -63,6 +63,7 @@
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		geocoder = new google.maps.Geocoder();
+		
 		if(list.length > 0)
 		{
 			list.forEach(function(e,v){
@@ -79,6 +80,7 @@
 
 			});
 		}
+		else default_map(geocoder, map);
 	}
 
 	function geocodeAddress(geocoder, resultsMap, address,content, $key) {
@@ -102,6 +104,18 @@
 			}
 		});
 
+	}
+
+	function default_map(geocoder, resultsMap)
+	{
+		var add = '{{$city->name}}, Việt Nam';
+		geocoder.geocode({'address': add}, function(results, status) {
+			if (status === 'OK') {
+				resultsMap.setCenter(results[0].geometry.location)
+			} else {
+				console.log(status);
+			}
+		});
 	}
 
 	function bindInfoW(marker, contentString, infowindow)

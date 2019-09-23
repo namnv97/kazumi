@@ -1,5 +1,3 @@
-@if(count($rating) > 0)
-@foreach($rating as $rate)
 <div class="jdgm-rev jdgm-divider-top jdgm--done-setup"> 
 	<div class="jdgm-rev__header"> 
 		<div class="jdgm-rev__icon">
@@ -13,7 +11,7 @@
 		<span class="jdgm-rev__timestamp">{{Carbon\Carbon::parse($rate->created_at)->format('d/m/Y')}}</span> 
 		<div class="jdgm-rev__br"></div> 
 		<span class="jdgm-rev__buyer-badge-wrapper">  
-			<span class="jdgm-rev__buyer-badge"></span>  
+			<span class="jdgm-rev__buyer-badge">{{($rate->status == 'pending')?'Chờ duyệt':'Đã xác minh'}}</span>  
 		</span> 
 		<span class="jdgm-rev__author-wrapper"> 
 			<span class="jdgm-rev__author">{{$rate->name}}</span> 
@@ -28,5 +26,3 @@
 		</div> 
 	</div> 
 </div>
-@endforeach
-@endif

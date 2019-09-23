@@ -60,7 +60,7 @@ class AccountController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('login')
+                        ->route('login',['href' => request()->href])
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -72,7 +72,7 @@ class AccountController extends Controller
         else
         {
             return redirect()
-                        ->route('login')
+                        ->route('login',['href' => request()->href])
                         ->withErrors(['Email hoặc Mật khẩu không đúng'])
                         ->withInput();
         }
@@ -107,7 +107,7 @@ class AccountController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('client.account.register')
+                        ->route('client.account.register',['href' => request()->href])
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -139,7 +139,7 @@ class AccountController extends Controller
         $tier->tier_id = 1;
         $tier->save();
 
-        return redirect()->route('login')->with('success','Đăng ký thàng công!');
+        return redirect()->route('login',['href' => request()->href])->with('success','Đăng ký thàng công!');
 
     }
 
@@ -205,6 +205,7 @@ class AccountController extends Controller
 
     public function redirect()
     {
+        if(isset(request()->href) && !empty(request()->href)) return redirect(request()->href);
         if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) return redirect()->route('admin.dashboard');
         return redirect('/');
     }

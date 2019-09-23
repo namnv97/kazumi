@@ -15,14 +15,7 @@ class CreateLashGuideResultTable extends Migration
     {
         Schema::create('lash_guide_result', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('type_eye_id');
-            $table->unsignedBigInteger('placement_id');
-            $table->unsignedBigInteger('size_id');
-            $table->unsignedBigInteger('length_id');
-            $table->unsignedBigInteger('style_id');
-            $table->unsignedBigInteger('expirience_id');
-            $table->unsignedBigInteger('event_id');
-            $table->string('product_results');
+            // $table->string('')
             $table->timestamps();
         });
     }

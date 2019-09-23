@@ -195,8 +195,22 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{(request()->is('admin/retialers'))?'active':FALSE}}"><a href="{{route('admin.retailers.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a></li>
+                    <li class="{{(request()->is('admin/retailers'))?'active':FALSE}}"><a href="{{route('admin.retailers.index')}}"><i class="fa fa-circle-o"></i> Tất cả</a></li>
                     <li class="{{(request()->is('admin/retailers/create'))?'active':FALSE}}"><a href="{{route('admin.retailers.create')}}"><i class="fa fa-circle-o"></i> Thêm mới</a></li>
+                </ul>
+            </li>
+            <li class="treeview {{(request()->is('admin/lashguide*'))?'active':FALSE}}">
+                <a href="{{route('admin.lashguide.index')}}">
+                    <i class="fa fa-dropbox"></i>
+                    <span>Lash Guide</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{(request()->is('admin/lashguide/step*'))?'active':FALSE}}"><a href="{{route('admin.lashguide.step.index')}}"><i class="fa fa-circle-o"></i> Các bước</a></li>
+                    <li class="{{(request()->is('admin/lashguide/'))?'active':FALSE}}"><a href="{{route('admin.lashguide.index')}}"><i class="fa fa-circle-o"></i> Các thuộc tính</a></li>
+                    <li class="{{(request()->is('admin/lashguide/result/*'))?'active':FALSE}}"><a href="{{route('admin.lashguide.result.index')}}"><i class="fa fa-circle-o"></i> Kết quả gợi ý</a></li>
                 </ul>
             </li>
             <li class="treeview {{(request()->is('admin/tier*'))?'active':FALSE}}">
