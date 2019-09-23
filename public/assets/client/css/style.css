@@ -2999,7 +2999,7 @@ footer{
 	margin-bottom: 30px;
 	margin-top: 0;
 }
-.form-search-location form input{
+.form-search-location .form-ret select{
 	width: 95%;
 	display: inline-block;
 	border: 1px solid #ccc;
@@ -3008,7 +3008,7 @@ footer{
     border-radius: 0;
     box-shadow: none;
 }
-.form-search-location form button{
+.form-search-location .form-ret button{
 	background-color: #333;
 	color: #fff;
 	height: 40px;

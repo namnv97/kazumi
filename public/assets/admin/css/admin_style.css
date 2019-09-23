@@ -318,3 +318,9 @@ table tfoot th.total
 	cursor: pointer;
 	color: #fff;
 }
+
+.btn-create
+{
+	display: inline-block;
+	margin: 15px 0;
+}

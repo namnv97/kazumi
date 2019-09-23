@@ -56,11 +56,11 @@ Thêm mới
 				<h3>Thông tin người đăng ký</h3>
 				<div class="form-group">
 					<label>Họ tên</label>
-					<input type="text" name="fullname" class="form-control" placeholder="Họ tên">
+					<input type="text" name="fullname" class="form-control" placeholder="Họ tên" value="{{old('fullname')}}">
 				</div>
 				<div class="form-group">
 					<label>Email</label>
-					<input type="text" name="email" class="form-control" placeholder="Email">
+					<input type="text" name="email" class="form-control" placeholder="Email" value="{{old('email')}}">
 				</div>
 				<div class="text-center">
 					<button class="btn btn-md btn-primary" type="submit">Thêm</button>

@@ -3,6 +3,7 @@
 {{$page->name}}
 @endsection
 @section('css')
+<link rel="stylesheet" href="{{asset('/assets/client/css/select2.min.css')}}">
 <style>
 	.program .jdgm-form-wrapper .form-program .col-md-6:nth-child(2n)
 	{
@@ -34,6 +35,20 @@
 		background: #fff;
 		color: #000;
 		cursor: pointer;
+	}
+
+	.select2-container--default .select2-selection--single
+	{
+		height: 40px !important;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+		line-height: 40px !important;
+	}
+	.select2-container--default .select2-selection--single .select2-selection__arrow
+	{
+		top: 5px !important;
 	}
 </style>
 @endsection
@@ -157,41 +172,29 @@
 	</div>
 	<div class="retailers-location bg-grey">
 		<div class="container">
-			<h2 class="title-large">STORE LOCATOR</h2>
+			<h2 class="title-large">Chi nhánh của chúng tôi</h2>
 			<div class="form-search-location">
-				<form>
-					<input type="text" name="" class="form-control" placeholder="Type a postcode or address...">
+				<div class="form-ret">
+					<select class="form-control" id="scity">
+						<option value="">Chọn Tỉnh/Thành phố</option>
+						@foreach($cities as $city)
+						<option value="{{$city->name}}">{{$city->name}}</option>
+						@endforeach
+					</select>
 					<button type="button" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
-				</form>
-			</div>
-			<div class="row">
-				<div class="col-md-9 col-xs-12 col-sm-8">
-					<div class="location">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d953718.708129574!2d105.09215784260897!3d20.97404152711355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135008e13800a29%3A0x2987e416210b90d!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1566382065633!5m2!1svi!2s" width="100%" height="580" frameborder="0" style="border:0" allowfullscreen class="maps"></iframe>
-					</div>
 				</div>
-				<div class="col-md-3 col-xs-12 col-sm-4">
-					<div class="info-location">
-						<ul>
-							<li>
-								<span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-								<div class="stockist-result-name">
-									<p><strong>Coiffure LA BROSSE</strong></p>
-									<p>United States</p>
-									<p>003 526 9127-0592</p>
-									<p>makeupbytessy.com</p>
-								</div>
-							</li>
-							<li>
-								<span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-								<div class="stockist-result-name">
-									<p><strong>Coiffure LA BROSSE</strong></p>
-									<p>United States</p>
-									<p>003 526 9127-0592</p>
-									<p>makeupbytessy.com</p>
-								</div>
-							</li>
-						</ul>
+			</div>
+			<div id="retailer-maps">
+				<div class="row">
+					<div class="col-md-9 col-xs-12 col-sm-8">
+						<div class="location">
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d953718.708129574!2d105.09215784260897!3d20.97404152711355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135008e13800a29%3A0x2987e416210b90d!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1566382065633!5m2!1svi!2s" width="100%" height="580" frameborder="0" style="border:0" allowfullscreen class="maps"></iframe>
+						</div>
+					</div>
+					<div class="col-md-3 col-xs-12 col-sm-4">
+						<div class="info-location">
+
+						</div>
 					</div>
 				</div>
 			</div>
@@ -201,6 +204,7 @@
 
 @endsection
 @section('script')
+<script type="text/javascript" src="{{asset('/assets/client/js/select2.min.js')}}"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('.program .jdgm-form-wrapper .form-program button').on('click',function(){
@@ -301,17 +305,41 @@
 		jQuery('body').on('click','.form-response i',function(){
 			jQuery(this).parent().remove();
 		});
-		// jQuery('input[name=phone]').on('keydown',function(e){
-		// 	console.log(e.keyCode);
-		// 	if(e.keyCode != 8 || e.keyCode != 46)
-		// 	{
-		// 		if(parseInt(jQuery(this).val().length) > 10) return false;
-		// 	}
-			
-		// });
 		jQuery('input[name=phone]').on('keypress',function(e){
 			if(e.keyCode < 48 || e.keyCode > 57) return false;
 		});
+
+		jQuery('.form-ret button').on('click',function(){
+			var name = jQuery('#scity').val();
+			if(name.length > 0)
+			{
+				jQuery.ajax({
+					headers: {
+						'X-CSRF-TOKEN': '{{ csrf_token() }}',
+					},
+					url: '{{route('client.retailer.search')}}',
+					type: 'post',
+					dataType: 'html',
+					data: {
+						name: name
+					},
+					beforeSend: function(){
+
+					},
+					success: function(res){
+						jQuery('#retailer-maps').html(res);
+					},
+					errors: function(errors){
+						console.log(errors);
+					}
+				})
+			}
+		})
+
+		jQuery('#scity').select2({
+			placeholder: "Nhập tên hoặc chọn tỉnh/thành phố"
+		})
+
 	});
 
 	function ValidateEmail(email)

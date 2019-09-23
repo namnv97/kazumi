@@ -5,6 +5,10 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
-{
-    //
+{ 
+	protected $table = 'cities';
+    public function retailer()
+    {
+    	return $this->hasMany('App\Model\Retailer','city_id','id')->get();
+    }
 }

@@ -9,6 +9,7 @@ use App\Model\PageCustomField;
 use App\Model\Regions;
 use App\Model\Earn_point;
 use App\Model\Get_reward;
+use App\Model\City;
 class PageController extends Controller
 {
     public function index($slug = null)
@@ -156,9 +157,9 @@ class PageController extends Controller
     		])
     	->get();
 
-    	$regions = Regions::all();
+    	$cities = City::all();
 
-    	return view('client.page.retailer',compact('page','banner','page_title','page_description','become_title','become_description','retailers','regions'));
+    	return view('client.page.retailer',compact('page','banner','page_title','page_description','become_title','become_description','retailers','cities'));
     }
 
     public function faq($page_id)

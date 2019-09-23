@@ -180,7 +180,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::get('/create','RetailerController@create')->name('admin.retailers.create');
 		Route::post('/create','RetailerController@postCreate')->name('admin.retailers.create');
 		Route::get('/edit/{id?}','RetailerController@edit')->name('admin.retailers.edit');
-		Route::post('/edit','RetailerController@postEdit')->name('admin.retailers.edit');
+		Route::post('/edit/{id?}','RetailerController@postEdit')->name('admin.retailers.edit');
 		Route::delete('/delete','RetailereControler@delete')->name('admin.retailers.delete');
 	});
 
@@ -252,6 +252,8 @@ Route::get('/lien-he',function(){
 })->name('client.page.contact');
 
 Route::post('/formdata','FormController@formdata')->name('client.form.data');
+
+Route::post('/search-retailer','RetailerController@search')->name('client.retailer.search');
 
 Route::get('/get_part_point','AccountController@get_earn_point_part')->middleware('auth')->name('client.account.earn_point_part');
 Route::post('/update_birthday','AccountController@update_birthday')->middleware('auth')->name('client.account.birthday');
