@@ -16,6 +16,7 @@ class CreateStepLashTable extends Migration
         Schema::create('step_lash', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('image');
             $table->string('title');
             $table->string('description');

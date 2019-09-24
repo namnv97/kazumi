@@ -23,7 +23,7 @@ jQuery(document).ready(function(){
         } );
     });
 
-    jQuery('.alert>i.fa-times').on('click',function(){
+    jQuery('body').on('click','.alert>i.fa-times',function(){
         jQuery(this).parents('.alert').first().remove();
     });
 

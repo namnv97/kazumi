@@ -194,10 +194,16 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 			Route::get('/edit','LashGuideController@step_edit')->name('admin.lashguide.step.edit');
 			Route::post('/edit','LashGuideController@step_post_edit')->name('admin.lashguide.step.edit');
 			Route::delete('/delete','LashGuideController@step_delete')->name('admin.lashguide.step.delete');
+
+			Route::post('/order','LashGuideController@step_order')->name('admin.lashguide.step.order');
 		});
 
 		Route::group(['prefix' => 'result'],function(){
 			Route::get('/','LashGuideController@result_index')->name('admin.lashguide.result.index');
+			Route::get('/create','LashGuideController@result_create')->name('admin.lashguide.result.create');
+			Route::post('/create','LashGuideController@result_post_create')->name('admin.lashguide.result.create');
+			Route::get('/edit/{id?}','LashGuideController@result_edit')->name('admin.lashguide.result.edit');
+			Route::post('/edit/{id?}','LashGuideController@result_post_edit')->name('admin.lashguide.result.edit');
 		});
 
 		Route::get('/','LashGuideController@index')->name('admin.lashguide.index');

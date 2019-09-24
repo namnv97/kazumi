@@ -181,7 +181,7 @@ Trang chủ
 				@foreach($products_look as $key => $value)
 				<div class="item">
 					<div class="row">
-						<div class="col-md-7 col-lg-7 col-sm-6 col-xs-12">
+						<div class="col-md-7 col-lg-7 hidden-sm hidden-xs">
 							<div class="home-discover-img">
 								<img src="{{$products_look_gallery[$key]->meta_value}}" alt="{{$value->name}}">
 							</div>

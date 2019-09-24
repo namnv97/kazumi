@@ -15,7 +15,7 @@ class CreateLashGuideResultTable extends Migration
     {
         Schema::create('lash_guide_result', function (Blueprint $table) {
             $table->bigIncrements('id');
-            // $table->string('')
+            $table->mediumText('result_value');
             $table->timestamps();
         });
     }

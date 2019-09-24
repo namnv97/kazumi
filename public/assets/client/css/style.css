@@ -3836,6 +3836,17 @@ footer{
 }
 
 @media screen and (max-width: 991px) {
+    .jdgm-rev-widg__title
+    {
+        font-size: 17px !important;
+        padding: 15px 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .comment .box-star-view-left h3
+    {
+        font-size: 16px !important;
+    }
 	.bn-shop .bn-shop-content .content
 	{
 		width: 80% !important;
@@ -4460,4 +4471,8 @@ footer{
     border-color: #c2a284;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
+}
+
+.essentials ul li:nth-child(2n+1) {
+    clear: both;
 }
