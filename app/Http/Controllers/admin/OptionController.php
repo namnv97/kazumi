@@ -22,11 +22,14 @@ class OptionController extends Controller
 {
     public function index()
     {
-        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help'];
+        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title'];
         foreach($arr as $ar):
             $$ar = Option::where('meta_key',$ar)->first();
         endforeach;
-    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help'));
+
+        $lash_attr = Option::where('meta_key','lash_attr')->get();
+
+    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -88,6 +91,34 @@ class OptionController extends Controller
             $help->meta_value = $hep;
             $help->save();
         endif;
+
+
+        $lash = $request->only(['code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title']);
+        foreach($lash as $key => $value):
+            $op = Option::where('meta_key',$key)->first();
+            if(!empty($op)):
+                $op->meta_value = $value;
+            else:
+                $op = new Option();
+                $op->meta_key = $key;
+                $op->meta_value = $value;
+            endif;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        Option::where('meta_key','lash_attr')->delete();
+        if(isset($request->lash_image) && !empty($request->lash_image)):
+            $lash_image = $request->lash_image;
+            $lash_attr = $request->lash_attribute;
+            foreach($lash_image as $key => $value):
+                $op = new Option();
+                $op->meta_key = 'lash_attr';
+                $op->meta_value = json_encode(['image' => $value,'title' => $lash_attr[$key]]);
+                $op->save();
+            endforeach;
+        endif;
+
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');
 
@@ -365,6 +396,27 @@ class OptionController extends Controller
 
         return redirect()->route('admin.options.home')->with('msg','Các thiết lập đã được lưu !');
 
+    }
+
+    public function menumobile()
+    {
+        $collections = Collection::all();
+        $pages = Page::all();
+        $products = Product::all();
+        $articles = Article::all();
+        $menus = Option::where('meta_key','menumobile')->first();
+        return view('server.option.menumobile',compact('collections','pages','products','articles','menus'));
+    }
+
+    public function postMenumobile(Request $request)
+    {
+        Option::where('meta_key','menumobile')->delete();
+        $op = new Option;
+        $op->name = "Menu";
+        $op->meta_key = 'menumobile';
+        $op->meta_value = json_encode($request->data);
+        $op->save();
+        return response()->json(['status' => 'success', 'msg' => 'Lưu thành công']);
     }
 
 

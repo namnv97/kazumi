@@ -57,7 +57,8 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('/menu','OptionController@postMenu')->name('admin.options.menu');
 		Route::get('/megamenu','OptionController@megamenu')->name('admin.options.megamenu');
 		Route::post('/megamenu','OptionController@postMegamenu')->name('admin.options.megamenu');
-
+		Route::get('/menumobile','OptionController@menumobile')->name('admin.options.menumobile');
+		Route::post('/menumobile','OptionController@postMenumobile')->name('admin.options.menumobile');
 		Route::get('/home','OptionController@getHome')->name('admin.options.home');
 		Route::post('/home','OptionController@postHome')->name('admin.options.home');
 	});
@@ -204,6 +205,7 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 			Route::post('/create','LashGuideController@result_post_create')->name('admin.lashguide.result.create');
 			Route::get('/edit/{id?}','LashGuideController@result_edit')->name('admin.lashguide.result.edit');
 			Route::post('/edit/{id?}','LashGuideController@result_post_edit')->name('admin.lashguide.result.edit');
+			Route::delete('/delete','LashGuideController@result_delete')->name('admin.lashguide.result.delete');
 		});
 
 		Route::get('/','LashGuideController@index')->name('admin.lashguide.index');
@@ -245,6 +247,8 @@ Route::group(['prefix' => 'account'],function(){
 Route::get('thanh-toan','CartController@checkout')->middleware('auth')->name('client.checkout');
 
 Route::get('/page/{slug?}','PageController@index')->name('client.page.index');
+
+Route::post('/lashresult/product',"PageController@result_product")->name('client.page.lashresult.product');
 
 Route::get('/product/get_rate','ProductController@get_rate')->name('client.product.get_rate');
 

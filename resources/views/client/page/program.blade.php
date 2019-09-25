@@ -121,7 +121,7 @@
 							</div>
 						</div>
 					</div>
-					<button class="btn">Submit</button>
+					<button class="btn">GỬI</button>
 				</div>
 			</div>
 		</div>

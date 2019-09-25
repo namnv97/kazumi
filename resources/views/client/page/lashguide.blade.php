@@ -14,7 +14,7 @@
 			<h1>{{$page->name}}</h1>
 			<h2>{{$sub_title->meta_value}}</h2>
 			<p>{{$description->meta_value}}</p>
-			<a href="#">FIND MY LASHES</a>
+			<a href="{{route('client.page.index',['slug' => $page->slug,'step' => $first->slug])}}">TÌM MẪU MI</a>
 		</div>
 
 	</div>

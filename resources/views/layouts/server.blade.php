@@ -285,6 +285,9 @@
                     <li class="{{(request()->is('admin/options/megamenu'))?'active':FALSE}}">
                         <a href="{{route('admin.options.megamenu')}}"><i class="fa fa-circle-o"></i> Thiết lập Mega Menu</a>
                     </li>
+                    <li class="{{(request()->is('admin/options/menumobile'))?'active':FALSE}}">
+                        <a href="{{route('admin.options.menumobile')}}"><i class="fa fa-circle-o"></i> Thiết lập Menu Mobile</a>
+                    </li>
                     <li class="{{(request()->is('admin/options/footer'))?'active':FALSE}}">
                         <a href="{{route('admin.options.footer')}}"><i class="fa fa-circle-o"></i> Thiết lập Footer</a>
                     </li>

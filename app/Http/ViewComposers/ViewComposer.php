@@ -26,6 +26,10 @@ class ViewComposer
 
     	$view->with('menus',$menus);
 
+        $menumobile = Option::where('meta_key','menumobile')->first();
+
+        $view->with('menumobile',$menumobile);
+
     	$mega_menu = Option::where('meta_key','mega_menu')->get();
 
     	$view->with('mega_menu',$mega_menu);

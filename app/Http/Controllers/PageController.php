@@ -10,6 +10,11 @@ use App\Model\Regions;
 use App\Model\Earn_point;
 use App\Model\Get_reward;
 use App\Model\City;
+use App\Model\StepLash;
+use App\Model\StepItem;
+use App\Model\StepResult;
+use App\Model\ResultProduct;
+use App\Model\Option;
 class PageController extends Controller
 {
     public function index($slug = null)
@@ -195,18 +200,45 @@ class PageController extends Controller
     public function lashguide($page_id)
     {
         $page = Page::find($page_id);
-        $arr = ['sub_title','background','description'];
+        if(!isset(request()->step) || empty(request()->step)):
+            $arr = ['sub_title','background','description'];
 
-        foreach($arr as $ar):
-            $$ar = PageCustomField::where([
-                ['meta_field',$ar],
-                ['page_id',$page_id]
-            ])
-            ->first();
-        endforeach;
+            foreach($arr as $ar):
+                $$ar = PageCustomField::where([
+                    ['meta_field',$ar],
+                    ['page_id',$page_id]
+                ])
+                ->first();
+            endforeach;
 
-        return view('client.page.lashguide',compact('page','sub_title','background','description'));
+            $first = StepLash::orderBy('order','asc')->first();
+
+            return view('client.page.lashguide',compact('page','sub_title','background','description','first'));
+        else:
+            if(request()->step == 'result'):
+                $laststep = StepLash::orderBy('order','desc')->first();
+                if(empty($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] != route('client.page.index',['slug' => $page->slug,'step' => $laststep->slug])) return redirect()->route('client.page.index',['slug' => $page->slug,'step' => $laststep->slug]);
+                $arr = ['code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title'];
+                foreach($arr as $ar):
+                    $$ar = Option::where('meta_key',$ar)->first();
+                endforeach;
+                $lash_attr = Option::where('meta_key','lash_attr')->get();
+                $steps = StepLash::orderBy('order','asc')->get();
+                return view('client.page.lashresult',compact('steps','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr'));
+            endif;
+            $steps = StepLash::orderBy('order','asc')->get();
+            $stepcurrent = StepLash::where('slug',request()->step)->first();
+            if(!empty($stepcurrent->prev_step())):
+                if(empty($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] != route('client.page.index',['slug' => $page->slug,'step' => $stepcurrent->prev_step()->slug])) return redirect()->route('client.page.index',['slug' => $page->slug,'step' => $stepcurrent->prev_step()->slug]);
+                if(empty($stepcurrent)) return redirect()->route('client.page.index',['slug' => $page->slug]);
+            endif;
+            return view('client.page.findlash',compact('page','steps','stepcurrent'));
+        endif;
     }
 
+    public function result_product(Request $request)
+    {
+        dd($request->all());
+    }
 
 }

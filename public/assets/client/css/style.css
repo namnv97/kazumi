@@ -1573,7 +1573,6 @@ footer{
     background-position: top center;
     background-size: cover;
     min-height: 760px;
-    max-height: 1200px;
     background-color: #fdf1e3;
 }
 .lash-home-conten{
@@ -1740,7 +1739,7 @@ footer{
 	margin-top: 0;
 	font-weight: 600;
 }
-.content-results form input{
+.content-results .form-send input{
 	background-color: #FFFFFF;
 	border-style: solid;
     border-width: 1px;
@@ -1752,7 +1751,7 @@ footer{
     width: 300px;
     display: inline-block;
 }
-.content-results form button{
+.content-results .form-send button{
 	background-color: #9b8579;
 	text-transform: uppercase;
     padding: 4.5px 40px;
@@ -3886,7 +3885,7 @@ footer{
     	padding-left: 18px;
     	padding-right: 24px;
     	padding-top: 60px;
-    	height: 94%;
+    	min-height: 94%;
 	    display: flex;
 	    flex-direction: column;
 	    justify-content: space-between;
@@ -3992,7 +3991,7 @@ footer{
     	font-size: 16px;
     }
     .social-menu-xs{
-    	position: sticky;
+    	position: relative;
     	bottom: 0;
     	left: 0;
     	right: 0;
@@ -4061,7 +4060,21 @@ footer{
         width: 100% !important;
     }	    
   
-} 
+}
+
+@media (max-width: 991px)
+{
+    .search .PageLayout__Section--secondary
+    {
+        padding-left: 0 !important;
+    }
+
+    .bn-home .slide-bn-home .slide-home-item
+    {
+        height: 300px !important;
+    }
+}
+
 @media screen and (min-width: 768px) and (max-width: 991px){
 	footer{
 		padding: 30px 0!important;
@@ -4475,4 +4488,52 @@ footer{
 
 .essentials ul li:nth-child(2n+1) {
     clear: both;
+}
+
+.shop_style
+{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    border: 1px solid #9b8579;
+    cursor: pointer;
+    -webkit-transition: background-color 300ms ease-out;
+    transition: background-color 300ms ease-out;
+    background: #9b8579;
+    color: white;
+}
+
+.product-suggest .item a
+{
+    display: inline-block;
+}
+
+.product-suggest .title_product
+{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.product-suggest>h3
+{
+    padding-top: 30px;
+    position: relative;
+    font-size: 26px;
+    font-weight: bold;
+    color: #9b8579;
+}
+
+.product-suggest>h3:before
+{
+    content: '';
+    position: absolute;
+    height: 6px;
+    width: 50px;
+    background: #9b8579;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }

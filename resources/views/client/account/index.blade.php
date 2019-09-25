@@ -36,6 +36,9 @@ Tài khoản
 <div class="contact bg-grey account">
 	<div class="container">
 		<div class="title-acount">
+			@if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
+			<a href="{{route('admin.dashboard')}}" target="_blank">Trang quản trị</a>&ensp;|&ensp;
+			@endif
 			<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ĐĂNG XUẤT</a>
 			<form action="{{route('logout')}}" method="post" id="logout-form">
 				@csrf

@@ -185,7 +185,9 @@ class LashGuideController extends Controller
 
 	public function result_index()
 	{
-		return view('server.lashguide.result.index');
+		$results = LashResult::orderBy('created_at','desc')->paginate(10);
+		$names = StepLash::orderBy('slug','asc')->select('name')->get();
+		return view('server.lashguide.result.index',compact('results','names'));
 	}
 
 	public function result_create()
@@ -197,7 +199,7 @@ class LashGuideController extends Controller
 
 	public function result_post_create(Request $request)
 	{
-		$req = $request->except('_token','product');
+		$req = $request->except(['_token','product']);
 
 		ksort($req);
 
@@ -226,12 +228,55 @@ class LashGuideController extends Controller
 	{
 		if($id == null) return redirect()->route('admin.lashguide.result.index');
 
-		echo 'sd';
+		$products = Product::all();
+		$steps = StepLash::orderBy('order','asc')->get();
+		$result = LashResult::find($id);
+		$result_product = ResultProduct::where('result_id',$id)->select('product_id')->get()->toArray();
+		$result_product = array_merge_recursive(...$result_product)['product_id'];
+
+		return view('server.lashguide.result.edit',compact('products','steps','result','result_product'));
 	}
 
 	public function result_post_edit(Request $request, $id = null)
 	{
 		if($id == null) return redirect()->route('admin.lashguide.result.index');
+		$req = $request->except(['_token','product']);
+		ksort($req);
+
+		$value = json_encode($req);
+
+		$chk = LashResult::where([
+			['result_value','like',"%$value%"],
+			['id','<>',$id]
+		])->first();
+
+		if(!empty($chk)) return back()->withInput()->with('unique','Dữ liệu đã tồn tại');
+
+		$result = LashResult::find($id);
+		$result->result_value = $value;
+		$result->save();
+
+		ResultProduct::where('result_id',$id)->delete();
+		foreach($request->product as $product):
+			$repro = new ResultProduct();
+			$repro->result_id = $result->id;
+			$repro->product_id = $product;
+			$repro->save();
+			unset($repro);
+		endforeach;
+
+		return redirect()->route('admin.lashguide.result.edit',['id' => $id])->with('msg','Cập nhật thành công');
+	}
+
+	public function result_delete(Request $request)
+	{
+		$id = $request->id;
+
+		$result = LashResult::find($id);
+
+		$result->delete();
+
+		return response()->json(['status' => 'success']);
 	}
 
 
