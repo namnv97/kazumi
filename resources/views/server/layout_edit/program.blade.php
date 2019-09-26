@@ -162,14 +162,16 @@ Cập nhật trang
 <div class="page-pages">
 	<h1>Cập nhật trang</h1>
 	@if(session('errors'))
-	<div class="alert alert-warning"> 
-		@foreach($session('errors')->all() as $err)
+	<div class="alert alert-warning">
+		<i class="fa fa-times"></i>
+		@foreach(session('errors')->all() as $err)
 		<p>{{$err}}</p>
 		@endforeach
 	</div>
 	@endif
 	@if(session('msg'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg')}}</p>
 	</div>
 	@endif

@@ -125,7 +125,7 @@ Tài khoản
 						</div>
 						<a href="{{route('client.account.reward')}}" class="Button Button--primary">Thêm điểm</a>
 					</div>
-					<div class="Segment">
+					<!-- <div class="Segment">
 						<h2 class="Segment__Title Heading u-h7">Địa chỉ</h2>
 						<div class="Segment__Content">
 							<p>Chưa có địa chỉ nào được lưu</p>
@@ -133,7 +133,7 @@ Tài khoản
 								<a href="#" class="Button Button--primary">Quản lý địa chỉ</a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

@@ -19,6 +19,8 @@ use App\Http\Requests\StoreAddFAQ;
 use App\Http\Requests\StoreEditFAQ;
 use App\Http\Requests\StoreCreateLashGuide;
 use App\Http\Requests\StoreEditLashGuide;
+use App\Http\Requests\StorePageDefaultCreate;
+use App\Http\Requests\StorePageDefaultEdit;
 
 use DB;
 
@@ -67,6 +69,9 @@ class PageController extends Controller
                 break;
             case 'lashguide':
                 return $this->edit_lashguide($page->id);
+                break;
+            default:
+                return $this->edit_default($page->id);
                 break;
         }
     }
@@ -941,6 +946,54 @@ class PageController extends Controller
             $op->save();
             unset($op);
         endforeach;
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id])->with('msg','Cập nhật thành công');
+    }
+
+    public function default(StorePageDefaultCreate $request)
+    {
+        $page = new Page();
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->template = $request->template;
+        $page->save();
+
+        $op = new PageCustomField();
+        $op->page_id = $page->id;
+        $op->meta_field = 'page_content';
+        $op->meta_value = $request->page_content;
+        $op->save();
+
+        return redirect()->route('admin.pages.edit',['id' => $page->id]);
+    }
+
+    public function edit_default($page_id)
+    {
+        $page = Page::find($page_id);
+        $page_content = PageCustomField::where([
+            ['page_id',$page_id],
+            ['meta_field','page_content']
+        ])
+        ->first();
+
+        return view('server.layout_edit.default',compact('page','page_content'));
+    }
+
+    public function post_edit_default(StorePageDefaultEdit $request)
+    {
+        $page = Page::find($request->id);
+        $page->name = $request->name;
+        $page->slug = $request->slug;
+        $page->save();
+
+        $pc = PageCustomField::where([
+            ['page_id',$page->id],
+            ['meta_field','page_content']
+        ])
+        ->first();
+
+        $pc->meta_value = $request->page_content;
+        $pc->save();
 
         return redirect()->route('admin.pages.edit',['id' => $page->id])->with('msg','Cập nhật thành công');
     }

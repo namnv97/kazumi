@@ -145,7 +145,11 @@ Thiết lập chung
 	{
 		border-bottom: thin #eee solid;
 	}
-
+	
+	span.select2-container
+	{
+		width: 100% !important;
+	}
 </style>
 @endsection
 @section('content')
@@ -175,7 +179,8 @@ Thiết lập chung
 					<li><a data-toggle="tab" href="#shipping">Giao hàng và Hoàn lại</a></li>
 					<li><a data-toggle="tab" href="#collection">Bộ sưu tập</a></li>
 					<li><a data-toggle="tab" href="#reward_help">Trang điểm thưởng</a></li>
-					<li><a data-toggle="tab" href="#lash_result">Trang kết quả Lash Guide</a></li>
+					<li><a data-toggle="tab" href="#lash_result">Lash Guide</a></li>
+					<li><a data-toggle="tab" href="#after_product">Sau nút đặt hàng</a></li>
 				</ul>
 
 				<div class="tab-content">
@@ -274,6 +279,67 @@ Thiết lập chung
 							<label>Tiêu đề kết quả</label>
 							<input type="text" name="lash_result_title" class="form-control" placeholder="Tiêu đề kết quả" value="{{(!empty($lash_result_title))?$lash_result_title->meta_value:FALSE}}">
 						</div>
+						<div class="form-group">
+							<label>Sản phẩm mặc định</label>
+							<select name="result_default[]" id="result_product" class="form-control" multiple>
+								@if($products->count() > 0)
+								@php
+								$rsp = [];
+								if(!empty($result_default)):
+								$rsp = json_decode($result_default->meta_value,true);
+								endif;
+								@endphp
+								@foreach($products as $product)
+								<option value="{{$product->id}}" {{(in_array($product->id,$rsp))?'selected':FALSE}}>{{$product->name}}</option>
+								@endforeach
+								@endif
+							</select>
+						</div>
+					</div>
+					<div id="after_product" class="fade tab-pane">
+						<div class="form-group">
+							<label>Shipping</label>
+							<input type="text" name="afshipping" placeholder="Tiêu đề thuộc tính" class="form-control" value="{{(!empty($afshipping))?$afshipping->meta_value:FALSE}}">
+						</div>
+						<div class="list_attributes">
+							<label>Các thuộc tính</label>
+							<div class="attribute_lash">
+								@if(count($af_attr) > 0)
+								@foreach($af_attr as $lash)
+								@php
+								$item = json_decode($lash->meta_value,true);
+								@endphp
+								<div class="form-group">
+									<div class="item background_image">
+										<label>Hình ảnh</label>
+										<div class="image">
+											<div class="img active">
+												<img src="{{$item['image']}}">
+												<input type="hidden" name="af_image[]" value="{{$item['image']}}">
+												<i class="fa fa-times"></i>
+											</div>
+											<span class="btn btn-sm btn-info btn-add-image">Chọn ảnh</span>
+										</div>
+									</div>
+									<div class="item">
+										<label>Tiêu đề</label>
+										<input type="text" name="af_title[]" class="form-control" placeholder="Tiêu đề" value="{{$item['title']}}">
+									</div>
+									<div class="remove">
+										<i class="fa fa-times" title="Xóa thuộc tính"></i>
+									</div>
+								</div>
+								@endforeach
+								@endif
+							</div>
+							<div class="text-right">
+								<span class="btn btn-sm btn-success btn-add-af" style="margin-top: 5px;">Thêm thuộc tính</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Nội dung</label>
+							<textarea name="af_content" rows="10" class="form-control" style="resize: none;">{{(!empty($af_content))?$af_content->meta_value:FALSE}}</textarea>
+						</div>
 					</div>
 				</div>
 				
@@ -348,7 +414,32 @@ Thiết lập chung
 					</div>
 					<div class="item">
 						<label>Tiêu đề</label>
-						<input type="text" name="lash_attribute[]" class="form-control" placeholder="Tiêu đề">
+						<input type="text" name="af_title[]" class="form-control" placeholder="Tiêu đề">
+					</div>
+					<div class="remove">
+						<i class="fa fa-times" title="Xóa thuộc tính"></i>
+					</div>
+				</div>
+				`);
+		})
+
+		jQuery('.btn-add-af').on('click',function(){
+			jQuery('.attribute_lash').append(`
+				<div class="form-group">
+					<div class="item background_image">
+						<label>Hình ảnh</label>
+						<div class="image">
+							<div class="img">
+								<img src="">
+								<input type="hidden" name="af_image[]">
+								<i class="fa fa-times"></i>
+							</div>
+							<span class="btn btn-sm btn-info btn-add-image">Chọn ảnh</span>
+						</div>
+					</div>
+					<div class="item">
+						<label>Tiêu đề</label>
+						<input type="text" name="af_attr[]" class="form-control" placeholder="Tiêu đề">
 					</div>
 					<div class="remove">
 						<i class="fa fa-times" title="Xóa thuộc tính"></i>
@@ -389,6 +480,10 @@ Thiết lập chung
 			}
 		});
 
+		jQuery('#result_product').select2({
+			placeholder: 'Chọn sản phẩm',
+			maximumSelectionLength: 3
+		});
 
 
 	})

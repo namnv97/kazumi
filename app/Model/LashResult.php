@@ -21,4 +21,9 @@ class LashResult extends Model
     	return StepItem::find($id);
     }
 
+    public function resultproduct()
+    {
+    	return $this->hasMany('App\Model\ResultProduct','result_id','id')->get();
+    }
+
 }

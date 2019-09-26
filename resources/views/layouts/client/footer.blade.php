@@ -53,10 +53,7 @@
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="copy-ft">
-							<a href="#">© ESQIDO</a>
-							<a href="#">Privacy Policy</a>
-							<span class="Footer__Divider"> | </span>
-							<a href="#">Terms & Conditions</a>
+							{!! $menuft->meta_value !!}
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">

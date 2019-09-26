@@ -129,6 +129,8 @@ class ViewComposer
     {
         $footer = Option::where('meta_key','footer')->get();
         $view->with('footer',$footer);
+        $menuft = Option::where('meta_key','menuft')->first();
+        $view->with('menuft',$menuft);
     }
 
 

@@ -70,8 +70,12 @@ class ProductController extends Controller
             $is_rate = true;
         endif;
 
+        $afshipping = Option::where('meta_key','afshipping')->first();
+        $af_content = Option::where('meta_key','af_content')->first();
+        $af_attr = Option::where('meta_key','af_attr')->get();
 
-    	return response(view('client.product.index',compact('product','rating','rate_num','essentials','relates','recents','product_shipping','is_rate')))->withCookie($cookie);
+
+    	return response(view('client.product.index',compact('product','rating','rate_num','essentials','relates','recents','product_shipping','is_rate','afshipping','af_content','af_attr')))->withCookie($cookie);
 
     }
 

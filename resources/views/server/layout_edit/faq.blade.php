@@ -77,6 +77,7 @@ Cập nhật trang
 	<h1>Cập nhật trang</h1>
 	@if(session('errors'))
 	<div class="alert alert-warning">
+		<i class="fa fa-times"></i>
 		@foreach(session('errors')->all() as $msg)
 		<p>{{$msg}}</p>
 		@endforeach
@@ -84,6 +85,7 @@ Cập nhật trang
 	@endif
 	@if(session('msg'))
 	<div class="alert alert-success">
+		<i class="fa fa-times"></i>
 		<p>{{session('msg')}}</p>
 	</div>
 	@endif

@@ -22,14 +22,17 @@ class OptionController extends Controller
 {
     public function index()
     {
-        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title'];
+        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','result_default','afshipping','af_content'];
         foreach($arr as $ar):
             $$ar = Option::where('meta_key',$ar)->first();
         endforeach;
 
         $lash_attr = Option::where('meta_key','lash_attr')->get();
+        $products = Product::all();
 
-    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr'));
+        $af_attr = Option::where('meta_key','af_attr')->get();
+
+    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr','products','result_default','afshipping','af_content','af_attr'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -119,6 +122,46 @@ class OptionController extends Controller
             endforeach;
         endif;
 
+        Option::where('meta_key','result_default')->delete();
+        if(isset($request->result_default) && !empty($request->result_default)):
+            $result_default = $request->result_default;
+            $pi = [];
+            foreach($result_default as $key => $value):
+                $pi[] = $value;
+            endforeach;
+            $op = new Option();
+            $op->meta_key = 'result_default';
+            $op->meta_value = json_encode($pi);
+            $op->save();
+            unset($op);
+        endif;
+
+        $aff = $request->only(['afshipping','af_content']);
+        foreach($aff as $key => $value):
+            $op = Option::where('meta_key',$key)->first();
+            if(!empty($op)):
+                $op->meta_value = $value;
+            else:
+                $op = new Option();
+                $op->meta_key = $key;
+                $op->meta_value = $value;
+            endif;
+            $op->save();
+            unset($op);
+        endforeach;
+
+        Option::where('meta_key','af_attr')->delete();
+        if(isset($request->af_image) && !empty($request->af_image)):
+            $af_image = $request->af_image;
+            $af_title = $request->af_title;
+            foreach($af_image as $key => $value):
+                $op = new Option();
+                $op->meta_key = 'af_attr';
+                $op->meta_value = json_encode(['image' => $value,'title' => $af_title[$key]]);
+                $op->save();
+            endforeach;
+        endif;
+
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');
 
@@ -127,7 +170,8 @@ class OptionController extends Controller
     public function footer()
     {
         $options = Option::where('meta_key','footer')->get();
-    	return view('server.option.footer',compact('options'));
+        $menuft = Option::where('meta_key','menuft')->first();
+    	return view('server.option.footer',compact('options','menuft'));
     }
 
 
@@ -154,6 +198,19 @@ class OptionController extends Controller
             $option->meta_value = json_encode($result);
             $option->save();
         endforeach;
+
+        $menuft = Option::where('meta_key','menuft')->first();
+        if(empty($menuft)):
+            $menuft = new Option();
+            $menuft->name = "Menu Footer";
+            $menuft->meta_key = 'menuft';
+            $menuft->meta_value = $request->menuft;
+            $menuft->save();
+        else:
+            $menuft->meta_value = $request->menuft;
+            $menuft->save();
+        endif;
+
 
         return redirect()->route('admin.options.footer')->with('msg','Các thiết lập đã được lưu');
     }

@@ -8,11 +8,11 @@
 			<div class="menu-bg-left">
 				<div class="Drawer__Container">
 					<ul class="main-menu">
-						@if(!empty($menus))
+						@if(!empty($menumobile))
 						@php
-						$menus = json_decode($menus->meta_value,true)
+						$menumobile = json_decode($menumobile->meta_value,true)
 						@endphp
-						@foreach($menus as $key => $menu)
+						@foreach($menumobile as $key => $menu)
 						@if(isset($menu['children']))
 						<li class="menu-item-has-children">
 							<a href="{{$menu['url']}}">{{$menu['text']}} <span class="Collapsible__Plus"></span></a>

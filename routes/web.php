@@ -96,6 +96,9 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::post('lashguide','PageController@lashguide')->name('admin.pages.lashguide');
 		Route::post('post_edit_lashguide','PageController@post_edit_lashguide')->name('admin.pages.post_edit_lashguide');
 
+		Route::post('default','PageController@default')->name('admin.pages.default');
+		Route::post('post_edit_default','PageController@post_edit_default')->name('admin.pages.post_edit_default');
+
 
 	});
 

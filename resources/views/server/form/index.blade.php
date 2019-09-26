@@ -19,6 +19,8 @@
 				<option value="">Chọn FormData</option>
 				<option value="contact" {{(request()->form_name == 'contact')?'selected':FALSE}}>Form Liên hệ</option>
 				<option value="register" {{(request()->form_name == 'register')?'selected':FALSE}}>Form Đăng ký Email</option>
+				<option value="retail" {{(request()->form_name == 'retail')?'selected':FALSE}}>Form Đăng ký Đại lý</option>
+				<option value="program" {{(request()->form_name == 'program')?'selected':FALSE}}>Form Đăng ký Chương trình</option>
 			</select>
 		</form>
 	</div>
@@ -36,8 +38,7 @@
 			jQuery(this).parents('form').submit();
 		});
 	})
-	@if(request()->form_name == 'contact')
-	jQuery('.btn-delete').on('click',function(){
+	jQuery('body').on('click','.btn-delete',function(){
 		if(confirm("Bạn muốn xóa bản ghi này ?"))
 		{
 			var id = jQuery(this).data('value');
@@ -65,6 +66,5 @@
 			});
 		}
 	})
-	@endif
 </script>
 @endsection

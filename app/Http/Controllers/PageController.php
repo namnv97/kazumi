@@ -13,8 +13,10 @@ use App\Model\City;
 use App\Model\StepLash;
 use App\Model\StepItem;
 use App\Model\StepResult;
+use App\Model\LashResult;
 use App\Model\ResultProduct;
 use App\Model\Option;
+use App\Model\Product;
 class PageController extends Controller
 {
     public function index($slug = null)
@@ -48,6 +50,9 @@ class PageController extends Controller
     			break;
             case 'lashguide':
                 return $this->lashguide($page->id);
+                break;
+            default:
+                return $this->pageDefault($page->id);
                 break;
     	}
     }
@@ -238,7 +243,45 @@ class PageController extends Controller
 
     public function result_product(Request $request)
     {
-        dd($request->all());
+        $req = $request->except('email');
+        ksort($req);
+
+        $value = json_encode($req);
+
+        $result = LashResult::where('result_value',$value)->first();
+
+        $products = [];
+
+        if(!empty($result)):
+            $opp = $result->resultproduct();
+            if($opp->count() > 0):
+                $opv = [];
+                foreach($opp as $op):
+                    $opv[] = $op->product_id;
+                endforeach;
+                $products = Product::whereIn('id',$opv)->take(3)->inRandomOrder()->get();
+            endif;
+        else:
+            $opp = Option::where('meta_key','result_default')->first();
+            if(!empty($opp)):
+                $opv = json_decode($opp->meta_value,true);
+                $products = Product::whereIn('id',$opv)->take(3)->inRandomOrder()->get();
+            endif;
+        endif;
+
+        return view('client.page.lashproduct',compact('products'));
+    }
+
+    public function pageDefault($page_id)
+    {
+        $page = Page::find($page_id);
+        $page_content = PageCustomField::where([
+            ['page_id',$page_id],
+            ['meta_field','page_content']
+        ])
+        ->first();
+
+        return view('client.page.default',compact('page','page_content'));
     }
 
 }

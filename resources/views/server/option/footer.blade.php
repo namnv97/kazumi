@@ -55,6 +55,14 @@ Thiết lập Footer
 				</div>
 				@endforeach
 				@endif
+				<div class="form-group">
+					<label>Menu Footer</label>
+					@if(!empty($menuft))
+					<textarea name="menuft" rows="5" class="form-control" placeholder="Menu Footer" style="resize: vertical;">{!! $menuft->meta_value !!}</textarea>
+					@else
+					<textarea name="menuft" rows="5" class="form-control" placeholder="Menu Footer" style="resize: vertical;"></textarea>
+					@endif
+				</div>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
 				<button class="btn btn-primary btn-lg">Lưu</button>

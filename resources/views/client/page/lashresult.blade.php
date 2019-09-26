@@ -34,19 +34,31 @@ Kết quả tìm kiếm
 		left: 50%;
 		transform: translateX(-50%);
 	}
+
+	.product-suggest
+	{
+		display: none;
+	}
+
+	.product-suggest.active
+	{
+		display: block;
+	}
 </style>
 @endsection
 @section('content')
 <div class="lash-home results">
 	<div class="container">
 		<div class="content-results">
-			<h1>Nhập Email của bạn để nhận mã giảm giá {{$code_percent->meta_value}}%</h1>
-			<div class="form-send">
-				<input type="email" placeholder="Nhập Email của bạn" data-value="{{$code_percent->meta_value}}">
-				<button class="send">Gửi</button>
+			<div class="form-email">
+				<h1>Nhập Email của bạn để nhận mã giảm giá {{$code_percent->meta_value}}%</h1>
+				<div class="form-send">
+					<input type="email" placeholder="Nhập Email của bạn" data-value="{{$code_percent->meta_value}}">
+					<button class="send">Gửi</button>
+				</div>
+				<p style="margin: 0;">Mã giảm giá {{$code_percent->meta_value}}% sẽ được gửi đến Email của bạn</p>
+				<p style="margin: 0;">Chỉ áp dụng với khách hàng mới</p>
 			</div>
-			<p style="margin: 0;">Mã giảm giá {{$code_percent->meta_value}}% sẽ được gửi đến Email của bạn</p>
-			<p style="margin: 0;">Chỉ áp dụng với khách hàng mới</p>
 			<div class="attribute">
 				<p class="attribute-title" style="font-size: 24px;font-weight: bold;color: #9b8579;">{{$lash_title->meta_value}}</p>
 				@if(count($lash_attr) > 0)
@@ -79,9 +91,15 @@ Kết quả tìm kiếm
 			<div class="social-lash">
 				<p>Chia sẻ với bạn bè</p>
 				<ul>
-					<li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-					<li><a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
-					<li><a href="#"><i class="fa fa-pinterest-square" aria-hidden="true"></i></a></li>
+					<li>
+						<a href="https://www.facebook.com/sharer.php?u={{route('home')}}"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+					</li>
+					<li>
+						<a href="https://twitter.com/intent/tweet?url={{route('home')}}&text={{config('app.name')}}&via={{route('home')}}&hashtags={{config('app.name')}}"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+					</li>
+					<li>
+						<a href="https://pinterest.com/pin/create/bookmarklet/?media={img}&url={{route('home')}}&is_video={is_video}&description={{config('app.name')}}"><i class="fa fa-pinterest-square" aria-hidden="true"></i></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -92,6 +110,12 @@ Kết quả tìm kiếm
 @endsection
 @section('script')
 <script type="text/javascript">
+	(function($){
+		@foreach($steps as $step)
+		var it = localStorage.getItem('{{$step->slug}}');
+		if(it == null) window.location.href = '{{url()->current()}}';
+		@endforeach
+	})(jQuery);
 	jQuery(document).ready(function(){
 		jQuery('.form-send button').on('click',function(){
 			jQuery('.errors').remove();
@@ -130,7 +154,15 @@ Kết quả tìm kiếm
 
 						},
 						success: function(res){
-
+							jQuery('.product-suggest .row').html(res);
+							jQuery('.product-suggest').addClass('active');
+							jQuery('.form-email').remove();
+							jQuery('body,html').animate({
+								scrollTop: jQuery('.product-suggest').offset().top - 100
+							},500);
+							@foreach($steps as $step)
+							localStorage.removeItem('{{$step->slug}}');
+							@endforeach
 						},
 						errors: function(errors){
 							console.log(errors);

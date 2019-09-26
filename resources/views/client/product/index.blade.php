@@ -545,6 +545,12 @@
 				});
 			}
 		})
+
+		jQuery('.Product__QuickNav span').on('click',function(){
+			jQuery('body,html').animate({
+				scrollTop: jQuery('#sync1').offset().top - 100
+			},400);
+		})
 	})
 
 function ValidateEmail(email)
