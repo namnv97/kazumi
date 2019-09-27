@@ -9,6 +9,16 @@ Quản lý đánh giá
 		color: red;
 		font-weight: bold;
 	}
+
+	.fa-star
+	{
+		color: #f56b5a;
+	}
+
+	.fa-star-o
+	{
+		color: #bd928d;
+	}
 </style>
 @endsection
 @section('content')
