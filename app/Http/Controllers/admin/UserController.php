@@ -33,8 +33,6 @@ class UserController extends Controller
     	->leftJoin('roles','roles.id','role_user.role_id')
     	->whereIn('roles.slug',$arr)->select('users.id','users.name','users.email','users.birthday','users.point_reward','users.refferal_code','roles.name as role_name')->paginate(5);
 
-        dd($user);
-
     	return view('server.user.index',compact('roles','users'));
     }
 
