@@ -14,10 +14,21 @@
 		display: inline-block;
 		cursor: pointer;
 	}
+
+	.btn-follow-instagram:hover
+	{
+		background: #d8703d;
+	}
 </style>
 <p>Theo dõi chúng tôi trên Instagram</p>
 <span class="btn-follow-instagram">Theo dõi</span>
-
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.btn-follow-instagram').on('click',function(){
+			window.open('//localhost:8000');
+		})
+	});
+</script>
 @else
 <p>Cảm ơn bạn đã theo dõi chúng tôi trên Instagram</p>
 @endif
