@@ -65,6 +65,11 @@ class UserController extends Controller
 
     	$reward->save();
 
+        $tier = new UserTier();
+        $tier->user_id = $user->id;
+        $tier->tier_id = 1;
+        $tier->save();
+
     	return redirect()->route('admin.user.index')->with('msg_add','Thêm người dùng thành công');
 
     }
