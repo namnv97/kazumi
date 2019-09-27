@@ -352,8 +352,8 @@ Thiết lập chung
 							<input type="text" name="instagram" class="form-control" placeholder="Link Instagram" value="{{(!empty($instagram))?$instagram->meta_value:FALSE}}">
 						</div>
 						<div class="form-group">
-							<label>Link Google</label>
-							<input type="text" name="google" class="form-control" placeholder="Link Google" value="{{(!empty($google))?$google->meta_value:FALSE}}">
+							<label>Link Twitter</label>
+							<input type="text" name="twitter" class="form-control" placeholder="Link Twitter" value="{{(!empty($twitter))?$twitter->meta_value:FALSE}}">
 						</div>
 						<div class="form-group">
 							<label>Link Pinterest</label>

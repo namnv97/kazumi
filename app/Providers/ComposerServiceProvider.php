@@ -57,5 +57,10 @@ class ComposerServiceProvider extends ServiceProvider
             'client.search.post',
             'App\Http\ViewComposers\ViewComposer@search_page'
         );
+
+        view()->composer(
+            'layouts.client.menumobile',
+            'App\Http\ViewComposers\ViewComposer@socials'
+        );
     }
 }

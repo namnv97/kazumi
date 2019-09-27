@@ -163,7 +163,7 @@ class OptionController extends Controller
         endif;
 
 
-        $socials = $request->only(['facebook','instagram','google','pinterest']);
+        $socials = $request->only(['facebook','instagram','twitter','pinterest']);
         foreach($socials as $key => $value):
             $op = Option::where('meta_key',$key)->first();
             if(!empty($op)):

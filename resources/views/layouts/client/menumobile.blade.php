@@ -36,10 +36,10 @@
 					</div>
 				</div>
 				<div class="social-menu-xs">
-					<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-					<a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-					<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-					<a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+					<a href="{{$facebook}}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="{{$instagram}}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+					<a href="{{$twitter}}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+					<a href="{{$pinterest}}"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
 				</div>
 			</div>
 

@@ -153,6 +153,19 @@ class ViewComposer
 
     }
 
+    public function socials(View $view)
+    {
+        $arr = ['facebook','instagram','twitter','pinterest'];
+        foreach($arr as $ar):
+            $$ar = Option::where('meta_key',$ar)->first();
+            if(!empty($$ar)):
+                $view->with($ar,$$ar->meta_value);
+            else:
+                $view->with($ar,'');
+            endif;
+        endforeach;
+    }
+
 
 
 
