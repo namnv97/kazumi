@@ -130,6 +130,6 @@ class UserController extends Controller
     public function delete($id)
     {
     	$user = User::find($id);
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.user.index');
     }
 }
