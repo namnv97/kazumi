@@ -16,6 +16,7 @@ use App\Model\Roles;
 use App\Model\User;
 use App\Model\Reward;
 use App\Model\RoleUser;
+use App\Model\UserTier;
 
 
 class UserController extends Controller
