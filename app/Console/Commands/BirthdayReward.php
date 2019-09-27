@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\Model\User;
 use \Carbon\Carbon;
+use App\Model\Reward;
 
 use Mail;
 
