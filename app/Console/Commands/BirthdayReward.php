@@ -7,6 +7,8 @@ use Illuminate\Console\Command;
 use App\Model\User;
 use \Carbon\Carbon;
 
+use Mail;
+
 class BirthdayReward extends Command
 {
     /**
@@ -46,7 +48,13 @@ class BirthdayReward extends Command
         ->get();
         if($users->count() > 0):
             foreach($users as $user):
-                echo $user->name;
+                Mail::send('mail.cronjob',[], 
+                    function($message) use ($user){
+                        $message
+                        ->from('admin@127.0.0.1', 'Administrator')
+                        ->subject('Test Cronjob')
+                        ->to($user->email);
+                    });
             endforeach;
         endif;
     }

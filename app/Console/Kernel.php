@@ -30,8 +30,7 @@ class Kernel extends ConsoleKernel
 
 
         $schedule->command('birthday:reward')
-            ->everyMinute()
-            ->appendOutputTo('C:\inspire.txt');
+            ->everyMinute();
 
         $schedule->command('report:summary')->withoutOverlapping();
 
