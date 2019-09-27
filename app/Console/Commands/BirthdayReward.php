@@ -48,13 +48,13 @@ class BirthdayReward extends Command
         ->get();
         if($users->count() > 0):
             foreach($users as $user):
-                Mail::send('mail.cronjob',[], 
-                    function($message) use ($user){
-                        $message
-                        ->from('admin@127.0.0.1', 'Administrator')
-                        ->subject('Test Cronjob')
-                        ->to($user->email);
-                    });
+                $reward = new Reward;
+                $reward->user_id = $user->id;
+                $reward->action = "Chúc mừng sinh nhật";
+                $reward->point = 500;
+                $reward->status = 'approved';
+                $reward->save();
+                unset($reward);
             endforeach;
         endif;
     }
