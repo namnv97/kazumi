@@ -48,6 +48,7 @@ class BirthdayReward extends Command
         ->get();
         if($users->count() > 0):
             foreach($users as $user):
+                echo $user->email;
                 Mail::send('mail.cronjob',[], 
                     function($message) use ($user){
                         $message
