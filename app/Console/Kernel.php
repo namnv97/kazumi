@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
 
 
         $schedule->command('birthday:reward')
-            ->everyMinute();
+            ->everyFiveMinutes();
 
         $schedule->command('report:summary')->withoutOverlapping();
 
