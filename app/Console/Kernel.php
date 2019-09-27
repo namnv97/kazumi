@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
 
 
         $schedule->command('birthday:reward')
-            ->dailyAt('13:00');
+            ->dailyAt('00:01');
 
         $schedule->command('report:summary')->withoutOverlapping();
 
