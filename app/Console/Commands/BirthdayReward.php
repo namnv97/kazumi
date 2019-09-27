@@ -44,7 +44,7 @@ class BirthdayReward extends Command
     {
         $date = date('Y-m-d');
 
-        $users = User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT(now(),'%m-%d')")
+        $users = User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT('$date','%m-%d')")
         ->get();
         dd(User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT(now(),'%m-%d')")->toSql());
         if($users->count() > 0):
