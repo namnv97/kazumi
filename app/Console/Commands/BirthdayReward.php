@@ -46,7 +46,8 @@ class BirthdayReward extends Command
 
         $users = User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT('$date','%m-%d')")
         ->get();
-        dd(User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT(now(),'%m-%d')")->toSql());
+        echo User::whereRaw("DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT('$date','%m-%d')")->toSql();
+        dd($users);
         if($users->count() > 0):
             foreach($users as $user):
                 echo $user->email;
