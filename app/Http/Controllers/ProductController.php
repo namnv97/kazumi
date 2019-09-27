@@ -10,7 +10,7 @@ use App\Model\Product;
 use App\Model\Rating;
 use App\Model\Option;
 use App\Model\Essential;
-
+use App\Model\History_reward;
 use DB;
 use Auth;
 
@@ -95,6 +95,14 @@ class ProductController extends Controller
     {
         $req = $request->except('_token');
 
+        $chk = Rating::where([
+            ['user_id',Auth::user()->id],
+            ['product_id',$request->id]
+        ])
+        ->first();
+
+        if(!empty($chk)) return;
+
         $rate = new Rating();
         $rate->user_id = Auth::user()->id;
         $rate->product_id =  $request->id;
@@ -102,6 +110,15 @@ class ProductController extends Controller
         $rate->comment = $request->review_content;
         $rate->rate_star = $request->rate_star;
         $rate->save();
+
+        $product = Product::find($request->id);
+
+        $reward = new History_reward();
+        $reward->user_id = Auth::user()->id;
+        $reward->action = 'Bình luận bài viết <a href="'.route('client.product.index',['slug' => $product->slug]).'" style="color: blue;" target="_blank">'.$product->name.'</a>';
+        $reward->point = 100;
+        $reward->status = 'approved';
+        $reward->save();
 
         $rating = Rating::leftJoin('users','users.id','rating.user_id')
         ->select('rating.*','users.name as name')

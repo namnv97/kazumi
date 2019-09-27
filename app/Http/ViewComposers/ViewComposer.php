@@ -9,6 +9,7 @@ use App\Model\Product;
 use App\Model\Pack;
 use App\Model\Color;
 use App\Model\Cart;
+use App\Model\Rating;
 
 class ViewComposer
 {
@@ -139,6 +140,9 @@ class ViewComposer
         $carts = Cart::where('status',0)->get();
         $order_pending = count($carts);
         $view->with('order_pending',$order_pending);
+
+        $rates = Rating::where('status','pending')->get();
+        $view->with('rate_pending',$rates->count());
     }
 
 

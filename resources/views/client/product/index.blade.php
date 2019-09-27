@@ -162,6 +162,7 @@
 						<div class="ProductMeta">
 							<h1 class="tit-product">{{$product->name}}</h1>
 							<div class="title-views">
+								@if($rating->total() > 0)
 								<div>
 									<i class="fa fa-star" aria-hidden="true"></i>
 									<i class="fa fa-star" aria-hidden="true"></i>
@@ -169,7 +170,8 @@
 									<i class="fa fa-star" aria-hidden="true"></i>
 									<i class="fa fa-star" aria-hidden="true"></i>
 								</div>
-								<span>111 đánh giá</span>
+								<span>{{$rating->total()}} đánh giá</span>
+								@endif
 							</div>
 							<div>
 								<div class="pack">

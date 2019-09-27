@@ -25,7 +25,26 @@
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('.btn-follow-instagram').on('click',function(){
-			window.open('//localhost:8000');
+			
+			jQuery.ajax({
+				url: '{{route('client.account.followinstagram')}}',
+				type: 'get',
+				dataType: 'json',
+				beforeSend: function(){
+					window.open('{{$instagram->meta_value}}');
+				},
+				success: function(res){
+					if(res.status == 'success')
+					{
+						setTimeout(function(){
+							jQuery('#myModal-account .modal-content .modal-body').html('Cảm ơn bạn đã theo dõi chúng tôi');
+						},2000);
+					}
+				},
+				errors: function(errors){
+					console.log(errors);
+				}
+			});
 		})
 	});
 </script>

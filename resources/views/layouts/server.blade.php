@@ -148,6 +148,17 @@
                   @endif
                 </a>
             </li>
+            <li class="{{(request()->is('admin/rates*'))?'active':FALSE}}">
+                <a href="{{route('admin.rates.index')}}">
+                    <i class="fa fa-comment"></i>
+                    <span>Đánh giá sản phẩm</span>
+                    @if($rate_pending > 0)
+                        <span class="pull-right-container">
+                            <span class="label label-primary pull-right">{{$rate_pending}}</span>
+                      </span>
+                      @endif
+                </a>
+            </li>
             <li class="treeview {{(request()->is('admin/articles*'))?'active':FALSE}}">
                 <a href="{{route('admin.articles.index')}}">
                     <i class="fa fa-paste"></i>

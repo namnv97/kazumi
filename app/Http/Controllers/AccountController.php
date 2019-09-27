@@ -364,6 +364,11 @@ class AccountController extends Controller
         $key_code = $request->key_code;
 
         $earn = Earn_point::where('key_code',$key_code)->first();
+        if($key_code == 'instagram')
+        {
+            $instagram = Option::where('meta_key','instagram')->first();
+            return view('client.account.earn_part',compact('earn','instagram'));
+        }
 
         return view('client.account.earn_part',compact('earn'));
     }
@@ -385,17 +390,27 @@ class AccountController extends Controller
 
         $date = $now->diffInDays($next_bd);
 
-        return response()->json(['status' => 'success','msg' => '<p>Saved! Bạn sẽ nhận được '.$earn->point.' điểm sau '.$date.' ngày</p>']);
+        $msg = ($date > 0)?'<p>Saved! Bạn sẽ nhận được '.$earn->point.' điểm sau '.$date.' ngày</p>':'Chúc mừng sinh nhật';
+
+        return response()->json(['status' => 'success','msg' => $msg]);
     }
 
 
     public function signup_point()
     {
+        $chk = History_reward::where([
+            ['action','Đăng ký Email'],
+            ['user_id',Auth::user()->id]
+        ])
+        ->first();
+        if(!empty($chk)):
+            return response()->json(['status' => 'errors','msg' => 'Bạn đã nhận  phần thưởng này. Xin cảm ơn']);
+        endif;
         $earn = Earn_point::where('key_code','signup')->first();
         $reward = new History_reward();
         $reward->user_id = Auth::user()->id;
         $reward->point = $earn->point;
-        $reward->action = "Đăng ký Email";
+        $reward->action = $earn->title;
         $reward->status = 'approved';
         $reward->save();
 
@@ -417,11 +432,19 @@ class AccountController extends Controller
 
     public function likefacebook()
     {
+        $chk = History_reward::where([
+            ['action','Like trang Facebook'],
+            ['user_id',Auth::user()->id]
+        ])
+        ->first();
+        if(!empty($chk)):
+            return response()->json(['status' => 'errors','msg' => 'Bạn đã nhận  phần thưởng này. Xin cảm ơn']);
+        endif;
         $earn = Earn_point::where('key_code','facebook')->first();
         $reward = new Reward();
         $reward->user_id = Auth::user()->id;
         $reward->point = $earn->point;
-        $reward->action = 'Like trang Facebook';
+        $reward->action = $earn->title;
         $reward->status = 'approved';
         $reward->save();
 
@@ -429,8 +452,35 @@ class AccountController extends Controller
         $user->point_reward += $earn->point;
         $user->save();
 
-        return response()->json(['status' => 'success','msg' => 'Thành công']);
+        return response()->json(['status' => 'success','msg' => 'Cảm ơn bạn đã thích chúng tôi trên Facebook']);
     }
+
+    public function followinstagram()
+    {
+        $chk = History_reward::where([
+            ['action','Theo dõi Instagram'],
+            ['user_id',Auth::user()->id]
+        ])
+        ->first();
+        if(!empty($chk)):
+            return response()->json(['status' => 'errors','msg' => 'Bạn đã nhận  phần thưởng này. Xin cảm ơn']);
+        endif;
+        $earn = Earn_point::where('key_code','instagram')->first();
+        $reward = new Reward();
+        $reward->user_id = Auth::user()->id;
+        $reward->point = $earn->point;
+        $reward->action = $earn->title;
+        $reward->status = 'approved';
+        $reward->save();
+
+        $user = User::find(Auth::user()->id);
+        $user->point_reward += $earn->point;
+        $user->save();
+
+        return response()->json(['status' => 'success','msg' => 'Cảm ơn bạn đã theo dõi chúng tôi']);
+    }
+
+
 
     public function generate_voucher(Request $request)
     {

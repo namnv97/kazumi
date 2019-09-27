@@ -280,7 +280,8 @@ class CartController extends Controller
         endif;
 
         if(!empty($request->voucher_code)):
-            $vc = Voucher::where(['code',$request->voucher_code])->first();
+            $vc = Voucher::where('code',$request->voucher_code)->first();
+            $req['voucher_id'] = $vc->id;
             $vc->status = 0;
             $vc->save();
         endif;

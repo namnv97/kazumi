@@ -35,6 +35,13 @@
 			</td>
 		</tr>
 		@endif
+		@if(!empty($cart->voucher_id))
+		<tr>
+			<td colspan="6" class="text-center">
+				Giảm giá : <strong>-{{number_format($cart->get_voucher()->discount_value)}}{{($cart->get_voucher()->type == 'percent')?'%':'VNĐ'}}</strong>
+			</td>
+		</tr>
+		@endif
 		<tr>
 			<td colspan="6" class="text-center">
 				Tổng cộng : <strong>{{number_format($cart->total)}}VNĐ</strong>

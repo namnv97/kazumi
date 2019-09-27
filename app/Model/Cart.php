@@ -17,4 +17,9 @@ class Cart extends Model
     {
     	return $this->belongsTo('App\Model\Discount','discount_id','id')->first();
     }
+
+    public function get_voucher()
+    {
+    	return $this->belongsTo('App\Model\Voucher','voucher_id','id')->first();
+    }
 }

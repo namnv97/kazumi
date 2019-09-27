@@ -22,7 +22,7 @@ class OptionController extends Controller
 {
     public function index()
     {
-        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','result_default','afshipping','af_content'];
+        $arr = ['logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','result_default','afshipping','af_content','facebook','instagram','google','pinterest'];
         foreach($arr as $ar):
             $$ar = Option::where('meta_key',$ar)->first();
         endforeach;
@@ -32,7 +32,7 @@ class OptionController extends Controller
 
         $af_attr = Option::where('meta_key','af_attr')->get();
 
-    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr','products','result_default','afshipping','af_content','af_attr'));
+    	return view('server.option.index',compact('logo','product_shipping','banner_collection','suggest_collection','reward_help','code_percent','lash_title','lash_title_video','lash_youtube','lash_result_title','lash_attr','products','result_default','afshipping','af_content','af_attr','facebook','instagram','google','pinterest'));
     }
 
     public function postIndex(StoreOptionIndex $request)
@@ -161,6 +161,21 @@ class OptionController extends Controller
                 $op->save();
             endforeach;
         endif;
+
+
+        $socials = $request->only(['facebook','instagram','google','pinterest']);
+        foreach($socials as $key => $value):
+            $op = Option::where('meta_key',$key)->first();
+            if(!empty($op)):
+                $op->meta_value = $value;
+            else:
+                $op = new Option();
+                $op->meta_key = $key;
+                $op->meta_value = $value;
+            endif;
+            $op->save();
+            unset($op);
+        endforeach;
 
 
 		return redirect()->route('admin.options.index')->with('msg','Các thiết lập đã được lưu');

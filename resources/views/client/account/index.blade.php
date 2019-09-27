@@ -8,6 +8,21 @@ Tài khoản
 	{
 		display: none;
 	}
+
+	.alert
+	{
+		position: relative;
+	}
+
+	.alert>i.fa-times
+	{
+		position: absolute;
+		top: 2px;
+		right: 2px;
+		cursor: pointer;
+		color: #fff;
+		padding: 3px;
+	}
 	@media(max-width: 991px)
 	{
 		.table thead
@@ -29,6 +44,8 @@ Tài khoản
 		{
 			padding-top: 30vh;
 		}
+
+		
 	}
 </style>
 @endsection
@@ -46,6 +63,12 @@ Tài khoản
 			<h1 class="title-large">TÀI KHOẢN CỦA TÔI</h1>
 			<p>Chào mừng quay lại, <a href="{{route('client.account.profile')}}">{{$user->name}}!</a></p>
 		</div>
+		@if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == route('client.checkout',['step' => 'payment']))
+		<div class="alert alert-success">
+			<i class="fa fa-times"></i>
+			<p>Đặt hàng thành công. Chúng tôi sẽ xác nhận và lên đơn sớm cho bạn</p>
+		</div>
+		@endif
 		<div class="row">
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="PageLayout__Section Account__Main">
@@ -165,6 +188,10 @@ Tài khoản
 				}
 			});
 
+		});
+
+		jQuery('body').on('click','i.fa-times',function(){
+			jQuery(this).parent().remove();
 		});
 	});
 </script>

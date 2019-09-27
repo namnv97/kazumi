@@ -111,13 +111,17 @@ Quản lý đơn hàng
 					<input type="text" name="phone" class="form-control" placeholder="Số điện thoại" value="{{$cart->phone}}">
 				</div>
 				<div class="form-group">
+					<label>Trạng thái thanh toán</label>
+					<select name="payment_status" class="form-control">
+						<option value="0" {{($cart->payment_status == 0)?'selected':FALSE}}>Chưa thanh toán</option>
+						<option value="1" {{($cart->payment_status == 1)?'selected':FALSE}}>Đã thanh toán</option>
+					</select>
+				</div>
+				<div class="form-group">
 					<label>Trạng thái đơn hàng</label>
 					@if(in_array($cart->status,['3,4']) )
 					@php
 					$arr = [
-					0 => 'Chờ duyệt',
-					1 => 'Chờ giao hàng',
-					2 => 'Đang giao hàng',
 					3 => 'Giao hàng thành công',
 					4 => 'Đơn hàng bị hủy'
 					]; 

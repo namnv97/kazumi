@@ -17,7 +17,7 @@
 					<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-date">
 						<strong>Ngày :&ensp;</strong>{{\Carbon\Carbon::parse($reward->created_at)->format('d/m/Y')}}</td>
 					<td data-i18n-key="ui.general.activity" class="lion-customer-history-table__row-cell"><strong>Kiểu :&ensp;</strong>Activity</td>
-					<td class="lion-customer-history-table__row-cell"><strong>Hành động :&ensp;</strong>{{$reward->action}}</td>
+					<td class="lion-customer-history-table__row-cell"><strong>Hành động :&ensp;</strong>{!! $reward->action !!}</td>
 					<td class="lion-customer-history-table__row-cell"><strong>Điểm :&ensp;</strong>{{$reward->point}}</td>
 					<td class="lion-customer-history-table__row-cell lion-customer-history-table__row-status">
 						<strong>Trạng thái :&ensp;</strong>

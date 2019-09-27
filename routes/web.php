@@ -218,6 +218,12 @@ Route::group(['prefix' => 'admin','namespace' => 'admin','middleware' => 'auth.a
 		Route::delete('/delete','LashGuideController@delete')->name('admin.lashguide.delete');
 	});
 
+	Route::group(['prefix' => 'rates'],function(){
+		Route::get('/','RatingController@index')->name('admin.rates.index');
+		Route::post('/edit','RatingController@postEdit')->name('admin.rates.edit');
+		Route::delete('/delete','RatingController@delete')->name('admin.rates.delete');
+	});
+
 });
 
 
@@ -297,5 +303,6 @@ Route::get('/get_part_point','AccountController@get_earn_point_part')->middlewar
 Route::post('/update_birthday','AccountController@update_birthday')->middleware('auth')->name('client.account.birthday');
 Route::get('/signup_point','AccountController@signup_point')->middleware('auth')->name('client.account.signup');
 Route::get('/likefacebook','AccountController@likefacebook')->middleware('auth')->name('client.account.likefacebook');
+Route::get('/followinstagram','AccountController@followinstagram')->middleware('auth')->name('client.account.followinstagram');
 
 Route::get('/','HomeController@index')->name('home');

@@ -181,6 +181,7 @@ Thiết lập chung
 					<li><a data-toggle="tab" href="#reward_help">Trang điểm thưởng</a></li>
 					<li><a data-toggle="tab" href="#lash_result">Lash Guide</a></li>
 					<li><a data-toggle="tab" href="#after_product">Sau nút đặt hàng</a></li>
+					<li><a data-toggle="tab" href="#socials">Mạng xã hội</a></li>
 				</ul>
 
 				<div class="tab-content">
@@ -341,8 +342,25 @@ Thiết lập chung
 							<textarea name="af_content" rows="10" class="form-control" style="resize: none;">{{(!empty($af_content))?$af_content->meta_value:FALSE}}</textarea>
 						</div>
 					</div>
+					<div id="socials" class="tab-pane fade">
+						<div class="form-group">
+							<label>Link Facebook</label>
+							<input type="text" name="facebook" class="form-control" placeholder="Link Facebook" value="{{(!empty($facebook))?$facebook->meta_value:FALSE}}">
+						</div>
+						<div class="form-group">
+							<label>Link Instagram</label>
+							<input type="text" name="instagram" class="form-control" placeholder="Link Instagram" value="{{(!empty($instagram))?$instagram->meta_value:FALSE}}">
+						</div>
+						<div class="form-group">
+							<label>Link Google</label>
+							<input type="text" name="google" class="form-control" placeholder="Link Google" value="{{(!empty($google))?$google->meta_value:FALSE}}">
+						</div>
+						<div class="form-group">
+							<label>Link Pinterest</label>
+							<input type="text" name="pinterest" class="form-control" placeholder="Link Pinterest" value="{{(!empty($pinterest))?$pinterest->meta_value:FALSE}}">
+						</div>
+					</div>
 				</div>
-				
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<div class="form-group text-center">
