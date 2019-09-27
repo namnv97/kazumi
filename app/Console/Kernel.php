@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('birthday:reward')
             ->everyMinute()
-            ->appendOutputTo('C:\inspire.txt');
+            ->appendOutputTo(public_path().'/cronjob.txt');
 
         $schedule->command('report:summary')->withoutOverlapping();
 
