@@ -47,7 +47,7 @@ class UserController extends Controller
     	$user->password = Hash::make($request->password);
         $ref = strtoupper(str_random(10));
         $user->refferal_code = $ref;
-        $user->link = $this->bitly(route('home',['ref' => $ref]));
+        $user->short_link = $this->bitly(route('home',['ref' => $ref]));
     	$user->point_reward = 100;
     	$user->save();
 

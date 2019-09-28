@@ -118,7 +118,7 @@ class AccountController extends Controller
         $user->point_reward = 100;
         $ref = strtoupper(str_random(10));
         $user->refferal_code = $ref;
-        $user->link = $this->bitly(route('home',['ref' => $ref]));
+        $user->short_link = $this->bitly(route('home',['ref' => $ref]));
         $user->password = Hash::make($rq->password);
         $user->save();
 
