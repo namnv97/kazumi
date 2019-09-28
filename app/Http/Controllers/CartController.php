@@ -17,6 +17,7 @@ use App\Model\User;
 use App\Model\Voucher;
 use App\Model\UserRef;
 
+use DB;
 use Auth;
 
 class CartController extends Controller
