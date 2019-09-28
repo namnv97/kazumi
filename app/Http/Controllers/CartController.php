@@ -20,6 +20,10 @@ use Auth;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        \Carbon\Carbon::setLocale('vi_VN');
+    }
     public function index(Request $request){
         $cok = $request->cookie('cart_item');
         $arr = [];
@@ -230,8 +234,6 @@ class CartController extends Controller
 
         $end = \Carbon\Carbon::parse($discount->date_end)->format('U');
         $time = \Carbon\Carbon::now()->format('U');
-
-        echo $time.' - '.$end;
 
         if($time > $end) return response()->json(['status' => 'errors','msg' => 'Mã giảm giá đã hết hạn. Vui lòng sử dụng mã hợp lệ']);
 
