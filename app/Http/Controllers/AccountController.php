@@ -231,6 +231,7 @@ class AccountController extends Controller
         $cart = Cart::where('user_id',$user->id)->select(DB::raw("CONCAT(first_name,' ',last_name) as fullname,CONCAT(address1,', ',address2,', ',city) as address"),'carts.*')->orderBy('created_at','desc')->get();
 
 
+
         return view('client.account.index',compact('user','cart'));
     }
 

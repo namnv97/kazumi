@@ -318,13 +318,13 @@ class CartController extends Controller
         if($userref->status == 1):
             $money = Cart::select(DB::raw("SUM(total) as total_money"),'user_id')->where('user_id',Auth::user()->id)->first();
             if(intval($money->total_money) > 3000000):
-                $userref->status = 0;
+                $userref->status = '0';
                 $userref->save();
 
                 $reward = new Reward();
                 $reward->user_id = $userref->user_ori()->id;
                 $reward->action = "Người dùng ".$user->name." tổng thanh toán trên 3.000.000 VNĐ.";
-                $reward->point = 3000;
+                $reward->point = '3000';
                 $reward->status = 'approved';
                 $reward->save();
             endif;

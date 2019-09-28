@@ -57,7 +57,7 @@ Bộ Sưu Tập | {{$collection->name}}
 				</div>
 				<div class="CollectionToolbar">
 					<div class="CollectionToolbar__Group">
-						<button class="CollectionToolbar__Item CollectionToolbar__Item--filter">Lọc </button>
+						<!-- <button class="CollectionToolbar__Item CollectionToolbar__Item--filter">Lọc </button> -->
               			<button class="CollectionToolbar__Item CollectionToolbar__Item--sort" >Sắp xếp theo <i class="fa fa-angle-down" aria-hidden="true"></i></button>
               		</div>
               		<div class="CollectionToolbar__Item--layout">
