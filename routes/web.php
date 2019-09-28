@@ -285,7 +285,7 @@ Route::get('collection/{slug}','HomeController@getCollection')->name('client.col
 Route::post('search','HomeController@getSearch')->name('client.search');
 Route::get('search','HomeController@search')->name('client.search');
 
-Route::get('/news','ArticleCOntroller@archive')->name('client.articles.archive');
+Route::get('/news','ArticleController@archive')->name('client.articles.archive');
 
 Route::get('/post/{slug?}','ArticleController@article')->name('client.articles.single');
 
