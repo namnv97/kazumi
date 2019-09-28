@@ -317,7 +317,7 @@ class CartController extends Controller
         $userref = UserRef::where('user_ref',Auth::user()->id)->first();
         if($userref->status == 1):
             $money = Cart::select(DB::raw("SUM(total) as total_money"),'user_id')->where('user_id',Auth::user()->id)->first();
-            if(intval($meny->total_money) > 3000000):
+            if(intval($money->total_money) > 3000000):
                 $userref->status = 0;
                 $userref->save();
 
