@@ -15,6 +15,7 @@ use App\Model\CartItem;
 use App\Model\Reward;
 use App\Model\User;
 use App\Model\Voucher;
+use App\Model\UserRef;
 
 use Auth;
 
