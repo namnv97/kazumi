@@ -308,6 +308,22 @@ class CartController extends Controller
         $user->point_reward += floor($request->total/2000);
         $user->save();
 
+        $userref = UserRef::where('user_ref',Auth::user()->id)->first();
+        if($userref->status == 1):
+            $money = Cart::select(DB::raw("SUM(total) as total_money"),'user_id')->where('user_id',Auth::user()->id)->first();
+            if(intval($meny->total_money) > 3000000):
+                $userref->status = 0;
+                $userref->save();
+
+                $reward = new Reward();
+                $reward->user_id = $userred->user_ori()->id;
+                $reward->action = "Người dùng ".$user->name." tổng thanh toán trên 3.000.000 VNĐ.";
+                $reward->point = 3000;
+                $reward->status = 'approved';
+                $reward->save();
+            endif;
+        endif;
+
 
         $cart_item = $request->cookie('cart_item');
 
