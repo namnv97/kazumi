@@ -213,4 +213,11 @@ Trang chủ
 
 @endsection
 @section('script')
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		@if(isset(request()->ref) && !empty(request()->ref))
+		localStorage.setItem('refferal_code','{{request()->ref}}');
+		@endif
+	});
+</script>
 @endsection

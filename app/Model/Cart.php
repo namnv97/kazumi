@@ -22,4 +22,9 @@ class Cart extends Model
     {
     	return $this->belongsTo('App\Model\Voucher','voucher_id','id')->first();
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Model\User','user_id','id')->first();
+    }
 }

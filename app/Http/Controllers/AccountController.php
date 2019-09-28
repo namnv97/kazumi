@@ -24,6 +24,7 @@ use App\Model\Cart;
 use App\Model\CartItem;
 use App\Model\RegisterMail;
 use App\Model\Voucher;
+use App\Model\UserRef;
 
 use Auth;
 use Validator;
@@ -139,7 +140,17 @@ class AccountController extends Controller
         $tier->tier_id = 1;
         $tier->save();
 
-        return redirect()->route('login',['href' => request()->href])->with('success','Đăng ký thàng công!');
+        if(isset($rq->refferal_code)):
+            $us = User::where('refferal_code',$rq->refferal_code)->first();
+            if(!empty($us)):
+                $reff = new UserRef();
+                $reff->user_id = $us->id;
+                $reff->user_ref = $user->id;
+                $reff->save();
+            endif;
+        endif;
+
+        return redirect()->route('login',['href' => request()->href])->with(['success'=>'Đăng ký thàng công!','msg_ref' => true]);
 
     }
 

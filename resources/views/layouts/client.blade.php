@@ -16,10 +16,10 @@
 	<link rel="stylesheet" href="{{asset('/assets/client/css/style.css')}}">
 	<script src="{{asset('/assets/client/js/wow.min.js')}}"></script>
 	<script type="text/javascript">
-        new WOW().init();
-    </script>
-    
-    @yield('css')
+		new WOW().init();
+	</script>
+
+	@yield('css')
 </head>
 <body>
 	@include('layouts.client.header')
@@ -27,6 +27,9 @@
 	@include('layouts.client.footer')
 	@include('layouts.client.cart')
 	@include('layouts.client.search')
+	<a href="javascript:" id="return-to-top">
+		<i class="fa fa-caret-up"></i>
+	</a>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-1.9.1.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/jquery-ui.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('/assets/client/js/bootstrap.min.js')}}"></script>
@@ -217,75 +220,81 @@
 
 					})
 				},1000);
-			})
+			});
 
-		});
-		jQuery('.form-register button').on('click',function(){
-			jQuery(this).parent().find('.errors').remove();
-			var email = jQuery(this).prev().val();
-			var err = 0;
-			if(email.length == 0)
-			{
-				jQuery(this).before('<p class="errors">Vui lòng nhập Email của bạn</p>');
-				err ++;
-			}
-			else
-			{
-				var regexEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-				if(!regexEmail.test(email))
+			jQuery('.form-register button').on('click',function(){
+				jQuery(this).parent().find('.errors').remove();
+				var email = jQuery(this).prev().val();
+				var err = 0;
+				if(email.length == 0)
 				{
-					jQuery(this).before('<p class="errors">Vui lòng kiểm tra định dạng Email</p>');
+					jQuery(this).before('<p class="errors">Vui lòng nhập Email của bạn</p>');
 					err ++;
 				}
-			}
-
-			if(err == 0)
-			{
-				var xd;
-				jQuery.ajax({
-					headers: {
-						'X-CSRF-TOKEN': '{{ csrf_token() }}',
-					},
-					url: '{{route('client.form.data')}}',
-					type: 'post',
-					dataType: 'json',
-					data: {
-						email: email,
-						form_name: 'register'
-					},
-					beforeSend: function(){
-						jQuery('.form-register .ajax-loaded').css('opacity',1);
-						var i = 0;
-						xd = setInterval(function(){
-							jQuery('.form-register .ajax-loaded').css('width',parseInt(i)+'%');
-							i++;
-							if(i > 90) clearInterval(xd);
-						},10);
-					},
-					success: function(res){
-						console.log(res);
-						clearInterval(xd);
-						jQuery('.form-register .ajax-loaded').css('width','100%');
-						setTimeout(function(){
-							jQuery('.form-register .ajax-loaded').css('width','0');
-							jQuery('.form-register .ajax-loaded').css('opacity',0);
-						},300);
-
-						jQuery('.form-register .response .text').text(res.msg);
-						jQuery('.form-register .response').addClass(res.status);
-						jQuery('.form-register .response').addClass('active');
-					},
-					errors: function(errors){
-						console.log(errors);
+				else
+				{
+					var regexEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+					if(!regexEmail.test(email))
+					{
+						jQuery(this).before('<p class="errors">Vui lòng kiểm tra định dạng Email</p>');
+						err ++;
 					}
-				})
-			}
+				}
+
+				if(err == 0)
+				{
+					var xd;
+					jQuery.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}',
+						},
+						url: '{{route('client.form.data')}}',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							email: email,
+							form_name: 'register'
+						},
+						beforeSend: function(){
+							jQuery('.form-register .ajax-loaded').css('opacity',1);
+							var i = 0;
+							xd = setInterval(function(){
+								jQuery('.form-register .ajax-loaded').css('width',parseInt(i)+'%');
+								i++;
+								if(i > 90) clearInterval(xd);
+							},10);
+						},
+						success: function(res){
+							console.log(res);
+							clearInterval(xd);
+							jQuery('.form-register .ajax-loaded').css('width','100%');
+							setTimeout(function(){
+								jQuery('.form-register .ajax-loaded').css('width','0');
+								jQuery('.form-register .ajax-loaded').css('opacity',0);
+							},300);
+
+							jQuery('.form-register .response .text').text(res.msg);
+							jQuery('.form-register .response').addClass(res.status);
+							jQuery('.form-register .response').addClass('active');
+						},
+						errors: function(errors){
+							console.log(errors);
+						}
+					})
+				}
+			});
+
+			jQuery('.form-register .response i').on('click',function(){
+				jQuery('.form-register .response').removeClass('success').removeClass('errors').removeClass('active');
+				jQuery('.form-register .response .text').html('');
+			});
+
+			@if(session('msg_ref') && session('msg_ref') == true)
+				localStorage.removeItem('refferal_code');
+			@endif
+
 		});
 
-		jQuery('.form-register .response i').on('click',function(){
-			jQuery('.form-register .response').removeClass('success').removeClass('errors').removeClass('active');
-			jQuery('.form-register .response .text').html('');
-		});
 	</script>
 	@yield('script')
 </body>

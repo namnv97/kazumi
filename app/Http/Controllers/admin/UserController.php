@@ -88,7 +88,7 @@ class UserController extends Controller
 
         $arr_result = json_decode(curl_exec($ch));
         if(isset($arr_result->link)) return $arr_result->link;
-        return null
+        return null;
     }
     
     public function getUser(Request $request)

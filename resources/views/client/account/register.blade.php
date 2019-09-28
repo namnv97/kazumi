@@ -48,5 +48,13 @@
 </div>
 @endsection
 @section('script')
-	
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			var refferal_code = localStorage.getItem('refferal_code');
+			if(refferal_code != null)
+			{
+				jQuery('form').append('<input type="hidden" name="refferal_code" value="'+refferal_code+'">');
+			}
+		});
+	</script>
 @endsection
