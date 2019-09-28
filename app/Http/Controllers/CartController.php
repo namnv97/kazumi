@@ -229,7 +229,7 @@ class CartController extends Controller
         ->first();
 
         $end = \Carbon\Carbon::parse($discount->date_end)->format('U');
-        $time = time();
+        $time = Carbon::now()->format('U');
 
         echo $time.' - '.$end;
 
