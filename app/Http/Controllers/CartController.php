@@ -322,7 +322,7 @@ class CartController extends Controller
                 $userref->save();
 
                 $reward = new Reward();
-                $reward->user_id = $userred->user_ori()->id;
+                $reward->user_id = $userref->user_ori()->id;
                 $reward->action = "Người dùng ".$user->name." tổng thanh toán trên 3.000.000 VNĐ.";
                 $reward->point = 3000;
                 $reward->status = 'approved';
