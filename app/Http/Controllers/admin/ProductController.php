@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('created_at','desc')->paginate(10);
+        $products = Product::where('status',1)->orderBy('created_at','desc')->paginate(10);
     	return view('server.product.index',compact('products'));
     }
 
@@ -361,9 +361,11 @@ class ProductController extends Controller
 
     public function delete($id = null)
     {
-    	// $product = Product::find($id);
+    	$product = Product::find($id);
 
-     //    $product->delete();
+        $product->status = 0;
+
+        $product->save();
 
         return redirect()->route('admin.products.index')->with('msg_del','Sản phẩm đã xóa ');
     }

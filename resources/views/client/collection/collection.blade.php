@@ -18,7 +18,7 @@ Bộ Sưu Tập | {{$collection->name}}
 			<div class="col-product">
 				<div class="list-pro p-35">
 					<div class="container-fluid">
-						<div class="row">
+						<div class="row clear3n1">
 							@foreach($products as $key => $value)
 							<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 col-pro">
 								<div class="product-item wow fadeInUp">

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Model\User;
+use App\Model\Product;
+use App\Model\Article;
+
+
 use Auth;
 
 class AdminController extends Controller
@@ -13,8 +17,8 @@ class AdminController extends Controller
 	public $_data = [];
 
     public function index(){
-    	$user = User::find(Auth::user()->id);
-    	$this->_data['user'] = $user;
-    	return view('server.index',$this->_data);
+    	$product = Product::where('status','<>',0)->count();
+    	$article = Article::all()->count();
+    	return view('server.index',compact('product','article'));
     }
 }

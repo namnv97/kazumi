@@ -11,6 +11,12 @@ use App\Model\Article;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        \Carbon\Carbon::setLocale('vi_VN');
+    }
+
+
     public function archive()
     {
     	$articles = Article::orderBy('created_at','desc')->paginate(12);

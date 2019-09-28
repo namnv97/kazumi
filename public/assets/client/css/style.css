@@ -4578,3 +4578,7 @@ footer{
         order: unset !important;
     }
 }
+.clear3n1>div.col-lg-4:nth-child(3n+1)
+{
+    clear: both;
+}

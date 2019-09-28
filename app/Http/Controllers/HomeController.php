@@ -127,25 +127,22 @@ class HomeController extends Controller
         $products = $products->orderBy('products.name','DESC');
 
         if(isset($rq->sort_by) && $rq->sort_by == 'price_asc')
-        $products = $products->orderBy('ninh');
+        $products = $products->orderBy('price','asc');
         if(isset($rq->sort_by) && $rq->sort_by == 'price_desc')
-        $products = $products->orderBy('ninh','DESC');
+        $products = $products->orderBy('price','DESC');
        
        
         if(isset($rq->sort_by) && $rq->sort_by == 'date_asc')
         $products = $products->orderBy('products.created_at','ASC');
         if(isset($rq->sort_by) && $rq->sort_by == 'date_asc')
         $products = $products->orderBy('products.created_at','DESC');
-
-        $products = $products->get();
-
-        $ninh = Product::join('packs', 'products.id', '=', 'packs.product_id')
-                        ->join('cart_items', 'cart_items.pack_id', '=', 'packs.id')
-                        ->select('products.*', DB::raw('SUM(quantity) as total'))->groupBy('pack_id');
-
         
         if(isset($rq->sort_by) && $rq->sort_by == 'best-selling')
-        $products = $ninh->orderBy('total','DESC')->get();
+            $products = $products->join('cart_items', 'cart_items.pack_id', '=', 'packs.id')
+                        ->select('products.*', DB::raw('SUM(quantity) as total'))
+                        ->groupBy('pack_id')
+                        ->orderBy('total','DESC');
+        $products = $products->get();
 
     
        

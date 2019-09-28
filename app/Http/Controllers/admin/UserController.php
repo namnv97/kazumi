@@ -45,7 +45,9 @@ class UserController extends Controller
     	$user->name = $request->name;
     	$user->email = $request->email;
     	$user->password = Hash::make($request->password);
-        $user->refferal_code = str_random(10);
+        $ref = strtoupper(str_random(10));
+        $user->refferal_code = $ref;
+        $user->link = $this->bitly(route('home',['ref' => $ref]));
     	$user->point_reward = 100;
     	$user->save();
 
@@ -73,6 +75,22 @@ class UserController extends Controller
 
     }
 
+    public function bitly($link){
+        $url = 'https://api-ssl.bitly.com/v4/bitlinks';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['long_url' => "$link"])); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer b84b3e4ce2ed626fb6bc787775114fc1a17cf5d2",
+            "Content-Type: application/json"
+        ]);
+
+        $arr_result = json_decode(curl_exec($ch));
+        if(isset($arr_result->link)) return $arr_result->link;
+        return null
+    }
+    
     public function getUser(Request $request)
     {
         $id = $request->id;

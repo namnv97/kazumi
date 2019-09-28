@@ -146,7 +146,7 @@ class AccountController extends Controller
     public function bitly($link){
         $url = 'https://api-ssl.bitly.com/v4/bitlinks';
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['long_url' => '$link'])); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['long_url' => "$link"])); 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -155,7 +155,8 @@ class AccountController extends Controller
         ]);
 
         $arr_result = json_decode(curl_exec($ch));
-        return $arr_result->link;
+        if(isset($arr_result->link)) return $arr_result->link;
+        return null;
     }
 
     public function getForgot()
