@@ -10,6 +10,8 @@ use App\Http\Requests\StoreEditArticle;
 
 use App\Model\Article;
 
+use Auth;
+
 
 class ArticleController extends Controller
 {
