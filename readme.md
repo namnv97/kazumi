@@ -15,6 +15,6 @@ ProductController
 Test
 
 ## Package
-composer require laravolt/avatar
-composer require nesbot/carbon
-DFT11222
+- composer require laravolt/avatar
+- composer require nesbot/carbon
+- DFT11222
