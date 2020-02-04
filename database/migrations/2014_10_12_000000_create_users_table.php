@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('point_reward')->default(0);
             $table->string('refferal_code')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('permission')->default('[]');
             $table->rememberToken();
             $table->timestamps();
         });

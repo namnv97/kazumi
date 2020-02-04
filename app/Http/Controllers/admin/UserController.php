@@ -147,8 +147,13 @@ class UserController extends Controller
 
     public function delete($id)
     {
-    	$user = User::find($id);
-        if(!empty($user)) $user->delete();
-        return redirect()->route('admin.user.index');
+        echo 'Delete User';
+        $user = Auth::user();
+        echo '<pre>';
+        var_dump($user->can('delete',User::class));
+        echo '</pre>';
+    	// $user = User::find($id);
+        // if(!empty($user)) $user->delete();
+        // return redirect()->route('admin.user.index');
     }
 }

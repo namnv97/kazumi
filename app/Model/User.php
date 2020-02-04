@@ -24,6 +24,13 @@ class User extends Authenticatable
         return ($slug->slug == $has)?true:false;
     }
 
+    public function hasAction($action)
+    {
+        $permission = $this->permission;
+        $permission = json_decode($permission,true);
+        return in_array($action,$permission);
+    }
+
     public function point()
     {
     	return Reward::select(DB::raw('SUM(point) as point'))->where('user_id',$this->id)->first();

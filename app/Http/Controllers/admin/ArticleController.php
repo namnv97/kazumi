@@ -9,6 +9,9 @@ use App\Http\Requests\StoreCreateArticle;
 use App\Http\Requests\StoreEditArticle;
 
 use App\Model\Article;
+use App\Model\User;
+
+use Auth;
 
 
 class ArticleController extends Controller
@@ -22,12 +25,24 @@ class ArticleController extends Controller
         else:
         $articles = Article::orderBy('created_at','desc')->paginate(10);
         endif;
+        
         return view('server.article.index',compact('articles'));
     }
 
     public function create()
     {
-        return view('server.article.create');
+        $user = Auth::user();
+ 
+        if ($user->can('create', Article::class)) {
+            echo 'Current logged in user is allowed to create new posts.';
+        } else {
+            echo 'Not Authorized';
+        }
+    
+        exit;
+
+
+        //return view('server.article.create');
     }
 
     public function postCreate(StoreCreateArticle $request)
