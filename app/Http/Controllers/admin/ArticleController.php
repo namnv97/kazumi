@@ -13,6 +13,8 @@ use App\Model\User;
 
 use Auth;
 
+use Auth;
+
 
 class ArticleController extends Controller
 {
